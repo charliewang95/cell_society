@@ -2,7 +2,4 @@
 
 Duke CompSci 308 Cell Society Project, 
 
-Charlie was here.
-
-
-Now joy's here.
+hope this collides because noah's computer isn't updating

@@ -1,3 +1,5 @@
 # cellsociety 
 
-Duke CompSci 308 Cell Society Project, charlie
+Duke CompSci 308 Cell Society Project, 
+
+Charlie was here.

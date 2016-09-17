@@ -40,13 +40,9 @@ The _Playground_ class is in charge of updating all the states as well as redraw
 
 The _Cell_ Class should be simple, and it will have some basic methods. To set a cell’s state using _Rule_’s changeState(), we have a corresponding method in _Cell_, _setState(), which changes the state according to the rule. The _setState()_ might call the _setColor()_ method which will changes the color of the square embodied in this _Cell_ object. The _getState()_ method returns the state that this cell is currently in. This is for the _Rule_ object to check the states a cell’s neighbors to decide whether to change this cell’s state. The _getRec()_ method returns the rectangle object for _Playground_  to redraw. Also, each _Cell_ object will hold an x-coordinate and a y-coordinate, which are calculated based on the size of the map and its indices.  
 
-Each _Rule_ object will also have 
+Each _Rule_ object will also have a list of parameters. Since it's _Rule_ an interface, it can't know exactly how many parameters each object has, so each rule will contain and control its own parameters. When the user wants to change a parameter, find the rule object and apply several setParameter() methods to change the required rule parameter. When the user wants to change the rule, completely, after receiving the request, the _Playground_ object will replace the current _Rule_ object with a new Rule object, and then use Rule.init() to reset the board.
 
-> Simulation parameter; 
-  Reset;
-  standard drawing program (UML)
-
-
+standard drawing program (UML)
 
 ### Design Considerations
 

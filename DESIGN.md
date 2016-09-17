@@ -51,10 +51,10 @@ standard drawing program (UML)
 The project can be roughly divided into the following sections:  
 UI (buttons), XML reading, Main Class, Playground (Game) class -- workflow, Cell, Rule interface, Rule 1 (Schelling), Rule 2 (Wator), Rule 3 (fire). The rough division of labor is as follows: 
   
-Charlie: Rule 3, Cell, Rule interface
+* Charlie: Rule 3, Cell, Rule interface
 
-Joy: Rule 2, Main Class, Playground
+* Joy: Rule 2, Main Class, Playground
 
-Noah: Rule 1, UI, XML reading
+* Noah: Rule 1, UI, XML reading
 
 

@@ -25,7 +25,7 @@ The _Rule_ interface is used to keep track of the rules that each cell is to con
 The user interface will use JavaFx's Stage and Scene classes to create an interface for the user to enter their desired size and set of rules into. It will appear with the title of the interface at the top. Something like "Cell Society: A Cellular Automata Simulation" will work. It will also have two TextFields. One will be used for the user to enter the size they would like their simulation to be and the other will be for the user to enter the file name for the XML file that contains the rules they would like to use for their simulation. For the TextFields, the user will just have to type in their input and hit enter to submit. Also any errors with their input will be pointed out to them by text at the bottom of the screen. As the project goes, we will add new features to the program, so we might have to update our user interface correspondingly.
 
 Here is a really rough sketch of what the user interface could look like:
-![Here is my sketch](images/User Interface Drawing.jpg =0.5x "my user interface drawing")
+![Here is my sketch](images/User Interface Drawing.jpg =200x200)
 
 ### Design Details
 
@@ -39,11 +39,25 @@ The _Playground_ class is in charge of updating all the states as well as redraw
 
 The _Cell_ Class should be simple, and it will have some basic methods. To set a cell’s state using _Rule_’s changeState(), we have a corresponding method in _Cell_, _setState(), which changes the state according to the rule. The _setState()_ might call the _setColor()_ method which will changes the color of the square embodied in this _Cell_ object. The _getState()_ method returns the state that this cell is currently in. This is for the _Rule_ object to check the states a cell’s neighbors to decide whether to change this cell’s state. The _getRec()_ method returns the rectangle object for _Playground_  to redraw. Also, each _Cell_ object will hold a x-coordinate and a y-coordinate, which are calculated based on the size of the map and its indices.
 
+> Simulation parameter 
+
 ### Design Considerations
 
 
 
 ### Team Responsibilities
 
-UI
+Team Responsibilities 
+Charlie: Rule 3, Cell, Rule interface
+Joy: 
+Noah: 
+
+The project can be roughly divided into the following sections:
+UI (buttons), Main Class, Playground (Game) class -- workflow, 
+Cell class
+Rule interface
+* Rule 1
+* Rule 2 
+* Rule 3 (fire)
+
 

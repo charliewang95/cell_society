@@ -19,6 +19,8 @@ The main class will have a start() method that calls the _Playground_ Class, whi
 
 The _Rule_ interface is used to keep track of the rules that each cell is to contain for each different simulation. So, each simulation will be able to extend Rule and create their own classes for the rules of their simulation. The _Rule_ class will determine the state of the current cells and determine the states of the next generation. The _Cell_ class will contain the visual object (square) and the cell's state.  
 
+![Component Map](images/ComponentMap.jpg)
+
 ### User Interface
 
 The user interface will use JavaFx's Stage and Scene classes to create an interface for the user to enter their desired size and set of rules into. It will appear with the title of the interface at the top. Something like "Cell Society: A Cellular Automata Simulation" will work. It will also have two TextFields. One will be used for the user to enter the size they would like their simulation to be and the other will be for the user to enter the file name for the XML file that contains the rules they would like to use for their simulation. For the TextFields, the user will just have to type in their input and hit enter to submit. Also any errors with their input will be pointed out to them by text at the bottom of the screen. As the project goes, we will add new features to the program, so we might have to update our user interface correspondingly.  

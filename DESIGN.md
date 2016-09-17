@@ -30,7 +30,8 @@ Joy Kim (jmk77)
 * The user interface will use JavaFx's Stage and Scene classes to create an interface for the user to enter their desired size and set of rules into. It will appear with the title of the interface at the top. Something like "Cell Society: A Cellular Automata Simulation" will work. It will also have two TextFields. One will be used for the user to enter the size they would like their simulation to be and the other will be for the user to enter the file name for the XML file that contains the rules they would like to use for their simulation. For the TextFields, the user will just have to type in their input and hit enter to submit. Also any errors with their input will be pointed out to them by text at the bottom of the screen. As the project goes, we will add new features to the program, so we might have to update our user interface correspondingly.  
 
 * Here is a really rough sketch of what the user interface could look like:
-![Here is my sketch](images/User Interface Drawing.jpg)
+
+![Here is my sketch](images/UserInterfaceDrawing.jpg)
 
 ### Design Details
 

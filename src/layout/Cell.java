@@ -15,24 +15,43 @@ public class Cell {
 		init(state, c);
 	}
 	
+	/**
+	 * Initialize the cell according to the rule
+	 * @param state the cell's initial state
+	 * @param c the rectangle's initial color
+	 */
 	private void init(int state, Color c) {
 		myState = state;
 		myRec.setFill(c);
 		myNeighbor = new ArrayList<Cell>();
 	}
 	
+	/**
+	 * Add all the neighbors of this cell according to the rule
+	 * @param cell the neighbor cell
+	 */
 	public void addNeighbor(Cell cell) {
 		myNeighbor.add(cell);
 	}
 	
+	/**
+	 * Set the cell's new state
+	 * @param newState the cell's new state
+	 */
 	public void setState(int newState) {
 		myState = newState;
 	}	
 	
+	/**
+	 * @return the cell's current state
+	 */
 	public int getState() {
 		return myState;
 	}
 	
+	/**
+	 * @return the rectangle object
+	 */
 	public Rectangle getRec() {
 		return myRec;
 	}

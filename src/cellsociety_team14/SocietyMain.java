@@ -1,10 +1,34 @@
 package cellsociety_team14;
 
-public class SocietyMain {
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
+import javafx.application.Application;
+import javafx.stage.Stage;
+import javafx.util.Duration;
+import layout.Playground;
+
+public class SocietyMain extends Application {
+
+	public static final int FRAMES_PER_SECOND = 60;
+	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
+	private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+	
+	Playground playGround;
+	
+	
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+
+		playGround = new Playground();
+		playGround.init(primaryStage);
+		
+		
+
+	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		launch(args);
 	}
 
 }

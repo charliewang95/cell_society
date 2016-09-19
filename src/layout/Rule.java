@@ -1,5 +1,7 @@
 package layout;
 
+import javafx.scene.paint.Color;
+
 public abstract class Rule {
 	private Cell[][] grid;
 	private int myLength;
@@ -38,11 +40,10 @@ public abstract class Rule {
 	 * 
 	 */
 	
-	
 	/**
 	 * Initialize the state and color of the cell grid
 	 */
-	public abstract void initState();
+	public abstract void initState(Cell cell, int state, Color color);
 	
 	/**
 	 * Change each cell's state according to its neighbors
@@ -55,4 +56,11 @@ public abstract class Rule {
 	 * @return whether end state has reached
 	 */
 	public abstract boolean endState();
+	
+	/**
+	 * @return 
+	 */
+	public Cell[][] getGrid() {
+		return grid;
+	}
 }

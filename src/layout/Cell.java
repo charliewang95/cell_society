@@ -42,6 +42,14 @@ public class Cell {
 	}	
 	
 	/**
+	 * Set the cell's new color
+	 * @param newState the cell's new color
+	 */
+	public void setColor(int newState) {
+		myState = newState;
+	}	
+	
+	/**
 	 * @return the cell's current state
 	 */
 	public int getState() {

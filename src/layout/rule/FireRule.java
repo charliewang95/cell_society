@@ -37,7 +37,7 @@ public class FireRule extends Rule {
 				if (i==mySizeX/2 && j==mySizeY/2) {
 					initState(grid[i][j], BURN, BURNCOLOR);
 				}
-				initState(grid[i][j], BURN, BURNCOLOR);
+				initState(grid[i][j], TREE, TREECOLOR);
 			}
 		}
 	}

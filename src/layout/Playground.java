@@ -7,6 +7,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import layout.rule.FireRule;
 
 public class Playground {
 	
@@ -15,6 +16,11 @@ public class Playground {
 	private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	
 	Group root;
+	Rule sim;
+	int LENGTH = 0;
+	int WIDTH = 0;
+	int SIZEX = 0;
+	int SIZEY = 0;
 	
 	public void init(Stage s) {
 		
@@ -23,10 +29,16 @@ public class Playground {
 		//http://stackoverflow.com/questions/428073/what-is-the-best-simplest-way-to-read-in-an-xml-file-in-java-application
 		//http://stackoverflow.com/questions/7704827/java-reading-xml-file
 		
-		//s.setTitle("sksks")
-		//
 		
-		//Rule sim = new Rule();
+		//s.setTitle("sksks")
+		
+		//set length, width, sizex, sizey according to the XML decision. 
+		
+		//how to consider user input
+		
+		sim = new FireRule(LENGTH, WIDTH, SIZEX, SIZEY);
+		
+		//determine how to take XML instructions for initial states into each square: Rule.initState()
 		
 //		Scene scene = new Scene(sim.init());
 //		s.setScene(scene);
@@ -46,7 +58,8 @@ public class Playground {
 	public void step(double elapsedTime) {
 		/* 
 		 * for each step of the way:
-		 * 
+		 * 		for each square, update it
+		 * 		
 		 * 
 		 */
 	}

@@ -6,10 +6,13 @@ public abstract class Rule {
 	private int myWidth;
 	private int mySizeX;
 	private int mySizeY;
-	
-	public Rule () {
-		
+
+	public Rule(int length, int width, int sizeX, int sizeY) {
+		myLength = length;
+		myWidth = width;
+		mySizeX = sizeX;
+		mySizeY = sizeY;
 	}
-	
+
 	public abstract Cell[][] changeState();
 }

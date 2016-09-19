@@ -10,9 +10,8 @@ public class Cell {
 	private int myState;
 	private ArrayList<Cell> myNeighbor;
 	
-	public Cell (int x, int y, int length, int width, int state, Color c) {
+	public Cell (int x, int y, int length, int width) {
 		myRec = new Rectangle (x, y, length, width);
-		init(state, c);
 	}
 	
 	/**
@@ -20,7 +19,7 @@ public class Cell {
 	 * @param state the cell's initial state
 	 * @param c the rectangle's initial color
 	 */
-	private void init(int state, Color c) {
+	public void init(int state, Color c) {
 		myState = state;
 		myRec.setFill(c);
 		myNeighbor = new ArrayList<Cell>();

@@ -1,5 +1,6 @@
 package layout;
 
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.scene.Group;
@@ -25,7 +26,7 @@ public class Playground {
 		//s.setTitle("sksks")
 		//
 		
-		Rule sim = new Rule();
+		//Rule sim = new Rule();
 		
 //		Scene scene = new Scene(sim.init());
 //		s.setScene(scene);
@@ -49,4 +50,5 @@ public class Playground {
 		 * 
 		 */
 	}
+
 }

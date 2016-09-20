@@ -7,7 +7,7 @@ public class WatorRule extends Rule {
 
 	@Override
 	public Cell[][] changeState() {
-		// TODO Auto-generated method stub
+		//exp
 		return null;
 	}
 

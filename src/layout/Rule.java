@@ -3,7 +3,7 @@ package layout;
 import javafx.scene.paint.Color;
 
 public abstract class Rule {
-	private Cell[][] grid;
+	private Cell[][] myGrid;
 	private int myLength;
 	private int myWidth;
 	private int mySizeX;
@@ -25,25 +25,16 @@ public abstract class Rule {
 	 */
 	public abstract void initGrid();
 	
-	/*
-	 * Code to calculate grid coordinates and initialize
-	 * grid = new Cell[mySizeX][mySizeY];
-		for (int i = 0; i < mySizeX; i++) {
-			for (int j = 0; j < mySizeY; j++) {
-				int x = cellLength * i;
-				int y = cellWidth * j;
-				grid[i][j] = new Cell(x, y, cellLength, cellWidth);
-				\\\\add codes to initialize the states
-			}
-		}
-	 * 
-	 * 
-	 */
-	
 	/**
 	 * Initialize the state and color of the cell grid
 	 */
-	public abstract void initState(Cell cell, int state, Color color);
+	public abstract void initState(int i, int j);
+	
+	/**
+	 * Initialize the neighbor cells of the selected cell
+	 * number of cell decided by rule
+	 */
+	public abstract void initNeighbor(int i, int j);
 	
 	/**
 	 * Change each cell's state according to its neighbors
@@ -61,6 +52,6 @@ public abstract class Rule {
 	 * @return 
 	 */
 	public Cell[][] getGrid() {
-		return grid;
+		return myGrid;
 	}
 }

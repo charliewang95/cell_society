@@ -8,10 +8,24 @@ import javafx.scene.shape.Rectangle;
 public class Cell {
 	private Rectangle myRec;
 	private int myState;
-	private ArrayList<Cell> myNeighbor;
+	private ArrayList<Cell> myNeighbors;
+	private int myNumNeighbors;
 	
-	public Cell (int x, int y, int length, int width) {
-		myRec = new Rectangle (x, y, length, width);
+	/**
+	 *    width
+	 * ___________   
+	 * |		 |
+	 * |		 |---> length
+	 * |		 |
+	 * |		 |
+	 * ___________
+	 * @param x x-coordinate
+	 * @param y y-coordinate
+	 * @param width (along x-axis)
+	 * @param length (along y-axis)
+	 */
+	public Cell (int x, int y, int width, int length) {
+		myRec = new Rectangle (x, y, width, length);
 	}
 	
 	/**
@@ -19,10 +33,11 @@ public class Cell {
 	 * @param state the cell's initial state
 	 * @param c the rectangle's initial color
 	 */
-	public void init(int state, Color c) {
+	public void init(int state, Color c, int num) {
 		myState = state;
 		myRec.setFill(c);
-		myNeighbor = new ArrayList<Cell>();
+		myNeighbors = new ArrayList<Cell>();
+		myNumNeighbors = num;
 	}
 	
 	/**
@@ -30,7 +45,11 @@ public class Cell {
 	 * @param cell the neighbor cell
 	 */
 	public void addNeighbor(Cell cell) {
-		myNeighbor.add(cell);
+		myNeighbors.add(cell);
+	}
+	
+	public ArrayList<Cell> getNeighbors() {
+		return myNeighbors;
 	}
 	
 	/**

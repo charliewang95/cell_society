@@ -62,6 +62,8 @@ public class Playground {
 		 * 		
 		 * 
 		 */
+		
+		sim.changeState();
 	}
 
 }

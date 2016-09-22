@@ -8,6 +8,9 @@ import javafx.scene.shape.Rectangle;
 public class Cell {
 	private Rectangle myRec;
 	private int myState;
+	private Color myColor;
+	private int myRow;
+	private int myCol;
 	private ArrayList<Cell> myNeighbors;
 	private int myNumNeighbors;
 	
@@ -24,8 +27,10 @@ public class Cell {
 	 * @param width (along x-axis)
 	 * @param length (along y-axis)
 	 */
-	public Cell (int x, int y, int width, int length) {
+	public Cell (int x, int y, int width, int length, int row, int col) {
 		myRec = new Rectangle (x, y, width, length);
+		myRow = row;
+		myCol = col;
 	}
 	
 	/**
@@ -64,8 +69,8 @@ public class Cell {
 	 * Set the cell's new color
 	 * @param newState the cell's new color
 	 */
-	public void setColor(int newState) {
-		myState = newState;
+	public void setColor(Color newcolor) {
+		myColor = newcolor;
 	}	
 	
 	/**
@@ -80,5 +85,19 @@ public class Cell {
 	 */
 	public Rectangle getRec() {
 		return myRec;
+	}
+	
+	/**
+	 * @return the row number specified by the rule
+	 */
+	public int getRow() {
+		return myRow;
+	}
+	
+	/**
+	 * @return the column number specified by the rule
+	 */
+	public int getCol() {
+		return myCol;
 	}
 }

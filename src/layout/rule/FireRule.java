@@ -15,8 +15,9 @@ public class FireRule extends Rule {
 	private static final Color EMPTYCOLOR = Color.YELLOW;
 	private static final Color TREECOLOR = Color.GREEN;
 	private static final Color BURNCOLOR = Color.RED;
+	private Color[] myColors;
 	private Cell[][] myGrid;
-	private Cell[][] myUpdatedGrid;
+	private int[][] myUpdatedGrid;
 	private int myLength;
 	private int myWidth;
 	private int myRow;
@@ -27,17 +28,18 @@ public class FireRule extends Rule {
 
 	public FireRule(int length, int width, int row, int column) {
 		super(length, width, row, column);
+		myColors=new Color[]{EMPTYCOLOR, TREECOLOR, BURNCOLOR};
 		ended = false;
 	}
 
 	public void initGrid() {
 		myGrid = new Cell[myRow][myColumn];
-		myUpdatedGrid = new Cell[myRow][myColumn];
+		myUpdatedGrid = new int[myRow][myColumn];
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				int x = cellWidth * j;
 				int y = cellLength * i;
-				myGrid[i][j] = new Cell(x, y, cellWidth, cellLength);
+				myGrid[i][j] = new Cell(x, y, cellWidth, cellLength, i, j);
 				initState(i, j);
 			}
 		}
@@ -50,11 +52,11 @@ public class FireRule extends Rule {
 
 	public void initState(int i, int j) {
 		if (i == 0 || i == myRow - 1 || j == 0 || j == myColumn - 1) {
-			myGrid[i][j].init(EMPTY, EMPTYCOLOR, NUMNEIGHBOR);
+			myGrid[i][j].init(EMPTY, myColors[EMPTY], NUMNEIGHBOR);
 		} else if (i == myRow / 2 && j == myColumn / 2) {
-			myGrid[i][j].init(BURN, BURNCOLOR, NUMNEIGHBOR);
+			myGrid[i][j].init(BURN, myColors[BURN], NUMNEIGHBOR);
 		} else {
-			myGrid[i][j].init(TREE, TREECOLOR, NUMNEIGHBOR);
+			myGrid[i][j].init(TREE, myColors[TREE], NUMNEIGHBOR);
 		}
 	}
 
@@ -94,15 +96,21 @@ public class FireRule extends Rule {
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				if (myGrid[i][j].getState() == BURN) {
-					for (Cell c: myGrid[i][j].getNeighbors()) {
+					for (Cell c : myGrid[i][j].getNeighbors()) {
 						Random random = new Random();
-						if (random.nextDouble()<PROBCATCH) {
-							c.setState(BURN);
-							ended=false;
+						if (random.nextDouble() < PROBCATCH) {
+							myUpdatedGrid[c.getRow()][c.getCol()]=BURN;
+							ended = false;
 						}
 					}
 					myGrid[i][j].setState(EMPTY);
 				}
+			}
+		}
+		for (int i = 0; i < myRow; i++) {
+			for (int j = 0; j < myColumn; j++) {
+				myGrid[i][j].setState(myUpdatedGrid[i][j]);
+				myGrid[i][j].setColor(myColors[myUpdatedGrid[i][j]]);
 			}
 		}
 	}

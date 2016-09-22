@@ -11,9 +11,33 @@ public class WatorRule extends Rule {
 	}
 
 	@Override
-	public Cell[][] changeState() {
-		//exp
-		return null;
+	public void initGrid() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void initState(int i, int j) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void initNeighbor(int i, int j) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void changeState() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public boolean endState() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

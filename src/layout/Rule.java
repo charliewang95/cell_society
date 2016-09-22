@@ -27,6 +27,8 @@ public abstract class Rule {
 	
 	/**
 	 * Initialize the state and color of the cell grid
+	 * @param i row number
+	 * @param j col number
 	 */
 	public abstract void initState(int i, int j);
 	

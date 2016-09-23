@@ -11,7 +11,7 @@ public class FireRule extends Rule {
 	private static final int TREE = 1;
 	private static final int BURN = 2;
 	private static final int NUMNEIGHBOR = 4;
-	private static final double PROBCATCH = 0.6;
+	private static final double PROBCATCH = 0.6; // parameter
 	private static final Color EMPTYCOLOR = Color.YELLOW;
 	private static final Color TREECOLOR = Color.GREEN;
 	private static final Color BURNCOLOR = Color.RED;
@@ -28,10 +28,15 @@ public class FireRule extends Rule {
 
 	/**
 	 * Construct the fire rule
-	 * @param length length of the board
-	 * @param width width of the board
-	 * @param row total number of rows
-	 * @param column total number of columns
+	 * 
+	 * @param length
+	 *            length of the board
+	 * @param width
+	 *            width of the board
+	 * @param row
+	 *            total number of rows
+	 * @param column
+	 *            total number of columns
 	 */
 	public FireRule(int length, int width, int row, int column) {
 		super(length, width, row, column);
@@ -41,7 +46,7 @@ public class FireRule extends Rule {
 		myColumn = column;
 		cellLength = myLength / myRow;
 		cellWidth = myWidth / myColumn;
-		myColors=new Color[]{EMPTYCOLOR, TREECOLOR, BURNCOLOR};
+		myColors = new Color[] { EMPTYCOLOR, TREECOLOR, BURNCOLOR };
 		ended = false;
 	}
 
@@ -53,39 +58,41 @@ public class FireRule extends Rule {
 			for (int j = 0; j < myColumn; j++) {
 				int x = cellWidth * j;
 				int y = cellLength * i;
-				myGrid[i][j] = new Cell(x, y, cellWidth, cellLength, i, j);	
-				initState(i, j);
+				myGrid[i][j] = new Cell(x, y, cellWidth, cellLength, i, j);
 			}
 		}
+		initState();
+		initNeighbor();
+	}
 
+	@Override
+	public void initState() {
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
-				initNeighbor(i, j);
+				if (i == 0 || i == myRow - 1 || j == 0 || j == myColumn - 1) {
+					myGrid[i][j].init(EMPTY, myColors[EMPTY], NUMNEIGHBOR);
+					myUpdatedGrid[i][j] = EMPTY;
+				} else if (i == myRow / 2 && j == myColumn / 2) {
+					myGrid[i][j].init(BURN, myColors[BURN], NUMNEIGHBOR);
+					myUpdatedGrid[i][j] = BURN;
+				} else {
+					myGrid[i][j].init(TREE, myColors[TREE], NUMNEIGHBOR);
+					myUpdatedGrid[i][j] = TREE;
+				}
 			}
 		}
-		
 	}
 
 	@Override
-	public void initState(int i, int j) {
-		if (i == 0 || i == myRow - 1 || j == 0 || j == myColumn - 1) {
-			myGrid[i][j].init(EMPTY, myColors[EMPTY], NUMNEIGHBOR);
-			myUpdatedGrid[i][j] = EMPTY;
-		} else if (i == myRow / 2 && j == myColumn / 2) {
-			myGrid[i][j].init(BURN, myColors[BURN], NUMNEIGHBOR);
-			myUpdatedGrid[i][j] = BURN;
-		} else {
-			myGrid[i][j].init(TREE, myColors[TREE], NUMNEIGHBOR);
-			myUpdatedGrid[i][j] = TREE;
+	public void initNeighbor() {
+		for (int i = 0; i < myRow; i++) {
+			for (int j = 0; j < myColumn; j++) {
+				initNeighborUp(i, j);
+				initNeighborLeft(i, j);
+				initNeighborRight(i, j);
+				initNeighborDown(i, j);
+			}
 		}
-	}
-
-	@Override
-	public void initNeighbor(int i, int j) {
-		initNeighborUp(i, j);
-		initNeighborLeft(i, j);
-		initNeighborRight(i, j);
-		initNeighborDown(i, j);
 	}
 
 	/**
@@ -133,7 +140,7 @@ public class FireRule extends Rule {
 					for (Cell c : myGrid[i][j].getNeighbors()) {
 						Random random = new Random();
 						if (random.nextDouble() < PROBCATCH && c.getState() == TREE) {
-							myUpdatedGrid[c.getRow()][c.getCol()]=BURN;
+							myUpdatedGrid[c.getRow()][c.getCol()] = BURN;
 							ended = false;
 						}
 					}
@@ -154,7 +161,7 @@ public class FireRule extends Rule {
 	public boolean endState() {
 		return ended;
 	}
-	
+
 	public Cell[][] getGrid() {
 		return myGrid;
 	}

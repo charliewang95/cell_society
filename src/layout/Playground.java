@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import layout.rule.FireRule;
+import layout.rule.SchellingRule;
 import xml.XMLParser;
 import xml.factory.FireRuleXMLFactory;
 import xml.factory.XMLFactoryException;
@@ -18,9 +19,9 @@ public class Playground {
 	public static final int FRAMES_PER_SECOND = 60;
 
 	private static final String XML_FILES_LOCATION = "data/xml/";
-    private static final String XML_SUFFIX = ".xml";
-    private String myFileName;
-	
+	private static final String XML_SUFFIX = ".xml";
+	private String myFileName;
+
 	private static final int MILLISECOND_DELAY = 10000 / FRAMES_PER_SECOND;
 	private static final double SECOND_DELAY = 10.0 / FRAMES_PER_SECOND;
 
@@ -38,19 +39,21 @@ public class Playground {
 		// grid and initial states of the cell
 		// http://stackoverflow.com/questions/428073/what-is-the-best-simplest-way-to-read-in-an-xml-file-in-java-application
 		// http://stackoverflow.com/questions/7704827/java-reading-xml-file
+
 		getParsedObject(myFileName);
-		s.setTitle("sksks");
+		s.setTitle("It works!");
 
 		// set length, width, sizex, sizey according to the XML decision.
 
 		// how to consider user input
-		rule = new FireRule(myLength, myWidth, myRowNum, myColNum);
+		rule = new SchellingRule(myLength, myWidth, myRowNum, myColNum);
 		root = new Group();
 		// determine how to take XML instructions for initial states into each
 		// square: Rule.initState()
 
 		rule.initGrid();
 		drawGrid();
+		
 		Scene scene = new Scene(root);
 		s.setScene(scene);
 		s.show();
@@ -65,31 +68,30 @@ public class Playground {
 	public String getFileName() {
 		return myFileName;
 	}
-	
+
 	public void setFileName(String file) {
 		myFileName = file;
 	}
 
-
 	private void getParsedObject(String fileName) {
 		XMLParser parser = new XMLParser();
 		FireRuleXMLFactory factory = new FireRuleXMLFactory();
-        File f = new File(XML_FILES_LOCATION+fileName);
-        Rule ruleInXML;
-        
-        if (f.isFile() && f.getName().endsWith(XML_SUFFIX)) {
-            try {
-                ruleInXML = factory.getRule(parser.getRootElement(f.getAbsolutePath()));
-                rule = ruleInXML;
-            }
-            catch (XMLFactoryException e) {
-                System.err.println("Reading file " + f.getPath());
-                e.printStackTrace();
-                //REDO EXCEPTION so that it'll just give pop up window, enter a valid file. 
-            }
-        } 
+		File f = new File(XML_FILES_LOCATION + fileName);
+		Rule ruleInXML;
+
+		if (f.isFile() && f.getName().endsWith(XML_SUFFIX)) {
+			try {
+				ruleInXML = factory.getRule(parser.getRootElement(f.getAbsolutePath()));
+				rule = ruleInXML;
+			} catch (XMLFactoryException e) {
+				System.err.println("Reading file " + f.getPath());
+				e.printStackTrace();
+				// REDO EXCEPTION so that it'll just give pop up window, enter a
+				// valid file.
+			}
+		}
 	}
-	
+
 	public void drawGrid() {
 		for (int i = 0; i < myRowNum; i++) {
 			for (int j = 0; j < myColNum; j++) {
@@ -104,7 +106,7 @@ public class Playground {
 		 * 
 		 * 
 		 */
-		rule.changeState();	
+		rule.changeState();
 	}
 
 }

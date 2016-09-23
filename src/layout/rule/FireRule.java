@@ -11,7 +11,7 @@ public class FireRule extends Rule {
 	private static final int TREE = 1;
 	private static final int BURN = 2;
 	private static final int NUMNEIGHBOR = 4;
-	private static final double PROBCATCH = 0.7;
+	private static final double PROBCATCH = 0.6;
 	private static final Color EMPTYCOLOR = Color.YELLOW;
 	private static final Color TREECOLOR = Color.GREEN;
 	private static final Color BURNCOLOR = Color.RED;
@@ -137,10 +137,11 @@ public class FireRule extends Rule {
 							ended = false;
 						}
 					}
-					myGrid[i][j].setState(EMPTY);
+					myUpdatedGrid[i][j] = EMPTY;
 				}
 			}
 		}
+
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				myGrid[i][j].setState(myUpdatedGrid[i][j]);

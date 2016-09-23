@@ -55,6 +55,9 @@ public class Cell {
 		myNeighbors.add(cell);
 	}
 	
+	/**
+	 * @return the neighbor arraylists
+	 */
 	public ArrayList<Cell> getNeighbors() {
 		return myNeighbors;
 	}
@@ -73,6 +76,14 @@ public class Cell {
 	 */
 	public void setColor(Color newcolor) {
 		myColor = newcolor;
+		myRec.setFill(newcolor);
+	}	
+	
+	/**
+	 * @return the cell's color
+	 */
+	public Color getColor() {
+		return myColor;		
 	}	
 	
 	/**

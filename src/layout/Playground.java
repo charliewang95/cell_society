@@ -51,8 +51,7 @@ public class Playground {
 		// square: Rule.initState()
 
 		rule.initGrid();
-		
-		showGrid();
+		drawGrid();
 		Scene scene = new Scene(root);
 		s.setScene(scene);
 		s.show();
@@ -89,12 +88,10 @@ public class Playground {
                 e.printStackTrace();
                 //REDO EXCEPTION so that it'll just give pop up window, enter a valid file. 
             }
-        }
-  
-        
+        } 
 	}
 	
-	public void showGrid() {
+	public void drawGrid() {
 		for (int i = 0; i < myRowNum; i++) {
 			for (int j = 0; j < myColNum; j++) {
 				root.getChildren().add(rule.getGrid()[i][j].getRec());
@@ -108,9 +105,7 @@ public class Playground {
 		 * 
 		 * 
 		 */
-
-		rule.changeState();
-		showGrid();
+		rule.changeState();	
 	}
 
 }

@@ -21,9 +21,9 @@ public class SocietyMain extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 
-		new StartScreen(primaryStage);
-//		playGround = new Playground();
-//		playGround.init(primaryStage);
+//		new StartScreen(primaryStage);
+		playGround = new Playground();
+		playGround.init(primaryStage);
 
 	}
 

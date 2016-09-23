@@ -9,6 +9,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import layout.rule.FireRule;
+import layout.rule.LifeRule;
 import layout.rule.SchellingRule;
 import xml.XMLParser;
 import xml.factory.FireRuleXMLFactory;
@@ -27,8 +28,8 @@ public class Playground {
 
 	private Group root;
 	private Rule rule;
-	private int myLength = 800;
-	private int myWidth = 800;
+	private int myLength = 600;
+	private int myWidth = 600;
 	private int myRowNum = 100;
 	private int myColNum = 100;
 
@@ -46,13 +47,14 @@ public class Playground {
 		// set length, width, sizex, sizey according to the XML decision.
 
 		// how to consider user input
-		rule = new SchellingRule(myLength, myWidth, myRowNum, myColNum);
+		rule = new LifeRule(myLength, myWidth, myRowNum, myColNum);
 		root = new Group();
 		// determine how to take XML instructions for initial states into each
 		// square: Rule.initState()
 
 		rule.initGrid();
 		drawGrid();
+		
 		
 		Scene scene = new Scene(root);
 		s.setScene(scene);
@@ -103,8 +105,6 @@ public class Playground {
 	public void step(double elapsedTime) {
 		/*
 		 * for each step of the way: for each square, update it
-		 * 
-		 * 
 		 */
 		rule.changeState();
 	}

@@ -1,7 +1,6 @@
 package layout.rule;
 
 import java.util.Random;
-
 import javafx.scene.paint.Color;
 import layout.Cell;
 import layout.Rule;
@@ -25,6 +24,7 @@ public class FireRule extends Rule {
 	private int cellLength;
 	private int cellWidth;
 	private boolean ended;
+	//private static final Color BLUEGREEN = Color.valueOf("yellow");
 
 	/**
 	 * Construct the fire rule

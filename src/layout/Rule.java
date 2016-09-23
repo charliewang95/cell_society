@@ -12,7 +12,7 @@ public abstract class Rule {
 	private int cellWidth;
 
 	public Rule(int length, int width, int row, int column) {
-
+		
 	}
 
 	/**
@@ -25,13 +25,13 @@ public abstract class Rule {
 	 * @param i row number
 	 * @param j col number
 	 */
-	public abstract void initState(int i, int j);
+	public abstract void initState();
 	
 	/**
 	 * Initialize the neighbor cells of the selected cell
 	 * number of cell decided by rule
 	 */
-	public abstract void initNeighbor(int i, int j);
+	public abstract void initNeighbor();
 	
 	/**
 	 * Change each cell's state according to its neighbors

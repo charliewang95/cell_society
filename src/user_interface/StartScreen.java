@@ -11,6 +11,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import layout.Playground;
 
 
 public class StartScreen {
@@ -33,6 +34,7 @@ public class StartScreen {
 	
 	private Group myRoot;
 	private Stage myStage;
+	private Playground myPlayground;
 	
 	public StartScreen(Stage s){
 		myStage = s;
@@ -51,7 +53,7 @@ public class StartScreen {
 		Scene scene = new Scene(myRoot, SIZE, SIZE, BACKGROUND_COLOR);
 		addText(scene.getWidth()/2, TITLE_Y, TITLE_SIZE, TITLE);
 		addText(scene.getWidth()/2, SUBTITLE_Y, TITLE_SIZE/2, SUBTITLE);
-		addTextField(TEXT_FIELD_1, scene.getWidth()/2, scene.getHeight()/2);
+//		addTextField(TEXT_FIELD_1, scene.getWidth()/2, scene.getHeight()/2);
 		addTextField(TEXT_FIELD_2, scene.getWidth()/2, scene.getHeight()/2 + TEXTFIELD_Y_OFFSET);
 		addButton(BUTTON_TEXT, scene.getWidth()/2, scene.getHeight() - 30, new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
@@ -76,10 +78,16 @@ public class StartScreen {
 	private void addTextField(String message, double x, double y){
 		TextField textField = new TextField(message);
 		textField.relocate(x - TEXTFIELD_X_OFFSET, y);
+		EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				System.out.println(textField.getCharacters().toString());
+			}
+		};
+		textField.setOnAction(handler);
 		myRoot.getChildren().add(textField);
 	}
 	
-	private void addButton(String message, double x, double y, EventHandler handler){
+	private void addButton(String message, double x, double y, EventHandler<ActionEvent> handler){
 		Button button = new Button(message);
 		button.relocate(x - BUTTON_X_OFFSET, y);
 		button.setOnAction(handler);

@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import layout.Playground;
+import user_interface.UserInterface;
 
 public class SocietyMain extends Application {
 
@@ -19,9 +20,9 @@ public class SocietyMain extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-
-		playGround = new Playground();
-		playGround.init(primaryStage);
+		new UserInterface(primaryStage);
+//		playGround = new Playground();
+//		playGround.init(primaryStage);
 		
 		
 

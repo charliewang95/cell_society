@@ -38,7 +38,6 @@ public class Playground {
 		// grid and initial states of the cell
 		// http://stackoverflow.com/questions/428073/what-is-the-best-simplest-way-to-read-in-an-xml-file-in-java-application
 		// http://stackoverflow.com/questions/7704827/java-reading-xml-file
-		
 		getParsedObject(myFileName);
 		s.setTitle("sksks");
 

@@ -21,8 +21,7 @@ public class StartScreen {
 	private static final String FONT = "Times New Roman";
 	private static final Paint BACKGROUND_COLOR = Color.WHITE;
 	private static final Paint FONT_COLOR = Color.BLACK;
-	private static final String TEXT_FIELD_1 = "ENTER SIZE HERE";
-	private static final String TEXT_FIELD_2 = "ENTER FILENAME HERE";
+	private static final String TEXT_FIELD = "ENTER FILENAME HERE";
 	private static final int TITLE_Y = 0;
 	private static final int SUBTITLE_Y = 60;
 	private static final int TITLE_SIZE = 50;
@@ -42,6 +41,7 @@ public class StartScreen {
 		myStage.setTitle(getTitle());
 		myStage.setScene(scene);
 		myStage.show();
+		myPlayground = new Playground();
 	}
 	
 	private String getTitle(){
@@ -53,14 +53,11 @@ public class StartScreen {
 		Scene scene = new Scene(myRoot, SIZE, SIZE, BACKGROUND_COLOR);
 		addText(scene.getWidth()/2, TITLE_Y, TITLE_SIZE, TITLE);
 		addText(scene.getWidth()/2, SUBTITLE_Y, TITLE_SIZE/2, SUBTITLE);
-//		addTextField(TEXT_FIELD_1, scene.getWidth()/2, scene.getHeight()/2);
-		addTextField(TEXT_FIELD_2, scene.getWidth()/2, scene.getHeight()/2 + TEXTFIELD_Y_OFFSET);
-		addButton(BUTTON_TEXT, scene.getWidth()/2, scene.getHeight() - 30, new EventHandler<ActionEvent>(){
+		TextField textField = addTextField(TEXT_FIELD, scene.getWidth()/2, scene.getHeight()/2 + TEXTFIELD_Y_OFFSET);
+		textField.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
-				myRoot = new Group();
-				Scene scene = new Scene(myRoot, SIZE, SIZE, BACKGROUND_COLOR);
-				myStage.setScene(scene);
-				myStage.show();
+				myPlayground.setFileName(textField.getCharacters().toString());
+				myPlayground.init(myStage);
 			}
 		});
 		return scene;
@@ -75,23 +72,11 @@ public class StartScreen {
 		myRoot.getChildren().add(text);
 	}
 	
-	private void addTextField(String message, double x, double y){
+	private  TextField addTextField(String message, double x, double y){
 		TextField textField = new TextField(message);
 		textField.relocate(x - TEXTFIELD_X_OFFSET, y);
-		EventHandler<ActionEvent> handler = new EventHandler<ActionEvent>(){
-			public void handle(ActionEvent event){
-				System.out.println(textField.getCharacters().toString());
-			}
-		};
-		textField.setOnAction(handler);
 		myRoot.getChildren().add(textField);
-	}
-	
-	private void addButton(String message, double x, double y, EventHandler<ActionEvent> handler){
-		Button button = new Button(message);
-		button.relocate(x - BUTTON_X_OFFSET, y);
-		button.setOnAction(handler);
-		myRoot.getChildren().add(button);
+		return textField;
 	}
 
 }

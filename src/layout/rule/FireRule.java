@@ -11,43 +11,16 @@ public class FireRule extends Rule {
 	private static final int TREE = 1;
 	private static final int BURN = 2;
 	private static final int NUMNEIGHBOR = 4;
-	private static final double PROBCATCH = 0.6; // parameter
+	private static final double PROBCATCH = 0.55; // parameter
 	private static final Color EMPTYCOLOR = Color.YELLOW;
 	private static final Color TREECOLOR = Color.GREEN;
 	private static final Color BURNCOLOR = Color.RED;
 	private Color[] myColors;
-	private Cell[][] myGrid;
 	private int[][] myUpdatedGrid;
-	private int myLength;
-	private int myWidth;
-	private int myRow;
-	private int myColumn;
-	private int cellLength;
-	private int cellWidth;
-	private boolean ended;
 
-	/**
-	 * Construct the fire rule
-	 * 
-	 * @param length
-	 *            length of the board
-	 * @param width
-	 *            width of the board
-	 * @param row
-	 *            total number of rows
-	 * @param column
-	 *            total number of columns
-	 */
 	public FireRule(int length, int width, int row, int column) {
 		super(length, width, row, column);
-		myLength = length;
-		myWidth = width;
-		myRow = row;
-		myColumn = column;
-		cellLength = myLength / myRow;
-		cellWidth = myWidth / myColumn;
 		myColors = new Color[] { EMPTYCOLOR, TREECOLOR, BURNCOLOR };
-		ended = false;
 	}
 
 	@Override
@@ -62,7 +35,7 @@ public class FireRule extends Rule {
 			}
 		}
 		initState();
-		initNeighbor();
+		initNeighbor4();
 	}
 
 	@Override
@@ -84,56 +57,7 @@ public class FireRule extends Rule {
 	}
 
 	@Override
-	public void initNeighbor() {
-		for (int i = 0; i < myRow; i++) {
-			for (int j = 0; j < myColumn; j++) {
-				initNeighborUp(i, j);
-				initNeighborLeft(i, j);
-				initNeighborRight(i, j);
-				initNeighborDown(i, j);
-			}
-		}
-	}
-
-	/**
-	 * generate the neighbor above
-	 */
-	public void initNeighborUp(int i, int j) {
-		if (i != 0) {
-			myGrid[i][j].addNeighbor(myGrid[i - 1][j]);
-		}
-	}
-
-	/**
-	 * generate the neighbor on the left
-	 */
-	public void initNeighborLeft(int i, int j) {
-		if (j != 0) {
-			myGrid[i][j].addNeighbor(myGrid[i][j - 1]);
-		}
-	}
-
-	/**
-	 * generate the neighbor on the right
-	 */
-	public void initNeighborRight(int i, int j) {
-		if (j != myColumn - 1) {
-			myGrid[i][j].addNeighbor(myGrid[i][j + 1]);
-		}
-	}
-
-	/**
-	 * generate the neighbor below
-	 */
-	public void initNeighborDown(int i, int j) {
-		if (i != myRow - 1) {
-			myGrid[i][j].addNeighbor(myGrid[i + 1][j]);
-		}
-	}
-
-	@Override
 	public void changeState() {
-		ended = true;
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				if (myGrid[i][j].getState() == BURN) {
@@ -141,7 +65,6 @@ public class FireRule extends Rule {
 						Random random = new Random();
 						if (random.nextDouble() < PROBCATCH && c.getState() == TREE) {
 							myUpdatedGrid[c.getRow()][c.getCol()] = BURN;
-							ended = false;
 						}
 					}
 					myUpdatedGrid[i][j] = EMPTY;
@@ -157,12 +80,4 @@ public class FireRule extends Rule {
 		}
 	}
 
-	@Override
-	public boolean endState() {
-		return ended;
-	}
-
-	public Cell[][] getGrid() {
-		return myGrid;
-	}
 }

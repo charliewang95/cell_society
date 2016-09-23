@@ -1,18 +1,34 @@
 package layout;
 
-import javafx.scene.paint.Color;
-
 public abstract class Rule {
-	private Cell[][] myGrid;
-	private int myLength;
-	private int myWidth;
-	private int myRow;
-	private int myColumn;
-	private int cellLength;
-	private int cellWidth;
+	protected Cell[][] myGrid;
+	protected int myLength;
+	protected int myWidth;
+	protected int myRow;
+	protected int myColumn;
+	protected int cellLength;
+	protected int cellWidth;
+	private boolean ended;
 
-	public Rule(int length, int width, int row, int column) {
-		
+	/**
+	 * Construct the rule
+	 * 
+	 * @param length
+	 *            length of the board
+	 * @param width
+	 *            width of the board
+	 * @param row
+	 *            total number of rows
+	 * @param column
+	 *            total number of columns
+	 */
+	protected Rule(int length, int width, int row, int column) {
+		myLength = length;
+		myWidth = width;
+		myRow = row;
+		myColumn = column;
+		cellLength = myLength / myRow;
+		cellWidth = myWidth / myColumn;
 	}
 
 	/**
@@ -31,7 +47,89 @@ public abstract class Rule {
 	 * Initialize the neighbor cells of the selected cell
 	 * number of cell decided by rule
 	 */
-	public abstract void initNeighbor();
+	public void initNeighbor4(){
+		for (int i = 0; i < myRow; i++) {
+			for (int j = 0; j < myColumn; j++) {
+				initNeighborUp(i, j);
+				initNeighborLeft(i, j);
+				initNeighborRight(i, j);
+				initNeighborDown(i, j);
+			}
+		}
+	}
+	
+	public void initNeighbor8() {
+		for (int i = 0; i < myRow; i++) {
+			for (int j = 0; j < myColumn; j++) {
+				initNeighborTopLeft(i, j);
+				initNeighborUp(i, j);
+				initNeighborTopRight(i, j);
+				initNeighborLeft(i, j);
+				initNeighborRight(i, j);
+				initNeighborBottomLeft(i, j);
+				initNeighborDown(i, j);
+				initNeighborBottomRight(i, j);
+			}
+		}
+	}
+	
+	public void initNeighborUp(int i, int j) {
+		if (i != 0) {
+			myGrid[i][j].addNeighbor(myGrid[i - 1][j]);
+		}
+	}
+
+	/**
+	 * generate the neighbor on the left
+	 */
+	public void initNeighborLeft(int i, int j) {
+		if (j != 0) {
+			myGrid[i][j].addNeighbor(myGrid[i][j - 1]);
+		}
+	}
+
+	/**
+	 * generate the neighbor on the right
+	 */
+	public void initNeighborRight(int i, int j) {
+		if (j != myColumn - 1) {
+			myGrid[i][j].addNeighbor(myGrid[i][j + 1]);
+		}
+	}
+
+	/**
+	 * generate the neighbor below
+	 */
+	public void initNeighborDown(int i, int j) {
+		if (i != myRow - 1) {
+			myGrid[i][j].addNeighbor(myGrid[i + 1][j]);
+		}
+	}
+	
+	public void initNeighborBottomRight(int i, int j) {
+		if (i != myRow - 1 && j != myColumn - 1) {
+			myGrid[i][j].addNeighbor(myGrid[i + 1][j + 1]);
+		}
+	}
+
+	public void initNeighborBottomLeft(int i, int j) {
+		if (i != myRow - 1 && j != 0) {
+			myGrid[i][j].addNeighbor(myGrid[i + 1][j - 1]);
+		}
+	}
+
+	public void initNeighborTopRight(int i, int j) {
+		if (i != 0 && j != myColumn - 1) {
+			myGrid[i][j].addNeighbor(myGrid[i - 1][j + 1]);
+		}
+	}
+
+	public void initNeighborTopLeft(int i, int j) {
+		if (i != 0 && j != 0) {
+			myGrid[i][j].addNeighbor(myGrid[i - 1][j - 1]);
+		}
+	}
+
 	
 	/**
 	 * Change each cell's state according to its neighbors
@@ -43,10 +141,14 @@ public abstract class Rule {
 	 * 
 	 * @return whether end state has reached
 	 */
-	public abstract boolean endState();
+	public boolean endState() {
+		return ended;
+	}
 	
 	/**
 	 * @return 
 	 */
-	public abstract Cell[][] getGrid();
+	public Cell[][] getGrid(){
+		return myGrid;
+	}
 }

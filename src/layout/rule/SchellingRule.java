@@ -20,14 +20,7 @@ public class SchellingRule extends Rule {
 	private static final Color AAACOLOR = Color.RED;
 	private static final Color BBBCOLOR = Color.BLUE;
 	private Color[] myColors;
-	private Cell[][] myGrid;
 	private int[][] myUpdatedGrid;
-	private int myLength;
-	private int myWidth;
-	private int myRow;
-	private int myColumn;
-	private int cellLength;
-	private int cellWidth;
 	private int myNumA;
 	private int myNumB;
 	private int myNumE;
@@ -35,18 +28,10 @@ public class SchellingRule extends Rule {
 	private int[] myBs;
 	private int[] myEs;
 	private int[] myEsTMP;
-	private boolean ended;
 
 	public SchellingRule(int length, int width, int row, int column) {
 		super(length, width, row, column);
-		myLength = length;
-		myWidth = width;
-		myRow = row;
-		myColumn = column;
-		cellLength = myLength / myRow;
-		cellWidth = myWidth / myColumn;
 		myColors = new Color[] { EMPTYCOLOR, AAACOLOR, BBBCOLOR };
-		ended = false;
 		myNumE = (int) (myRow * myColumn * PERCENTAGEEMPTY);
 		myNumA = (int) ((myRow * myColumn - myNumE) * PERCENTAGEA);
 		myNumB = (int) (myRow * myColumn - myNumE - myNumA);
@@ -68,7 +53,7 @@ public class SchellingRule extends Rule {
 			}
 		}
 		initState();
-		initNeighbor();
+		initNeighbor8();
 	}
 
 	@Override
@@ -103,70 +88,6 @@ public class SchellingRule extends Rule {
 		}
 		Collections.shuffle(list);
 		return list;
-	}
-
-	@Override
-	public void initNeighbor() {
-		for (int i = 0; i < myRow; i++) {
-			for (int j = 0; j < myColumn; j++) {
-				initNeighborTopLeft(i, j);
-				initNeighborUp(i, j);
-				initNeighborTopRight(i, j);
-				initNeighborLeft(i, j);
-				initNeighborRight(i, j);
-				initNeighborBottomLeft(i, j);
-				initNeighborDown(i, j);
-				initNeighborBottomRight(i, j);
-			}
-		}
-	}
-
-	private void initNeighborDown(int i, int j) {
-		if (i != myRow - 1) {
-			myGrid[i][j].addNeighbor(myGrid[i + 1][j]);
-		}
-	}
-
-	private void initNeighborBottomRight(int i, int j) {
-		if (i != myRow - 1 && j != myColumn - 1) {
-			myGrid[i][j].addNeighbor(myGrid[i + 1][j + 1]);
-		}
-	}
-
-	private void initNeighborBottomLeft(int i, int j) {
-		if (i != myRow - 1 && j != 0) {
-			myGrid[i][j].addNeighbor(myGrid[i + 1][j - 1]);
-		}
-	}
-
-	private void initNeighborRight(int i, int j) {
-		if (j != myColumn - 1) {
-			myGrid[i][j].addNeighbor(myGrid[i][j + 1]);
-		}
-	}
-
-	private void initNeighborLeft(int i, int j) {
-		if (j != 0) {
-			myGrid[i][j].addNeighbor(myGrid[i][j - 1]);
-		}
-	}
-
-	private void initNeighborTopRight(int i, int j) {
-		if (i != 0 && j != myColumn - 1) {
-			myGrid[i][j].addNeighbor(myGrid[i - 1][j + 1]);
-		}
-	}
-
-	private void initNeighborUp(int i, int j) {
-		if (i != 0) {
-			myGrid[i][j].addNeighbor(myGrid[i - 1][j]);
-		}
-	}
-
-	private void initNeighborTopLeft(int i, int j) {
-		if (i != 0 && j != 0) {
-			myGrid[i][j].addNeighbor(myGrid[i - 1][j - 1]);
-		}
 	}
 
 	@Override
@@ -223,15 +144,4 @@ public class SchellingRule extends Rule {
 		}
 		System.out.println();
 	}
-
-	@Override
-	public boolean endState() {
-		return ended;
-	}
-
-	@Override
-	public Cell[][] getGrid() {
-		return myGrid;
-	}
-
 }

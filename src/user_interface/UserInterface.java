@@ -19,6 +19,12 @@ public class UserInterface {
 	private static final Paint FONT_COLOR = Color.BLACK;
 	private static final String TEXT_FIELD_1 = "ENTER SIZE HERE";
 	private static final String TEXT_FIELD_2 = "ENTER FILENAME HERE";
+	private static final int TITLE_Y = 0;
+	private static final int SUBTITLE_Y = 60;
+	private static final int TITLE_SIZE = 50;
+	private static final int TEXTFIELD_X_OFFSET = 70;
+	private static final int TEXTFIELD_Y_OFFSET = 30;
+	
 	
 	private Group myRoot;
 	
@@ -36,10 +42,10 @@ public class UserInterface {
 	private Scene init(){
 		myRoot = new Group();
 		Scene scene = new Scene(myRoot, SIZE, SIZE, BACKGROUND_COLOR);
-		addText(scene.getWidth()/2, 0, 50, TITLE);
-		addText(scene.getWidth()/2, 60, 25, SUBTITLE);
-		addTextField(TEXT_FIELD_1, scene.getWidth()/2 - 70, scene.getHeight()/2);
-		addTextField(TEXT_FIELD_2, scene.getWidth()/2 - 70, scene.getHeight()/2 + 30);
+		addText(scene.getWidth()/2, TITLE_Y, TITLE_SIZE, TITLE);
+		addText(scene.getWidth()/2, SUBTITLE_Y, TITLE_SIZE/2, SUBTITLE);
+		addTextField(TEXT_FIELD_1, scene.getWidth()/2, scene.getHeight()/2);
+		addTextField(TEXT_FIELD_2, scene.getWidth()/2, scene.getHeight()/2 + TEXTFIELD_Y_OFFSET);
 		return scene;
 	}
 	
@@ -54,7 +60,7 @@ public class UserInterface {
 	
 	private void addTextField(String message, double x, double y){
 		TextField textField = new TextField(message);
-		textField.relocate(x, y);
+		textField.relocate(x - TEXTFIELD_X_OFFSET, y);
 		myRoot.getChildren().add(textField);
 	}
 

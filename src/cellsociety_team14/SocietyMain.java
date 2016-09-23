@@ -20,12 +20,9 @@ public class SocietyMain extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
-		new UserInterface(primaryStage);
-//		playGround = new Playground();
-//		playGround.init(primaryStage);
-		
-		
-
+		//new UserInterface(primaryStage);
+		playGround = new Playground();
+		playGround.init(primaryStage);
 	}
 
 	public static void main(String[] args) {

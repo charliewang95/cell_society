@@ -35,6 +35,12 @@ public class FireRule extends Rule {
 	 */
 	public FireRule(int length, int width, int row, int column) {
 		super(length, width, row, column);
+		myLength = length;
+		myWidth = width;
+		myRow = row;
+		myColumn = column;
+		cellLength = myLength / myRow;
+		cellWidth = myWidth / myColumn;
 		myColors=new Color[]{EMPTYCOLOR, TREECOLOR, BURNCOLOR};
 		ended = false;
 	}
@@ -47,15 +53,17 @@ public class FireRule extends Rule {
 			for (int j = 0; j < myColumn; j++) {
 				int x = cellWidth * j;
 				int y = cellLength * i;
-				myGrid[i][j] = new Cell(x, y, cellWidth, cellLength, i, j);
+				myGrid[i][j] = new Cell(x, y, cellWidth, cellLength, i, j);	
 				initState(i, j);
 			}
 		}
+
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				initNeighbor(i, j);
 			}
 		}
+		
 	}
 
 	@Override
@@ -102,7 +110,7 @@ public class FireRule extends Rule {
 	 * generate the neighbor on the right
 	 */
 	public void initNeighborRight(int i, int j) {
-		if (i != myRow - 1) {
+		if (j != myColumn - 1) {
 			myGrid[i][j].addNeighbor(myGrid[i][j + 1]);
 		}
 	}
@@ -111,7 +119,7 @@ public class FireRule extends Rule {
 	 * generate the neighbor below
 	 */
 	public void initNeighborDown(int i, int j) {
-		if (j != myColumn - 1) {
+		if (i != myRow - 1) {
 			myGrid[i][j].addNeighbor(myGrid[i + 1][j]);
 		}
 	}
@@ -144,5 +152,9 @@ public class FireRule extends Rule {
 	@Override
 	public boolean endState() {
 		return ended;
+	}
+	
+	public Cell[][] getGrid() {
+		return myGrid;
 	}
 }

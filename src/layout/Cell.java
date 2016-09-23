@@ -31,6 +31,8 @@ public class Cell {
 		myRec = new Rectangle (x, y, width, length);
 		myRow = row;
 		myCol = col;
+		myState = 0;
+		myColor = null;
 	}
 	
 	/**

@@ -34,6 +34,7 @@ public class XMLParser {
         try {
             DOCUMENT_BUILDER.reset();
             Document xmlDocument = DOCUMENT_BUILDER.parse(xmlFilename);
+            xmlDocument.getDocumentElement().normalize();
             return xmlDocument.getDocumentElement();
         }
         catch (SAXException | IOException e) {

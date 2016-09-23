@@ -4,6 +4,7 @@ import layout.Rule;
 
 import org.w3c.dom.Element;
 import java.util.Objects;
+import java.util.ResourceBundle;
 
 
 /**
@@ -14,13 +15,15 @@ import java.util.Objects;
  */
 public abstract class RuleXMLFactory extends XMLFactory {
     private String myRuleType;
+    private String myRuleProperty;
 
-
+    
     /**
      * Create a factory for making Rule objects.  
      */
-    protected RuleXMLFactory (String ruleType) {
+    protected RuleXMLFactory (String ruleType, String ruleProperty) {
         myRuleType = ruleType;
+        myRuleProperty = ruleProperty;
     }
 
     /**
@@ -28,6 +31,13 @@ public abstract class RuleXMLFactory extends XMLFactory {
      */
     public String getRuleType () {
         return myRuleType;
+    }
+    
+    /**
+     * @return the property file used for creating Rule object
+     */
+    public String getRuleProperty() {
+    	return myRuleProperty;
     }
 
     /**

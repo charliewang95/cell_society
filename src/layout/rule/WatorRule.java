@@ -1,7 +1,8 @@
-	package layout.rule;
+package layout.rule;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 import javafx.scene.paint.Color;
 import layout.Cell;
@@ -18,9 +19,9 @@ public class WatorRule extends Rule {
 	private static final int FISHREPRODUCERATE = 1; // parameter
 	private static final int SHARKREPRODUCERATE = 20; // parameter
 	private static final int SHARKDEATHRATE = 5; // parameter
-	private static final double PERCENTAGEWATER = 0.5; // parameter
+	private static final double PERCENTAGEWATER = 0.9; // parameter
 	private static final double PERCENTAGEFISH = 0.98; // parameter
-	private static final Color WATERCOLOR = Color.BLUE;
+	private static final Color WATERCOLOR = Color.LIGHTBLUE;
 	private static final Color FISHCOLOR = Color.GREEN;
 	private static final Color SHARKCOLOR = Color.ORANGE;
 	private Color[] myColors;
@@ -33,6 +34,7 @@ public class WatorRule extends Rule {
 
 	@Override
 	public void initGrid() {
+		myGrid = new Cell[myRow][myColumn];
 		myUpdatedGrid = new int[myRow][myColumn];
 		initState();
 		initNeighbor4();
@@ -55,17 +57,15 @@ public class WatorRule extends Rule {
 				myGrid[i][j].init(WATER, myColors[WATER], NUMNEIGHBOR);
 				myUpdatedGrid[i][j] = WATER;
 			} else if (k >= initWater && k < initWater + initFish) {
-				myGrid[i][j] = new Animal(x, y, cellWidth, cellLength, i, j);
+				myGrid[i][j] = new Fish(x, y, cellWidth, cellLength, i, j);
 				myGrid[i][j].init(FISH, myColors[FISH], NUMNEIGHBOR);
 				myUpdatedGrid[i][j] = FISH;
-				
 			} else {
 				myGrid[i][j] = new Shark(x, y, cellWidth, cellLength, i, j);
 				myGrid[i][j].init(SHARK, myColors[SHARK], NUMNEIGHBOR);
 				myUpdatedGrid[i][j] = SHARK;
 			}
 		}
-
 	}
 
 	private ArrayList<Integer> makeRandomList(int top) {
@@ -79,8 +79,17 @@ public class WatorRule extends Rule {
 
 	@Override
 	public void changeState() {
-		// TODO Auto-generated method stub
-		
+		for (int i = 0; i < myRow; i++) {
+			for (int j = 0; j < myColumn; j++) {
+				Cell cell = myGrid[i][j];
+				if (cell instanceof Fish) {
+					if (((Fish) cell).getReproduce() == FISHREPRODUCERATE) {
+						Random random = new Random();
+						int randomInt = random.nextInt(NUMNEIGHBOR);
+					}
+				}
+			}
+		}
 	}
 
 }

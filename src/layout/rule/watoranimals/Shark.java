@@ -6,5 +6,5 @@ public class Shark extends Animal{
 	public Shark(int x, int y, int width, int length, int row, int col) {
 		super(x, y, width, length, row, col);
 	}
-
+	
 }

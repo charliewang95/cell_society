@@ -1,7 +1,5 @@
 package layout;
 
-import layout.rule.watoranimals.*;
-
 public abstract class Rule {
 	protected Cell[][] myGrid;
 	protected int myLength;
@@ -48,7 +46,7 @@ public abstract class Rule {
 	
 	/**
 	 * Initialize the neighbor cells of the selected cell
-	 * number of cell decided by rule
+	 * number of cell (4) 
 	 */
 	public void initNeighbor4(){
 		for (int i = 0; i < myRow; i++) {
@@ -61,6 +59,10 @@ public abstract class Rule {
 		}
 	}
 	
+	/**
+	 * Initialize the neighbor cells of the selected cell
+	 * number of cell (4) 
+	 */
 	public void initNeighbor8() {
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
@@ -153,5 +155,18 @@ public abstract class Rule {
 	 */
 	public Cell[][] getGrid(){
 		return myGrid;
+	}
+	
+	/**
+	 * A testing method that prints each step's states in console as a grid
+	 */
+	protected void testByPrintingEachState() {
+		for (Cell[] p : myGrid) {
+			for (Cell q : p) {
+				System.out.print(q.getState() + " ");
+			}
+			System.out.println();
+		}
+		System.out.println();
 	}
 }

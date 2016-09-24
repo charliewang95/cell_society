@@ -1,5 +1,7 @@
 package layout;
 
+import layout.rule.watoranimals.*;
+
 public abstract class Rule {
 	protected Cell[][] myGrid;
 	protected int myLength;

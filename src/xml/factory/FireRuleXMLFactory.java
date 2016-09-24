@@ -33,6 +33,7 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
     @Override
     public Rule getRule (Element root) throws XMLFactoryException {
 
+
 //        if (! isValidFile(root)) {
 //            throw new XMLFactoryException("XML file does not represent the %s", getRuleType());
 //        }
@@ -41,6 +42,7 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
         if (!getTextValue(root, myResources.getString("RuleName")).equals("FireRule")) {
             throw new XMLFactoryException("XML file does not represent the %s", getRuleType());
         }
+
         Integer length = Integer.parseInt(getTextValue(root, myResources.getString("Length")));
         Integer width = Integer.parseInt(getTextValue(root, myResources.getString("Width")));
         Integer row = Integer.parseInt(getTextValue(root, myResources.getString("Row")));

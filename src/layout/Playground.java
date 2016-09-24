@@ -2,7 +2,9 @@ package layout;
 
 import java.io.File;
 import java.util.ResourceBundle;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javafx.animation.KeyFrame;
@@ -11,8 +13,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
+import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
@@ -35,15 +40,19 @@ public class Playground {
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private static final String XML_FILES_LOCATION = "data/xml/";
 	private static final String XML_SUFFIX = ".xml";
-	private static final int BUTTON_SPACE = 150;
+	private static final int BUTTON_SPACE = 165;
 	private static final int PAUSE_Y = 0;
 	private static final int Y_OFFSET = 30;
 	private static final int STEP_Y = 2*Y_OFFSET;
-	private static final int SLIDER_Y = 3*Y_OFFSET;
+	private static final int RESET_Y = 3*Y_OFFSET;
+	private static final int SLIDER_Y = 4*Y_OFFSET;
+	private static final int TEXTFIELD_Y = 6*Y_OFFSET;
 	private static final int X_OFFSET = BUTTON_SPACE - 10;
 	private static final double MAX_SLIDER = 10;
 	private static final double MIN_SLIDER = 0.1;
 	private static final double INITIAL_VALUE = 1;
+	private static final int TEXT_OFFSET = 50;
+	private static final int FONT_SIZE = 15;
 
 
 	private static final int MILLISECOND_DELAY = 10000 / FRAMES_PER_SECOND;
@@ -57,13 +66,15 @@ public class Playground {
 	private ResourceBundle myResources;
 	private Scene myScene;
 	private Slider mySlider;
+	private Stage myStage;
+	private List<String> ruleList = Arrays.asList("FireRule", "LifeRule", "SchellingRule", "WatorRule");
 //	private int myLength = 600;
 //	private int myWidth = 600;
 //	private int myRowNum = 100;
 //	private int myColNum = 100;
 
 	public void init(Stage s) {
-
+		myStage = s;
 		// READ XML FILE
 		// get file and author name, global config parameters, dimensions of
 		// grid and initial states of the cell
@@ -109,8 +120,28 @@ public class Playground {
 				rule.changeState();
 			}
 		});
+		addButton(myScene.getWidth() - X_OFFSET, RESET_Y, myResources.getString("ResetButton"),
+				  new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				reset();
+			}
+		});
 		mySlider = addSlider(myScene.getWidth() - X_OFFSET, SLIDER_Y, MIN_SLIDER, MAX_SLIDER, INITIAL_VALUE, 
 							 myResources.getString("Slider"));
+		TextField textField = addTextField(myResources.getString("TextFieldText"),myScene.getWidth() - X_OFFSET, 
+								   TEXTFIELD_Y);
+		textField.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				String inText = textField.getCharacters().toString();
+				if (ruleList.contains(inText)) {
+					setFileName(inText);
+					myAnimation.stop();
+					init(s);
+				} else {
+					showError(myResources.getString("CouldNotLoadError") + inText);
+				}
+			}
+		});
 		s.setScene(myScene);
 		s.show();
 
@@ -176,6 +207,11 @@ public class Playground {
 		myAnimation.play();
 	}
 	
+	private void reset(){
+		myAnimation.stop();
+		init(myStage);
+	}
+	
 	private Button addButton(double x, double y, String message, EventHandler<ActionEvent> handler){
 		Button button = new Button(message);
 		button.relocate(x, y);
@@ -188,10 +224,23 @@ public class Playground {
 		Slider slider = new Slider(min, max, value);
 		slider.relocate(x, y);
 		root.getChildren().add(slider);
-		Text text = new Text(x + 50, y + Y_OFFSET, message);
-		text.setFont(new Font(15));
+		Text text = new Text(x + TEXT_OFFSET, y + Y_OFFSET, message);
+		text.setFont(new Font(FONT_SIZE));
 		root.getChildren().add(text);
 		return slider;
 	}
-
+	
+	private  TextField addTextField(String message, double x, double y){
+		TextField textField = new TextField(message);
+		textField.relocate(x, y);
+		root.getChildren().add(textField);
+		return textField;
+	}
+	
+	public void showError (String message) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(myResources.getString("ErrorTitle"));
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 }

@@ -32,9 +32,9 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
      */
     @Override
     public Rule getRule (Element root) throws XMLFactoryException {
-        if (!isValidFile(root)) {
-            throw new XMLFactoryException("XML file does not represent the %s", getRuleType());
-        }
+//        if (!isValidFile(root)) {
+//            throw new XMLFactoryException("XML file does not represent the %s", getRuleType());
+//        }
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + getRuleProperty());
         Integer length = Integer.parseInt(getTextValue(root, myResources.getString("Length")));
         Integer width = Integer.parseInt(getTextValue(root, myResources.getString("Width")));

@@ -7,5 +7,7 @@
     <width>800</width>
     <xsize>100</xsize>
     <ysize>100</ysize>
+    
+    <typeLife>10Cell</typeLife>
 
 </Rule>

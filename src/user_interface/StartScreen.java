@@ -1,12 +1,16 @@
 package user_interface;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -31,6 +35,7 @@ public class StartScreen {
 	private Stage myStage;
 	private Playground myPlayground;
 	private ResourceBundle myResources;
+	private List<String> ruleList = Arrays.asList("FireRule", "LifeRule", "SchellingRule", "WatorRule");
 	
 	
 	public StartScreen(Stage s){
@@ -55,8 +60,14 @@ public class StartScreen {
 		TextField textField = addTextField(myResources.getString("TextFieldText"), scene.getWidth()/2, scene.getHeight()/2 + TEXTFIELD_Y_OFFSET);
 		textField.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
-				myPlayground.setFileName(textField.getCharacters().toString());
-				myPlayground.init(myStage);
+				String inText = textField.getCharacters().toString();
+				if (ruleList.contains(inText)) {
+					myPlayground.setFileName(inText);
+					myPlayground.init(myStage);
+				} else {
+					showError(myResources.getString("CouldNotLoadError") + inText);
+				}
+				
 			}
 		});
 		return scene;
@@ -77,5 +88,12 @@ public class StartScreen {
 		myRoot.getChildren().add(textField);
 		return textField;
 	}
+	
+	public void showError (String message) {
+        Alert alert = new Alert(AlertType.ERROR);
+        alert.setTitle(myResources.getString("ErrorTitle"));
+        alert.setContentText(message);
+        alert.showAndWait();
+    }
 
 }

@@ -2,6 +2,8 @@ package layout;
 
 import java.io.File;
 import java.util.ResourceBundle;
+import java.util.HashMap;
+import java.util.Map;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -17,6 +19,11 @@ import layout.rule.LifeRule;
 import layout.rule.SchellingRule;
 import xml.XMLParser;
 import xml.factory.FireRuleXMLFactory;
+import xml.factory.LifeRuleXMLFactory;
+import xml.factory.RuleXMLFactory;
+import xml.factory.SchellingRuleXMLFactory;
+import xml.factory.WatorRuleXMLFactory;
+import xml.factory.XMLFactory;
 import xml.factory.XMLFactoryException;
 
 public class Playground {
@@ -34,6 +41,7 @@ public class Playground {
 
 	private static final int MILLISECOND_DELAY = 10000 / FRAMES_PER_SECOND;
 	private static final double SECOND_DELAY = 10.0 / FRAMES_PER_SECOND;
+	private Map<String, RuleXMLFactory> ruleMap = new HashMap<String, RuleXMLFactory>();
 
 	private Group root;
 	private Rule rule;
@@ -41,10 +49,10 @@ public class Playground {
 	private String myFileName;
 	private ResourceBundle myResources;
 	private Scene myScene;
-	private int myLength = 600;
-	private int myWidth = 600;
-	private int myRowNum = 100;
-	private int myColNum = 100;
+//	private int myLength = 600;
+//	private int myWidth = 600;
+//	private int myRowNum = 100;
+//	private int myColNum = 100;
 
 	public void init(Stage s) {
 
@@ -54,18 +62,24 @@ public class Playground {
 		// http://stackoverflow.com/questions/428073/what-is-the-best-simplest-way-to-read-in-an-xml-file-in-java-application
 		// http://stackoverflow.com/questions/7704827/java-reading-xml-file
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
-//		getParsedObject(myFileName);
-		s.setTitle("It works!");
 
-		// set length, width, sizex, sizey according to the XML decision.
+		ruleMap.put("FireRule", new FireRuleXMLFactory());
+		ruleMap.put("LifeRule", new LifeRuleXMLFactory());
+		ruleMap.put("WatorRule", new WatorRuleXMLFactory());
+		ruleMap.put("SchellingRule", new SchellingRuleXMLFactory());
+		
+		getParsedObject(myFileName);
+		
+		s.setTitle("It works!");
 
 		// how to consider user input
 		
-		rule = new LifeRule(myLength, myWidth, myRowNum, myColNum);
+		//rule = new LifeRule(myLength, myWidth, myRowNum, myColNum);
 
 		root = new Group();
 		// determine how to take XML instructions for initial states into each
 		// square: Rule.initState()
+
 
 		rule.initGrid();
 		drawGrid();
@@ -109,8 +123,12 @@ public class Playground {
 
 	private void getParsedObject(String fileName) {
 		XMLParser parser = new XMLParser();
-		FireRuleXMLFactory factory = new FireRuleXMLFactory();
-		File f = new File(XML_FILES_LOCATION + fileName + ".xml");
+		
+		
+		RuleXMLFactory factory = ruleMap.get(fileName);
+  
+        //System.out.println(XML_FILES_LOCATION + myFileName + ".xml");
+		File f = new File(XML_FILES_LOCATION + myFileName + ".xml");
 		Rule ruleInXML;
 //		System.out.print(000);
 		if (f.isFile() && f.getName().endsWith(XML_SUFFIX)) {

@@ -28,10 +28,10 @@ public class Playground {
 
 	private Group root;
 	private Rule rule;
-	private int myLength = 600;
-	private int myWidth = 600;
-	private int myRowNum = 100;
-	private int myColNum = 100;
+//	private int myLength = 600;
+//	private int myWidth = 600;
+//	private int myRowNum = 100;
+//	private int myColNum = 100;
 
 	public void init(Stage s) {
 
@@ -47,14 +47,15 @@ public class Playground {
 		// set length, width, sizex, sizey according to the XML decision.
 
 		// how to consider user input
-		rule = new LifeRule(myLength, myWidth, myRowNum, myColNum);
+		
+		// rule = new LifeRule(myLength, myWidth, myRowNum, myColNum);
+
 		root = new Group();
 		// determine how to take XML instructions for initial states into each
 		// square: Rule.initState()
 
 		rule.initGrid();
 		drawGrid();
-		
 		
 		Scene scene = new Scene(root);
 		s.setScene(scene);
@@ -78,9 +79,9 @@ public class Playground {
 	private void getParsedObject(String fileName) {
 		XMLParser parser = new XMLParser();
 		FireRuleXMLFactory factory = new FireRuleXMLFactory();
-		File f = new File(XML_FILES_LOCATION + fileName);
+		File f = new File(XML_FILES_LOCATION + fileName + ".xml");
 		Rule ruleInXML;
-
+//		System.out.print(000);
 		if (f.isFile() && f.getName().endsWith(XML_SUFFIX)) {
 			try {
 				ruleInXML = factory.getRule(parser.getRootElement(f.getAbsolutePath()));
@@ -95,8 +96,8 @@ public class Playground {
 	}
 
 	public void drawGrid() {
-		for (int i = 0; i < myRowNum; i++) {
-			for (int j = 0; j < myColNum; j++) {
+		for (int i = 0; i < rule.myRow; i++) {
+			for (int j = 0; j < rule.myColumn; j++) {
 				root.getChildren().add(rule.getGrid()[i][j].getRec());
 			}
 		}

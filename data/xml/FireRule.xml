@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Rule>
+<Rule id = "FireRule">
     <nameRule>FireRule</nameRule>
     <title>Catching Fire</title>
     <author>Charlie</author>
-    <length>600</length>
-    <width>600</width>
-    <xsize>20</xsize>
-    <ysize>20</ysize>
+    <length>800</length>
+    <width>800</width>
+    <xsize>100</xsize>
+    <ysize>100</ysize>
+
 </Rule>

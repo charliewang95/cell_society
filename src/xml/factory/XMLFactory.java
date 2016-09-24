@@ -18,6 +18,7 @@ public abstract class XMLFactory {
      * @return if this is a valid XML file for this specific XML object type
      */
     protected abstract boolean isValidFile (Element root);
+    
 
     /**
      * Get the value of an attribute.

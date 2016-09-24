@@ -30,6 +30,7 @@ public abstract class Rule {
 		cellLength = myLength / myRow;
 		cellWidth = myWidth / myColumn;
 	}
+	
 
 	/**
 	 * Initialize the cell grid

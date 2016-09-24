@@ -40,7 +40,7 @@ public class SchellingRuleXMLFactory extends RuleXMLFactory {
         Integer width = Integer.parseInt(getTextValue(root, myResources.getString("Width")));
         Integer row = Integer.parseInt(getTextValue(root, myResources.getString("Row")));
         Integer column = Integer.parseInt(getTextValue(root, myResources.getString("Column")));
-
+        
         return new SchellingRule(length, width, row, column);
 
     //probcatch parameter???, length width row column

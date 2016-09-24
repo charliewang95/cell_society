@@ -13,9 +13,9 @@ public class SchellingRule extends Rule {
 	private static final int AAA = 1; // group A
 	private static final int BBB = 2; // group B
 	private static final int NUMNEIGHBOR = 8;
-	private static final double PERCENTAGEA = 0.5; // parameter
-	private static final double PERCENTAGEEMPTY = 0.3; // parameter
-	private static final double SATISFIED = 0.7; // parameter
+	private double myPercentageA; // parameter
+	private double myPercentageEmpty; // parameter
+	private double mySatisfied; // parameter
 	private static final Color EMPTYCOLOR = Color.WHITE;
 	private static final Color AAACOLOR = Color.RED;
 	private static final Color BBBCOLOR = Color.BLUE;
@@ -32,13 +32,16 @@ public class SchellingRule extends Rule {
 	public SchellingRule(int length, int width, int row, int column) {
 		super(length, width, row, column);
 		myColors = new Color[] { EMPTYCOLOR, AAACOLOR, BBBCOLOR };
-		myNumE = (int) (myRow * myColumn * PERCENTAGEEMPTY);
-		myNumA = (int) ((myRow * myColumn - myNumE) * PERCENTAGEA);
+		myNumE = (int) (myRow * myColumn * myPercentageEmpty);
+		myNumA = (int) ((myRow * myColumn - myNumE) * myPercentageA);
 		myNumB = (int) (myRow * myColumn - myNumE - myNumA);
 		myAs = new int[myNumA];
 		myBs = new int[myNumB];
 		myEs = new int[myNumE];
 		myEsTMP = new int[myNumE];
+		mySatisfied = 0.7;
+		myPercentageA = 0.5;
+		myPercentageEmpty = 0.3;
 	}
 
 	@Override
@@ -111,7 +114,7 @@ public class SchellingRule extends Rule {
 
 					double percent = total == 0 ? 0 : same / total;
 
-					if (percent < SATISFIED) {
+					if (percent < mySatisfied) {
 						myUpdatedGrid[i][j] = EMPTY;
 						Random random = new Random();
 						int r = random.nextInt(myEs.length);
@@ -125,7 +128,6 @@ public class SchellingRule extends Rule {
 				}
 			}
 		}
-		System.out.println();
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				myGrid[i][j].setState(myUpdatedGrid[i][j]);
@@ -135,13 +137,15 @@ public class SchellingRule extends Rule {
 		// testByPrintingEachState();
 	}
 
-	public void testByPrintingEachState() {
-		for (Cell[] p : myGrid) {
-			for (Cell q : p) {
-				System.out.print(q.getState() + " ");
-			}
-			System.out.println();
-		}
-		System.out.println();
+	public void setSatisfied(double satisfied) {
+		mySatisfied = satisfied;
+	}
+	
+	public void setPercentageA(double percentageA) {
+		myPercentageA = percentageA;
+	}
+	
+	public void setPercentageEmpty(double percentageEmpty) {
+		myPercentageEmpty = percentageEmpty;
 	}
 }

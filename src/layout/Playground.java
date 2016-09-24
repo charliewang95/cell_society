@@ -33,10 +33,10 @@ public class Playground {
 	private static final String XML_FILES_LOCATION = "data/xml/";
 	private static final String XML_SUFFIX = ".xml";
 	private static final int BUTTON_SPACE = 100;
-	private static final int PAUSE_X = 0;
-	private static final int RESUME_X = 50;
-	private static final int STEP_X = 90;
-	private static final int BUTTON_Y_OFFSET = 50;
+	private static final int PAUSE_Y = 0;
+	private static final int RESUME_Y = 30;
+	private static final int STEP_Y = 60;
+	private static final int BUTTON_X_OFFSET = 90;
 
 
 	private static final int MILLISECOND_DELAY = 10000 / FRAMES_PER_SECOND;
@@ -70,7 +70,7 @@ public class Playground {
 		
 		getParsedObject(myFileName);
 		
-		s.setTitle("It works!");
+//		s.setTitle("It works!");
 
 		// how to consider user input
 		
@@ -84,20 +84,20 @@ public class Playground {
 		rule.initGrid();
 		drawGrid();
 		
-		myScene = new Scene(root, rule.myWidth, rule.myLength + BUTTON_SPACE);
-		addButton(PAUSE_X, myScene.getHeight() - BUTTON_Y_OFFSET, myResources.getString("PauseButton"), 
+		myScene = new Scene(root, rule.myWidth + BUTTON_SPACE, rule.myLength);
+		addButton(myScene.getWidth() - BUTTON_X_OFFSET, PAUSE_Y, myResources.getString("PauseButton"), 
 				  new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				pause();
 			}
 		});
-		addButton(RESUME_X, myScene.getHeight() - BUTTON_Y_OFFSET, myResources.getString("ResumeButton"), 
+		addButton(myScene.getWidth() - BUTTON_X_OFFSET, RESUME_Y, myResources.getString("ResumeButton"), 
 				  new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				resume();
 			}
 		});
-		addButton(STEP_X, myScene.getHeight() - BUTTON_Y_OFFSET, myResources.getString("TakeStepButton"), 
+		addButton(myScene.getWidth() - BUTTON_X_OFFSET, STEP_Y, myResources.getString("TakeStepButton"), 
 				  new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				rule.changeState();

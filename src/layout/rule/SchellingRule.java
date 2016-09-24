@@ -32,6 +32,13 @@ public class SchellingRule extends Rule {
 	public SchellingRule(int length, int width, int row, int column) {
 		super(length, width, row, column);
 		myColors = new Color[] { EMPTYCOLOR, AAACOLOR, BBBCOLOR };
+		myPercentageA = 0.1;
+		myPercentageEmpty = 0.1;
+		mySatisfied = 0.7;
+	}
+
+	@Override
+	public void initGrid() {
 		myNumE = (int) (myRow * myColumn * myPercentageEmpty);
 		myNumA = (int) ((myRow * myColumn - myNumE) * myPercentageA);
 		myNumB = (int) (myRow * myColumn - myNumE - myNumA);
@@ -39,13 +46,7 @@ public class SchellingRule extends Rule {
 		myBs = new int[myNumB];
 		myEs = new int[myNumE];
 		myEsTMP = new int[myNumE];
-		mySatisfied = 0.7;
-		myPercentageA = 0.5;
-		myPercentageEmpty = 0.3;
-	}
-
-	@Override
-	public void initGrid() {
+		
 		myGrid = new Cell[myRow][myColumn];
 		myUpdatedGrid = new int[myRow][myColumn];
 		for (int i = 0; i < myRow; i++) {
@@ -76,7 +77,6 @@ public class SchellingRule extends Rule {
 				myBs[k - myNumA] = index;
 			} else {
 				myGrid[i][j].init(EMPTY, myColors[EMPTY], NUMNEIGHBOR);
-
 				myUpdatedGrid[i][j] = EMPTY;
 				myEs[k - myNumA - myNumB] = index;
 				myEsTMP[k - myNumA - myNumB] = index;

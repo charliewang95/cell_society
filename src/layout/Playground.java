@@ -27,8 +27,8 @@ public class Playground {
 	private static final String XML_SUFFIX = ".xml";
 	private static final int BUTTON_SPACE = 100;
 	private static final int PAUSE_X = 0;
-	private static final int RESUME_X = 100;
-	private static final int STEP_X = 200;
+	private static final int RESUME_X = 50;
+	private static final int STEP_X = 90;
 	private static final int BUTTON_Y_OFFSET = 50;
 
 

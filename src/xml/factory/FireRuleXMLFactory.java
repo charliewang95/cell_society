@@ -47,8 +47,11 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
         Integer width = Integer.parseInt(getTextValue(root, myResources.getString("Width")));
         Integer row = Integer.parseInt(getTextValue(root, myResources.getString("Row")));
         Integer column = Integer.parseInt(getTextValue(root, myResources.getString("Column")));
+        double probCatch = Double.parseDouble(getTextValue(root, myResources.getString("ProbCatch")));
 
-        return new FireRule(length, width, row, column);
+        FireRule useRule = new FireRule(length, width, row, column);
+        useRule.setProbCatch(probCatch);
+        return useRule;
 
     //probcatch parameter???, length width row column
         

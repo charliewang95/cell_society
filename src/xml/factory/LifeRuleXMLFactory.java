@@ -40,8 +40,14 @@ public class LifeRuleXMLFactory extends RuleXMLFactory {
         Integer width = Integer.parseInt(getTextValue(root, myResources.getString("Width")));
         Integer row = Integer.parseInt(getTextValue(root, myResources.getString("Row")));
         Integer column = Integer.parseInt(getTextValue(root, myResources.getString("Column")));
+        String typeLife = getTextValue(root,myResources.getString("LifeType"));
+        
+        LifeRule myLife = new LifeRule(length, width, row, column);
+        myLife.setModel(typeLife);
 
-        return new LifeRule(length, width, row, column);
+        //10cell, Exploder, Gosper
+        
+        return myLife;
 
     //probcatch parameter???, length width row column
         

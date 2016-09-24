@@ -40,8 +40,16 @@ public class SchellingRuleXMLFactory extends RuleXMLFactory {
         Integer width = Integer.parseInt(getTextValue(root, myResources.getString("Width")));
         Integer row = Integer.parseInt(getTextValue(root, myResources.getString("Row")));
         Integer column = Integer.parseInt(getTextValue(root, myResources.getString("Column")));
+        double percentageA = Double.parseDouble(getTextValue(root, myResources.getString("PercentageA")));
+        double percentageEmpty = Double.parseDouble(getTextValue(root, myResources.getString("PercentageEmpty")));
+        double satisfy = Double.parseDouble(getTextValue(root, myResources.getString("Satisfy")));
+
+        SchellingRule mySchelling = new SchellingRule(length, width, row, column);
+        mySchelling.setSatisfied(satisfy);
+        mySchelling.setPercentageA(percentageA);
+        mySchelling.setPercentageEmpty(percentageEmpty);
         
-        return new SchellingRule(length, width, row, column);
+        return mySchelling;
 
     //probcatch parameter???, length width row column
         

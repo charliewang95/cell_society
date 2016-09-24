@@ -7,8 +7,8 @@
     <width>800</width>
     <xSize>100</xSize>
     <ySize>100</ySize>
-    <rateA>.5</rateA>
-    <rateEmpty>.3</rateEmpty>
-    <satisfied>.7</satisfied>
+    <rateA>0.5</rateA>
+    <rateEmpty>0.3</rateEmpty>
+    <satisfied>0.7</satisfied>
 
 </Rule>

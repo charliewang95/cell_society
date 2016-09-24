@@ -83,6 +83,7 @@ public class WatorRule extends Rule {
 			for (int j = 0; j < myColumn; j++) {
 				Cell cell = myGrid[i][j];
 				if (cell instanceof Fish) {
+					
 					if (((Fish) cell).getReproduce() == FISHREPRODUCERATE) {
 						Random random = new Random();
 						int randomInt = random.nextInt(NUMNEIGHBOR);

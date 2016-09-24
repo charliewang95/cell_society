@@ -1,11 +1,15 @@
 package layout;
 
 import java.io.File;
+import java.util.ResourceBundle;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import layout.rule.FireRule;
@@ -18,16 +22,24 @@ import xml.factory.XMLFactoryException;
 public class Playground {
 
 	public static final int FRAMES_PER_SECOND = 60;
-
+	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private static final String XML_FILES_LOCATION = "data/xml/";
 	private static final String XML_SUFFIX = ".xml";
-	private String myFileName;
+	private static final int BUTTON_SPACE = 100;
+	private static final int PAUSE_X = 0;
+	private static final int RESUME_X = 100;
+	private static final int BUTTON_Y_OFFSET = 50;
+
 
 	private static final int MILLISECOND_DELAY = 10000 / FRAMES_PER_SECOND;
 	private static final double SECOND_DELAY = 10.0 / FRAMES_PER_SECOND;
 
 	private Group root;
 	private Rule rule;
+	private Timeline myAnimation;
+	private String myFileName;
+	private ResourceBundle myResources;
+	private Scene myScene;
 //	private int myLength = 600;
 //	private int myWidth = 600;
 //	private int myRowNum = 100;
@@ -40,7 +52,7 @@ public class Playground {
 		// grid and initial states of the cell
 		// http://stackoverflow.com/questions/428073/what-is-the-best-simplest-way-to-read-in-an-xml-file-in-java-application
 		// http://stackoverflow.com/questions/7704827/java-reading-xml-file
-
+		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
 		getParsedObject(myFileName);
 		s.setTitle("It works!");
 
@@ -48,7 +60,7 @@ public class Playground {
 
 		// how to consider user input
 		
-		// rule = new LifeRule(myLength, myWidth, myRowNum, myColNum);
+//		rule = new LifeRule(myLength, myWidth, myRowNum, myColNum);
 
 		root = new Group();
 		// determine how to take XML instructions for initial states into each
@@ -57,15 +69,27 @@ public class Playground {
 		rule.initGrid();
 		drawGrid();
 		
-		Scene scene = new Scene(root);
-		s.setScene(scene);
+		myScene = new Scene(root, rule.myWidth, rule.myLength + BUTTON_SPACE);
+		addButton(PAUSE_X, myScene.getHeight() - BUTTON_Y_OFFSET, myResources.getString("PauseButton"), 
+				  new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				pause();
+			}
+		});
+		addButton(RESUME_X, myScene.getHeight() - BUTTON_Y_OFFSET, myResources.getString("ResumeButton"), 
+				  new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				resume();
+			}
+		});
+		s.setScene(myScene);
 		s.show();
 
 		KeyFrame frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
-		Timeline animation = new Timeline();
-		animation.setCycleCount(Timeline.INDEFINITE);
-		animation.getKeyFrames().add(frame);
-		animation.play();
+		myAnimation = new Timeline();
+		myAnimation.setCycleCount(Timeline.INDEFINITE);
+		myAnimation.getKeyFrames().add(frame);
+		myAnimation.play();
 	}
 
 	public String getFileName() {
@@ -87,7 +111,7 @@ public class Playground {
 				ruleInXML = factory.getRule(parser.getRootElement(f.getAbsolutePath()));
 				rule = ruleInXML;
 			} catch (XMLFactoryException e) {
-				System.err.println("Reading file " + f.getPath());
+				System.err.println(myResources.getString("ReadingFileError") + f.getPath());
 				e.printStackTrace();
 				// REDO EXCEPTION so that it'll just give pop up window, enter a
 				// valid file.
@@ -108,6 +132,22 @@ public class Playground {
 		 * for each step of the way: for each square, update it
 		 */
 		rule.changeState();
+	}
+	
+	private void pause(){
+		myAnimation.pause();
+	}
+	
+	private void resume(){
+		myAnimation.play();
+	}
+	
+	private Button addButton(double x, double y, String message, EventHandler<ActionEvent> handler){
+		Button button = new Button(message);
+		button.relocate(x, y);
+		button.setOnAction(handler);
+		root.getChildren().add(button);
+		return button;
 	}
 
 }

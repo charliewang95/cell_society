@@ -11,6 +11,10 @@ public class Cell {
 	private Color myColor;
 	private int myRow;
 	private int myCol;
+	private int myX;
+	private int myY;
+	private int myWidth;
+	private int myLength;
 	private ArrayList<Cell> myNeighbors;
 	private int myNumNeighbors;
 	
@@ -33,6 +37,10 @@ public class Cell {
 		myCol = col;
 		myState = 0;
 		myColor = null;
+		myX = x;
+		myY = y;
+		myWidth = width;
+		myLength = length;
 	}
 	
 	/**
@@ -112,5 +120,21 @@ public class Cell {
 	 */
 	public int getCol() {
 		return myCol;
+	}
+	
+	public int getX() {
+		return myX;
+	}
+	
+	public int getY() {
+		return myY;
+	}
+	
+	public int getWidth() {
+		return myWidth;
+	}
+	
+	public int getLength() {
+		return myLength;
 	}
 }

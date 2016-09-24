@@ -8,8 +8,6 @@ import javafx.scene.paint.Color;
 import layout.Cell;
 import layout.Rule;
 import layout.rule.watoranimals.Animal;
-import layout.rule.watoranimals.Fish;
-import layout.rule.watoranimals.Shark;
 
 public class WatorRule extends Rule {
 	private static final int WATER = 0;
@@ -26,16 +24,31 @@ public class WatorRule extends Rule {
 	private static final Color SHARKCOLOR = Color.ORANGE;
 	private Color[] myColors;
 	private int[][] myUpdatedGrid;
+	private int[][] myUpdatedReproduceGrid;
+	private int[][] myUpdatedHealthGrid;
 
 	public WatorRule(int length, int width, int sizeX, int sizeY) {
 		super(length, width, sizeX, sizeY);
 		myColors = new Color[] { WATERCOLOR, FISHCOLOR, SHARKCOLOR };
 	}
-
+	
+	private class TempGrid{
+		int tempState;
+		int tempReproduce;
+		int tempHealth;
+		private TempGrid(int state, int reproduce, int health) {
+			tempState=state;
+			tempReproduce=reproduce;
+			tempHealth=health;
+		}
+	}
+	
 	@Override
 	public void initGrid() {
 		myGrid = new Cell[myRow][myColumn];
 		myUpdatedGrid = new int[myRow][myColumn];
+		myUpdatedReproduceGrid = new int[myRow][myColumn];
+		myUpdatedHealthGrid = new int[myRow][myColumn];
 		initState();
 		initNeighbor4();
 	}
@@ -57,12 +70,19 @@ public class WatorRule extends Rule {
 				myGrid[i][j].init(WATER, myColors[WATER], NUMNEIGHBOR);
 				myUpdatedGrid[i][j] = WATER;
 			} else if (k >= initWater && k < initWater + initFish) {
-				myGrid[i][j] = new Fish(x, y, cellWidth, cellLength, i, j);
+				myGrid[i][j] = new Animal(x, y, cellWidth, cellLength, i, j);
 				myGrid[i][j].init(FISH, myColors[FISH], NUMNEIGHBOR);
+				if (myGrid[i][j] instanceof Animal) {
+					((Animal) myGrid[i][j]).setReproduce(FISHREPRODUCERATE);
+				}
 				myUpdatedGrid[i][j] = FISH;
 			} else {
-				myGrid[i][j] = new Shark(x, y, cellWidth, cellLength, i, j);
+				myGrid[i][j] = new Animal(x, y, cellWidth, cellLength, i, j);
 				myGrid[i][j].init(SHARK, myColors[SHARK], NUMNEIGHBOR);
+				if (myGrid[i][j] instanceof Animal) {
+					((Animal) myGrid[i][j]).setReproduce(SHARKREPRODUCERATE);
+					((Animal) myGrid[i][j]).setHealth(SHARKDEATHRATE);
+				}
 				myUpdatedGrid[i][j] = SHARK;
 			}
 		}
@@ -82,15 +102,51 @@ public class WatorRule extends Rule {
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				Cell cell = myGrid[i][j];
-				if (cell instanceof Fish) {
-					
-					if (((Fish) cell).getReproduce() == FISHREPRODUCERATE) {
-						Random random = new Random();
-						int randomInt = random.nextInt(NUMNEIGHBOR);
-					}
+				if (cell instanceof Animal && cell.getState() == SHARK) {
+					changeStateShark(cell);
 				}
+
+				// if (((Fish) cell).getReproduce() == FISHREPRODUCERATE) {
+				// Random random = new Random();
+				// int randomInt = random.nextInt(NUMNEIGHBOR);
+				// }
 			}
 		}
+	}
+
+	private void changeStateShark(Cell cell) {
+		ArrayList<Cell> eat = new ArrayList<Cell>();
+		ArrayList<Cell> vacant = new ArrayList<Cell>();
+		for (Cell c : cell.getNeighbors()) {
+			if (c.getState() == FISH) {
+				eat.add(c);
+			} else if (c.getState() == WATER) {
+				vacant.add(c);
+			}
+		}
+		if (eat.size() != 0) {
+			Random random = new Random();
+			int randomInt = random.nextInt(eat.size());
+			Cell fishGetEaten = eat.get(randomInt);
+			myUpdatedGrid[fishGetEaten.getRow()][fishGetEaten.getCol()] = SHARK;
+			myUpdatedGrid[cell.getRow()][cell.getCol()] = needReproduce(cell) ? SHARK : WATER;
+			myUpdatedReproduceGrid[fishGetEaten.getRow()][fishGetEaten.getCol()] = ((Animal) cell).getReproduce() - 1;
+			myUpdatedHealthGrid[fishGetEaten.getRow()][fishGetEaten.getCol()] = ((Animal) cell).getHealth() - 1;
+		} else if (vacant.size() != 0) {
+			Random random = new Random();
+			int randomInt = random.nextInt(vacant.size());
+			Cell toMove = eat.get(randomInt);
+			myUpdatedGrid[toMove.getRow()][toMove.getCol()] = SHARK;
+			myUpdatedGrid[cell.getRow()][cell.getCol()] = WATER;
+		}
+	}
+
+	private boolean needReproduce(Cell cell) {
+		if (cell instanceof Animal) {
+			cell = (Animal) cell;
+			return ((Animal) cell).getReproduce() == 0;
+		}
+		return false;
 	}
 
 }

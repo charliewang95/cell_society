@@ -12,6 +12,9 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Slider;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import layout.rule.FireRule;
@@ -32,11 +35,15 @@ public class Playground {
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private static final String XML_FILES_LOCATION = "data/xml/";
 	private static final String XML_SUFFIX = ".xml";
-	private static final int BUTTON_SPACE = 100;
+	private static final int BUTTON_SPACE = 150;
 	private static final int PAUSE_Y = 0;
-	private static final int RESUME_Y = 30;
-	private static final int STEP_Y = 60;
-	private static final int BUTTON_X_OFFSET = 90;
+	private static final int Y_OFFSET = 30;
+	private static final int STEP_Y = 2*Y_OFFSET;
+	private static final int SLIDER_Y = 3*Y_OFFSET;
+	private static final int X_OFFSET = BUTTON_SPACE - 10;
+	private static final double MAX_SLIDER = 10;
+	private static final double MIN_SLIDER = 0.1;
+	private static final double INITIAL_VALUE = 1;
 
 
 	private static final int MILLISECOND_DELAY = 10000 / FRAMES_PER_SECOND;
@@ -49,6 +56,7 @@ public class Playground {
 	private String myFileName;
 	private ResourceBundle myResources;
 	private Scene myScene;
+	private Slider mySlider;
 //	private int myLength = 600;
 //	private int myWidth = 600;
 //	private int myRowNum = 100;
@@ -69,8 +77,6 @@ public class Playground {
 		ruleMap.put("SchellingRule", new SchellingRuleXMLFactory());
 		
 		getParsedObject(myFileName);
-		
-//		s.setTitle("It works!");
 
 		// how to consider user input
 		
@@ -85,24 +91,26 @@ public class Playground {
 		drawGrid();
 		
 		myScene = new Scene(root, rule.myWidth + BUTTON_SPACE, rule.myLength);
-		addButton(myScene.getWidth() - BUTTON_X_OFFSET, PAUSE_Y, myResources.getString("PauseButton"), 
+		addButton(myScene.getWidth() - X_OFFSET, PAUSE_Y, myResources.getString("PauseButton"), 
 				  new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				pause();
 			}
 		});
-		addButton(myScene.getWidth() - BUTTON_X_OFFSET, RESUME_Y, myResources.getString("ResumeButton"), 
+		addButton(myScene.getWidth() - X_OFFSET, Y_OFFSET, myResources.getString("ResumeButton"), 
 				  new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				resume();
 			}
 		});
-		addButton(myScene.getWidth() - BUTTON_X_OFFSET, STEP_Y, myResources.getString("TakeStepButton"), 
+		addButton(myScene.getWidth() - X_OFFSET, STEP_Y, myResources.getString("TakeStepButton"), 
 				  new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				rule.changeState();
 			}
 		});
+		mySlider = addSlider(myScene.getWidth() - X_OFFSET, SLIDER_Y, MIN_SLIDER, MAX_SLIDER, INITIAL_VALUE, 
+							 myResources.getString("Slider"));
 		s.setScene(myScene);
 		s.show();
 
@@ -156,6 +164,7 @@ public class Playground {
 		/*
 		 * for each step of the way: for each square, update it
 		 */
+		myAnimation.setRate(mySlider.getValue());
 		rule.changeState();
 	}
 	
@@ -173,6 +182,16 @@ public class Playground {
 		button.setOnAction(handler);
 		root.getChildren().add(button);
 		return button;
+	}
+	
+	private Slider addSlider(double x, double y, double min, double max, double value, String message){
+		Slider slider = new Slider(min, max, value);
+		slider.relocate(x, y);
+		root.getChildren().add(slider);
+		Text text = new Text(x + 50, y + Y_OFFSET, message);
+		text.setFont(new Font(15));
+		root.getChildren().add(text);
+		return slider;
 	}
 
 }

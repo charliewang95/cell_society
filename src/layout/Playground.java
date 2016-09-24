@@ -49,10 +49,10 @@ public class Playground {
 	private String myFileName;
 	private ResourceBundle myResources;
 	private Scene myScene;
-	private int myLength = 600;
-	private int myWidth = 600;
-	private int myRowNum = 100;
-	private int myColNum = 100;
+//	private int myLength = 600;
+//	private int myWidth = 600;
+//	private int myRowNum = 100;
+//	private int myColNum = 100;
 
 	public void init(Stage s) {
 
@@ -74,7 +74,7 @@ public class Playground {
 
 		// how to consider user input
 		
-		rule = new LifeRule(myLength, myWidth, myRowNum, myColNum);
+		//rule = new LifeRule(myLength, myWidth, myRowNum, myColNum);
 
 		root = new Group();
 		// determine how to take XML instructions for initial states into each

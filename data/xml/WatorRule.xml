@@ -5,7 +5,7 @@
     <author>Charlie</author>
     <length>800</length>
     <width>800</width>
-    <xsize>100</xsize>
-    <ysize>100</ysize>
+    <xSize>100</xSize>
+    <ySize>100</ySize>
 
 </Rule>

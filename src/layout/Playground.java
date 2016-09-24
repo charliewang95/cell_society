@@ -76,7 +76,7 @@ public class Playground {
 	private void getParsedObject(String fileName) {
 		XMLParser parser = new XMLParser();
 		FireRuleXMLFactory factory = new FireRuleXMLFactory();
-        File f = new File(XML_FILES_LOCATION+fileName);
+        File f = new File(XML_FILES_LOCATION+fileName+".xml");
         Rule ruleInXML;
         
         if (f.isFile() && f.getName().endsWith(XML_SUFFIX)) {

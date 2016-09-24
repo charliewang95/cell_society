@@ -5,7 +5,7 @@ import java.util.ResourceBundle;
 import org.w3c.dom.Element;
 
 import layout.Rule;
-import layout.rule.FireRule;
+import layout.rule.LifeRule;
 
 
 /**
@@ -14,8 +14,8 @@ import layout.rule.FireRule;
  * @author Rhondu Smithwick
  * @author Robert Duvall
  */
-public class FireRuleXMLFactory extends RuleXMLFactory {
-    private static final String XML_TAG_NAME = "FireRule";
+public class LifeRuleXMLFactory extends RuleXMLFactory {
+    private static final String XML_TAG_NAME = "LifeRule";
     public static final String DEFAULT_RESOURCE_PACKAGE = "xml.properties/";
     private static final String RULE_PROPERTY = "Rule";
     private ResourceBundle myResources;
@@ -23,7 +23,7 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
     /**
      * Create factory capable of generating Professor objects.
      */
-    public FireRuleXMLFactory () {
+    public LifeRuleXMLFactory () {
         super(XML_TAG_NAME, RULE_PROPERTY);
     }
 
@@ -33,7 +33,7 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
     @Override
     public Rule getRule (Element root) throws XMLFactoryException {
         myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + getRuleProperty());
-        if (!getTextValue(root, myResources.getString("RuleName")).equals("FireRule")) {
+        if (!getTextValue(root, myResources.getString("RuleName")).equals("LifeRule")) {
             throw new XMLFactoryException("XML file does not represent the %s", getRuleType());
         }
         Integer length = Integer.parseInt(getTextValue(root, myResources.getString("Length")));
@@ -41,7 +41,7 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
         Integer row = Integer.parseInt(getTextValue(root, myResources.getString("Row")));
         Integer column = Integer.parseInt(getTextValue(root, myResources.getString("Column")));
 
-        return new FireRule(length, width, row, column);
+        return new LifeRule(length, width, row, column);
 
     //probcatch parameter???, length width row column
         

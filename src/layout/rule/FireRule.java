@@ -16,23 +16,27 @@ public class FireRule extends Rule {
 	private static final Color BURNCOLOR = Color.RED;
 	private Color[] myColors;
 	private int[][] myUpdatedGrid;
-	private int myLength;
-	private int myWidth;
-	private int myRow;
-	private int myColumn;
-	private int cellLength;
-	private int cellWidth;
+//	private int myLength;
+//	private int myWidth;
+//	private int myRow;
+//	private int myColumn;
+//	private int cellLength;
+//	private int cellWidth;
 	private boolean ended;
-	//private static final Color BLUEGREEN = Color.valueOf("yellow");
 
 	public FireRule(int length, int width, int row, int column) {
 		super(length, width, row, column);
 		myColors = new Color[] { EMPTYCOLOR, TREECOLOR, BURNCOLOR };
 	}
 
+	public int getColumn() {
+		return myColumn;
+	}
 	@Override
 	public void initGrid() {
 		myGrid = new Cell[myRow][myColumn];
+		System.out.println(myRow);
+		System.out.println(myColumn);
 		myUpdatedGrid = new int[myRow][myColumn];
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {

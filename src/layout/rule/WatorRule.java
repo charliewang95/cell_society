@@ -1,4 +1,4 @@
-package layout.rule;
+	package layout.rule;
 
 import layout.Cell;
 import layout.Rule;

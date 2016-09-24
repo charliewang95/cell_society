@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Rule id = "WatorRule">
+    <nameRule>WatorRule</nameRule>
+    <title>Oceania</title>
+    <author>Charlie</author>
+    <length>800</length>
+    <width>800</width>
+    <xsize>200</xsize>
+    <ysize>200</ysize>
+
+</Rule>

@@ -28,6 +28,7 @@ public class Playground {
 	private static final int BUTTON_SPACE = 100;
 	private static final int PAUSE_X = 0;
 	private static final int RESUME_X = 100;
+	private static final int STEP_X = 200;
 	private static final int BUTTON_Y_OFFSET = 50;
 
 
@@ -40,10 +41,10 @@ public class Playground {
 	private String myFileName;
 	private ResourceBundle myResources;
 	private Scene myScene;
-//	private int myLength = 600;
-//	private int myWidth = 600;
-//	private int myRowNum = 100;
-//	private int myColNum = 100;
+	private int myLength = 600;
+	private int myWidth = 600;
+	private int myRowNum = 100;
+	private int myColNum = 100;
 
 	public void init(Stage s) {
 
@@ -53,14 +54,14 @@ public class Playground {
 		// http://stackoverflow.com/questions/428073/what-is-the-best-simplest-way-to-read-in-an-xml-file-in-java-application
 		// http://stackoverflow.com/questions/7704827/java-reading-xml-file
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
-		getParsedObject(myFileName);
+//		getParsedObject(myFileName);
 		s.setTitle("It works!");
 
 		// set length, width, sizex, sizey according to the XML decision.
 
 		// how to consider user input
 		
-//		rule = new LifeRule(myLength, myWidth, myRowNum, myColNum);
+		rule = new LifeRule(myLength, myWidth, myRowNum, myColNum);
 
 		root = new Group();
 		// determine how to take XML instructions for initial states into each
@@ -80,6 +81,12 @@ public class Playground {
 				  new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				resume();
+			}
+		});
+		addButton(STEP_X, myScene.getHeight() - BUTTON_Y_OFFSET, myResources.getString("TakeStepButton"), 
+				  new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				rule.changeState();
 			}
 		});
 		s.setScene(myScene);

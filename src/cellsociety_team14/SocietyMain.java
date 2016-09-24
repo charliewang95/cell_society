@@ -5,13 +5,7 @@ import javafx.stage.Stage;
 import user_interface.StartScreen;
 
 public class SocietyMain extends Application {
-
-	public static final int FRAMES_PER_SECOND = 60;
-	private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
-	private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
 	
-	
-
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		new StartScreen(primaryStage);

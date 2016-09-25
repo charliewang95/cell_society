@@ -8,6 +8,6 @@
     <xSize>100</xSize>
     <ySize>100</ySize>
     
-    <typeLife>10Cell</typeLife>
+    <typeLife>Gosper</typeLife>
 
 </Rule>

@@ -8,7 +8,7 @@ public class LifeRule extends Rule {
 	private static final int EMPTY = 0;
 	private static final int LIVE = 1;
 	private static final int NUMNEIGHBOR = 8;
-	private static final Color EMPTYCOLOR = Color.WHITE;
+	private static final Color EMPTYCOLOR = Color.LIGHTGREY;
 	private static final Color LIVECOLOR = Color.BLACK;
 	private String myModel;
 	private Color[] myColors;

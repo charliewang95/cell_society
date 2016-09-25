@@ -18,7 +18,7 @@ public class WatorRule extends Rule {
 	private static final int SHARKREPRODUCERATE = 12; // parameter
 	private static final int SHARKDEATHRATE = 10; // parameter
 	private static final double PERCENTAGEWATER = 0.98; // parameter
-	private static final double PERCENTAGEFISH = 0.95; // parameter
+	private static final double PERCENTAGEFISH = 0.05; // parameter
 	private static final Color WATERCOLOR = Color.LIGHTBLUE;
 	private static final Color FISHCOLOR = Color.GREEN;
 	private static final Color SHARKCOLOR = Color.ORANGE;
@@ -262,22 +262,22 @@ public class WatorRule extends Rule {
 	}
 
 	public void setFishReproduce(int fishReproduce) {
-
+		
 	}
 
 	public void setSharkReproduce(int sharkReproduce) {
-
+		
 	}
 
 	public void setSharkDeath(int sharkDeath) {
-
+		
 	}
 
-	public void setPercentageWater(int percentageWater) {
-
+	public void setPercentageWater(double percentageWater) {
+		
 	}
 
-	public void setPercentageFish(int persentageFish) {
-
+	public void setPercentageFish(double persentageFish) {
+		
 	}
 }

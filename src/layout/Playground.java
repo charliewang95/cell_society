@@ -13,10 +13,8 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import layout.rule.FireRule;
@@ -32,6 +30,14 @@ import xml.factory.WatorRuleXMLFactory;
 import xml.factory.XMLFactory;
 import xml.factory.XMLFactoryException;
 
+/**
+ * Class that shows the simulation and takes the input from the start screen and sends it to be parsed
+ * Is called in StartScreen
+ * Can be called using the init method (e.g., playground.init(stage))
+ * 
+ * @author Noah Over
+ *
+ */
 public class Playground {
 
 	public static final int FRAMES_PER_SECOND = 60;
@@ -64,6 +70,7 @@ public class Playground {
 	private Slider mySlider;
 	private Stage myStage;
 	private UIObjectPlacer myPlacer;
+	private double mySliderValue = INITIAL_VALUE;
 	private List<String> myRuleList = Arrays.asList("FireRule", "LifeRule", "SchellingRule", "WatorRule");
 
 	public void init(Stage s) {
@@ -77,7 +84,7 @@ public class Playground {
 		drawGrid();
 		myScene = new Scene(myRoot, myRule.myWidth + BUTTON_SPACE, myRule.myLength);
 		setUpButtons();
-		mySlider = myPlacer.addSlider(myScene.getWidth() - X_OFFSET, SLIDER_Y, MIN_SLIDER, MAX_SLIDER, INITIAL_VALUE, 
+		mySlider = myPlacer.addSlider(myScene.getWidth() - X_OFFSET, SLIDER_Y, MIN_SLIDER, MAX_SLIDER, mySliderValue, 
 									  myResources.getString("Slider"));
 		setUpTextField();
 		s.setScene(myScene);
@@ -195,6 +202,7 @@ public class Playground {
 	
 	private void reset(){
 		myAnimation.stop();
+		mySliderValue = mySlider.getValue();
 		init(myStage);
 	}
 }

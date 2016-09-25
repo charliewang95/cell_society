@@ -8,17 +8,20 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import layout.Playground;
 
-
+/**
+ * Class that sets up the start screen, reads the input from the user, and passes it on to Playground
+ * Is called in SocietyMain
+ * It can be called through its constructor (e.g., StartScreen(stage))
+ * 
+ * @author Noah Over
+ *
+ */
 public class StartScreen {
 	private static final int SIZE = 400;
 	private static final Paint BACKGROUND_COLOR = Color.WHITE;
@@ -37,7 +40,12 @@ public class StartScreen {
 	private UIObjectPlacer myPlacer;
 	private List<String> ruleList = Arrays.asList("FireRule", "LifeRule", "SchellingRule", "WatorRule");
 	
-	
+	/**
+	 * Constructor for StartScreen that initializes the stage, the resource bundle, and the playground, calls init to
+	 * create the scene, and shows the scene on the stage
+	 * 
+	 * @param s - the stage on which the start screen will be displayed
+	 */
 	public StartScreen(Stage s){
 		myStage = s;
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
@@ -48,16 +56,36 @@ public class StartScreen {
 		myPlayground = new Playground();
 	}
 	
-	private String getTitle(){
+	/**
+	 * Getter for the title of the simulation
+	 * 
+	 * @return the title of the simulation
+	 */
+	public String getTitle(){
 		return myResources.getString("Title");
 	}
 	
+	/**
+	 * Creates the scene for the start screen, initializes the root and object placer, and adds text and a text 
+	 * field to the scene through setUpTitle and setUpTextField
+	 * 
+	 * @return the scene of the start screen that it just set up
+	 */
 	private Scene init(){
 		myRoot = new Group();
 		myPlacer = new UIObjectPlacer(myRoot, myResources);
 		Scene scene = new Scene(myRoot, SIZE, SIZE, BACKGROUND_COLOR);
-		myPlacer.addText(scene.getWidth()/2, TITLE_Y, TITLE_SIZE, myResources.getString("Title"));
-		myPlacer.addText(scene.getWidth()/2, SUBTITLE_Y, TITLE_SIZE/2, myResources.getString("Subtitle"));
+		setUpTitle(scene);
+		setUpTextField(scene);
+		return scene;
+	}
+	
+	/**
+	 * adds the text field and sets up what to do when the user inputs something into it
+	 * 
+	 * @param scene - the scene that the text field should be added to
+	 */
+	private void setUpTextField(Scene scene) {
 		TextField textField = myPlacer.addTextField(myResources.getString("TextFieldText"), 
 													scene.getWidth()/2 - TEXTFIELD_X_OFFSET, 
 													scene.getHeight()/2 + TEXTFIELD_Y_OFFSET);
@@ -73,6 +101,15 @@ public class StartScreen {
 				
 			}
 		});
-		return scene;
+	}
+
+	/**
+	 * Adds the title and subtitle to the scene
+	 * 
+	 * @param scene - the scene to which the title and subtitle should be added
+	 */
+	private void setUpTitle(Scene scene) {
+		myPlacer.addText(scene.getWidth()/2, TITLE_Y, TITLE_SIZE, myResources.getString("Title"));
+		myPlacer.addText(scene.getWidth()/2, SUBTITLE_Y, TITLE_SIZE/2, myResources.getString("Subtitle"));
 	}
 }

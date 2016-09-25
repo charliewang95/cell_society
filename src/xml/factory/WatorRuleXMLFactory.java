@@ -10,9 +10,8 @@ import layout.rule.WatorRule;
 
 /**
  * Creates FireRule object from an XML file.
- *
- * @author Rhondu Smithwick
- * @author Robert Duvall
+ * 
+ * @author cellsociety_team14
  */
 public class WatorRuleXMLFactory extends RuleXMLFactory {
     private static final String XML_TAG_NAME = "FireRule";
@@ -21,14 +20,14 @@ public class WatorRuleXMLFactory extends RuleXMLFactory {
     private ResourceBundle myResources;
 
     /**
-     * Create factory capable of generating Professor objects.
+     * Factory for WatorRule
      */
     public WatorRuleXMLFactory () {
         super(XML_TAG_NAME, RULE_PROPERTY);
     }
 
     /**
-     * @see PersonXMLFactory#getPerson()
+     * @return WatorRule object
      */
     @Override
     public Rule getRule (Element root) throws XMLFactoryException {
@@ -40,12 +39,21 @@ public class WatorRuleXMLFactory extends RuleXMLFactory {
         Integer width = Integer.parseInt(getTextValue(root, myResources.getString("Width")));
         Integer row = Integer.parseInt(getTextValue(root, myResources.getString("Row")));
         Integer column = Integer.parseInt(getTextValue(root, myResources.getString("Column")));
-
-        return new WatorRule(length, width, row, column);
-
-    //probcatch parameter???, length width row column
         
-   //schelling: percentage of group a and group b
+        double pWater = Double.parseDouble(getTextValue(root, myResources.getString("PercentWater")));
+        double pFish = Double.parseDouble(getTextValue(root, myResources.getString("PercentFish")));
+        Integer fishRepro = Integer.parseInt(getTextValue(root, myResources.getString("FishReproduce")));
+        Integer sharkRepro = Integer.parseInt(getTextValue(root, myResources.getString("SharkReproduce")));
+        Integer sharkDeath = Integer.parseInt(getTextValue(root, myResources.getString("SharkDeath")));
+        
+        WatorRule myWator = new WatorRule(length, width, row, column);
+        myWator.setFishReproduce(fishRepro);
+        myWator.setSharkReproduce(sharkRepro);
+        myWator.setSharkDeath(sharkDeath);
+        myWator.setPercentageWater(pWater);
+        myWator.setPercentageFish(pFish);
+        
+        return myWator;
     
     }
 }

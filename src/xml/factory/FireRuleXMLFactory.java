@@ -11,8 +11,7 @@ import layout.rule.FireRule;
 /**
  * Creates FireRule object from an XML file.
  *
- * @author Rhondu Smithwick
- * @author Robert Duvall
+ * @author cellsociety_team14
  */
 public class FireRuleXMLFactory extends RuleXMLFactory {
     private static final String XML_TAG_NAME = "FireRule";
@@ -21,22 +20,17 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
     private ResourceBundle myResources;
 
     /**
-     * Create factory capable of generating Professor objects.
+     * Factory for FireRule
      */
     public FireRuleXMLFactory () {
         super(XML_TAG_NAME, RULE_PROPERTY);
     }
 
     /**
-     * @see PersonXMLFactory#getPerson()
+     * @return FireRule object
      */
     @Override
     public Rule getRule (Element root) throws XMLFactoryException {
-
-
-//        if (! isValidFile(root)) {
-//            throw new XMLFactoryException("XML file does not represent the %s", getRuleType());
-//        }
 
         myResources = ResourceBundle.getBundle(XML_RESOURCE_PACKAGE + getRuleProperty());
         if (!getTextValue(root, myResources.getString("RuleName")).equals("FireRule")) {
@@ -49,13 +43,9 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
         Integer column = Integer.parseInt(getTextValue(root, myResources.getString("Column")));
         double probCatch = Double.parseDouble(getTextValue(root, myResources.getString("ProbCatch")));
 
-        FireRule useRule = new FireRule(length, width, row, column);
-        useRule.setProbCatch(probCatch);
-        return useRule;
+        FireRule myFire = new FireRule(length, width, row, column);
+        myFire.setProbCatch(probCatch);
+        return myFire;
 
-    //probcatch parameter???, length width row column
-        
-   //schelling: percentage of group a and group b
-    
     }
 }

@@ -9,10 +9,9 @@ import layout.rule.LifeRule;
 
 
 /**
- * Creates FireRule object from an XML file.
- *
- * @author Rhondu Smithwick
- * @author Robert Duvall
+ * Creates LifeRule object from an XML file.
+ * 
+ * @author cellsociety_team14
  */
 public class LifeRuleXMLFactory extends RuleXMLFactory {
     private static final String XML_TAG_NAME = "LifeRule";
@@ -21,14 +20,14 @@ public class LifeRuleXMLFactory extends RuleXMLFactory {
     private ResourceBundle myResources;
 
     /**
-     * Create factory capable of generating Professor objects.
+     * Factory for LifeRule
      */
     public LifeRuleXMLFactory () {
         super(XML_TAG_NAME, RULE_PROPERTY);
     }
 
     /**
-     * @see PersonXMLFactory#getPerson()
+     * @return LifeRule object
      */
     @Override
     public Rule getRule (Element root) throws XMLFactoryException {
@@ -44,14 +43,8 @@ public class LifeRuleXMLFactory extends RuleXMLFactory {
         
         LifeRule myLife = new LifeRule(length, width, row, column);
         myLife.setModel(typeLife);
-
-        //10cell, Exploder, Gosper
         
         return myLife;
-
-    //probcatch parameter???, length width row column
-        
-   //schelling: percentage of group a and group b
     
     }
 }

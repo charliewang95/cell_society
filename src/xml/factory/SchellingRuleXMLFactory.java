@@ -9,10 +9,9 @@ import layout.rule.SchellingRule;
 
 
 /**
- * Creates FireRule object from an XML file.
+ * Creates SchellingRule object from an XML file.
  *
- * @author Rhondu Smithwick
- * @author Robert Duvall
+ * @author cellsociety_team14
  */
 public class SchellingRuleXMLFactory extends RuleXMLFactory {
     private static final String XML_TAG_NAME = "SchellingRule";
@@ -21,14 +20,14 @@ public class SchellingRuleXMLFactory extends RuleXMLFactory {
     private ResourceBundle myResources;
 
     /**
-     * Create factory capable of generating Professor objects.
+     * Factory for SchellingRule
      */
     public SchellingRuleXMLFactory () {
         super(XML_TAG_NAME, RULE_PROPERTY);
     }
 
     /**
-     * @see PersonXMLFactory#getPerson()
+     * @return SchellingRule object
      */
     @Override
     public Rule getRule (Element root) throws XMLFactoryException {
@@ -50,10 +49,6 @@ public class SchellingRuleXMLFactory extends RuleXMLFactory {
         mySchelling.setPercentageEmpty(percentageEmpty);
         
         return mySchelling;
-
-    //probcatch parameter???, length width row column
-        
-   //schelling: percentage of group a and group b
     
     }
 }

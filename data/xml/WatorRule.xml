@@ -8,11 +8,11 @@
     <xSize>100</xSize>
     <ySize>100</ySize>
     
-    <waterPercent>.90</waterPercent>
-    <fishPercent>.98</fishPercent>
-    <fishReproduce>1</fishReproduce>
-    <sharkReproduce>20</sharkReproduce>
-    <sharkDeath>5</sharkDeath>
+    <waterPercent>.98</waterPercent>
+    <fishPercent>.95</fishPercent>
+    <fishReproduce>8</fishReproduce>
+    <sharkReproduce>12</sharkReproduce>
+    <sharkDeath>10</sharkDeath>
     
 
 </Rule>

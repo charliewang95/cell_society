@@ -31,6 +31,14 @@ public abstract class Rule {
 		cellWidth = myWidth / myColumn;
 	}
 	
+	public int getLength(){
+		return myLength;
+	}
+	
+	public int getWidth(){
+		return myWidth;
+	}
+	
 
 	/**
 	 * Initialize the cell grid

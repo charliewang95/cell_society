@@ -82,7 +82,7 @@ public class Playground {
 		myPlacer = new UIObjectPlacer(myRoot, myResources);
 		myRule.initGrid();
 		drawGrid();
-		myScene = new Scene(myRoot, myRule.myWidth + BUTTON_SPACE, myRule.myLength);
+		myScene = new Scene(myRoot, myRule.getWidth() + BUTTON_SPACE, myRule.getLength());
 		setUpButtons();
 		mySlider = myPlacer.addSlider(myScene.getWidth() - X_OFFSET, SLIDER_Y, MIN_SLIDER, MAX_SLIDER, mySliderValue, 
 									  myResources.getString("Slider"));
@@ -136,6 +136,7 @@ public class Playground {
 				if (myRuleList.contains(inText)) {
 					setFileName(inText);
 					myAnimation.stop();
+					mySliderValue = mySlider.getValue();
 					init(myStage);
 				} else {
 					myPlacer.showError(myResources.getString("CouldNotLoadError") + inText);
@@ -149,7 +150,6 @@ public class Playground {
 		myAnimation = new Timeline();
 		myAnimation.setCycleCount(Timeline.INDEFINITE);
 		myAnimation.getKeyFrames().add(frame);
-		myAnimation.play();
 	}
 
 	public String getFileName() {

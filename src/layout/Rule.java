@@ -8,6 +8,7 @@ public abstract class Rule {
 	protected int myColumn;
 	protected int cellLength;
 	protected int cellWidth;
+	protected String ruleName;
 	private boolean ended;
 
 	/**
@@ -39,6 +40,13 @@ public abstract class Rule {
 		return myWidth;
 	}
 	
+	public void setName(String name) {
+		ruleName = name;
+	}
+	
+	public String getName() {
+		return ruleName;
+	}
 
 	/**
 	 * Initialize the cell grid

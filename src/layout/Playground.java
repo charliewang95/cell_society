@@ -88,6 +88,7 @@ public class Playground {
 									  myResources.getString("Slider"));
 		setUpTextField();
 		s.setScene(myScene);
+		s.setTitle(myRule.getName());
 		s.show();
 		runSimulation();
 	}

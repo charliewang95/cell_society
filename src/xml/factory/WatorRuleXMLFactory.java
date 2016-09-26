@@ -45,6 +45,7 @@ public class WatorRuleXMLFactory extends RuleXMLFactory {
         Integer fishRepro = Integer.parseInt(getTextValue(root, myResources.getString("FishReproduce")));
         Integer sharkRepro = Integer.parseInt(getTextValue(root, myResources.getString("SharkReproduce")));
         Integer sharkDeath = Integer.parseInt(getTextValue(root, myResources.getString("SharkDeath")));
+        String name = getTextValue(root, myResources.getString("Title"));
         
         WatorRule myWator = new WatorRule(length, width, row, column);
         myWator.setFishReproduce(fishRepro);
@@ -52,6 +53,7 @@ public class WatorRuleXMLFactory extends RuleXMLFactory {
         myWator.setSharkDeath(sharkDeath);
         myWator.setPercentageWater(pWater);
         myWator.setPercentageFish(pFish);
+        myWator.setName(name);
         
         return myWator;
     

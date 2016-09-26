@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Rule id = "SchellingRule">
     <nameRule>SchellingRule</nameRule>
-    <title>Schell</title>
+    <title>Segregation</title>
     <author>Charlie</author>
     <length>800</length>
     <width>800</width>

@@ -42,10 +42,14 @@ public class SchellingRuleXMLFactory extends RuleXMLFactory {
         double percentageA = Double.parseDouble(getTextValue(root, myResources.getString("PercentageA")));
         double percentageEmpty = Double.parseDouble(getTextValue(root, myResources.getString("PercentageEmpty")));
         double satisfy = Double.parseDouble(getTextValue(root, myResources.getString("Satisfy")));
+        String name = getTextValue(root, myResources.getString("Title"));
+        
         SchellingRule mySchelling = new SchellingRule(length, width, row, column);
         mySchelling.setSatisfied(satisfy);
         mySchelling.setPercentageA(percentageA);
         mySchelling.setPercentageEmpty(percentageEmpty);
+        mySchelling.setName(name);
+        
         
         return mySchelling;
     

@@ -86,6 +86,9 @@ public abstract class Rule {
 		}
 	}
 	
+	/**
+	 * generate the neighbor on the top
+	 */
 	public void initNeighborUp(int i, int j) {
 		if (i != 0) {
 			myGrid[i][j].addNeighbor(myGrid[i - 1][j]);

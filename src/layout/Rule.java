@@ -1,7 +1,10 @@
 package layout;
 
+import layout.cell.RectangleCell;
+
 public abstract class Rule {
 	protected Cell[][] myGrid;
+	protected int[][] myUpdatedGrid;
 	protected int myLength;
 	protected int myWidth;
 	protected int myRow;
@@ -9,7 +12,6 @@ public abstract class Rule {
 	protected int cellLength;
 	protected int cellWidth;
 	protected String ruleName;
-	private boolean ended;
 
 	/**
 	 * Construct the rule
@@ -30,6 +32,28 @@ public abstract class Rule {
 		myColumn = column;
 		cellLength = myLength / myRow;
 		cellWidth = myWidth / myColumn;
+	}
+	
+	protected void initRec() {
+		myGrid = new RectangleCell[myRow][myColumn];
+		myUpdatedGrid = new int[myRow][myColumn];
+		for (int i = 0; i < myRow; i++) {
+			for (int j = 0; j < myColumn; j++) {
+				double x1 = cellWidth * j;
+				double y1 = cellLength * i;
+				double x2 = cellWidth * (j+1);
+				double y2 = cellLength * i;
+				double x3 = cellWidth * (j+1);
+				double y3 = cellLength * (i+1);
+				double x4 = cellWidth * j;
+				double y4 = cellLength * (i+1);
+				myGrid[i][j] = new RectangleCell(new double[]{x1, x2, x3, x4}, new double[]{y1, y2, y3, y4}, cellWidth, cellLength, i, j);
+			}
+		}
+	}
+	
+	protected void initTriangle() {
+		
 	}
 	
 	public int getLength(){
@@ -160,14 +184,6 @@ public abstract class Rule {
 	 */
 	public abstract void changeState();
 
-	/**
-	 * Check if the cell grid has reached the end state -- no further movement
-	 * 
-	 * @return whether end state has reached
-	 */
-	public boolean endState() {
-		return ended;
-	}
 	
 	/**
 	 * @return 

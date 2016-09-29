@@ -7,7 +7,7 @@ public class Animal extends Cell {
 	protected int myReproduce;
 	protected int myHealth;
 
-	public Animal(int x, int y, int width, int length, int row, int col) {
+	public Animal(double[] x, double[] y, double width, double length, int row, int col) {
 		super(x, y, width, length, row, col);
 	}
 

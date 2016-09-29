@@ -59,10 +59,17 @@ public class WatorRule extends Rule {
 				myUpdatedGrid[i][j] = new TempGrid();
 			}
 		}
+		initRec();
 		initState();
 		initNeighbor4();
 	}
 
+	@Override
+	public void initRec() {
+		super.initRec();
+		
+	}
+	
 	@Override
 	public void initState() {
 		ArrayList<Integer> list = makeRandomList(myRow * myColumn);

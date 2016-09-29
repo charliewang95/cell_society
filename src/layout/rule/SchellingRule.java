@@ -20,7 +20,6 @@ public class SchellingRule extends Rule {
 	private static final Color AAACOLOR = Color.RED;
 	private static final Color BBBCOLOR = Color.BLUE;
 	private Color[] myColors;
-	private int[][] myUpdatedGrid;
 	private int myNumA;
 	private int myNumB;
 	private int myNumE;
@@ -47,15 +46,7 @@ public class SchellingRule extends Rule {
 		myEs = new int[myNumE];
 		myEsTMP = new int[myNumE];
 		
-		myGrid = new Cell[myRow][myColumn];
-		myUpdatedGrid = new int[myRow][myColumn];
-		for (int i = 0; i < myRow; i++) {
-			for (int j = 0; j < myColumn; j++) {
-				int x = cellWidth * j;
-				int y = cellLength * i;
-				myGrid[i][j] = new Cell(x, y, cellWidth, cellLength, i, j);
-			}
-		}
+		initRec();
 		initState();
 		initNeighbor8();
 	}

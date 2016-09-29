@@ -19,7 +19,7 @@ public class UIObjectPlacer {
 	private static final Paint FONT_COLOR = Color.BLACK;
 	private static final int TEXT_OFFSET = 50;
 	private static final int SLIDER_FONT_SIZE = 15;
-	private static final int Y_OFFSET = 30;
+	private static final int Y_OFFSET = 15;
 	
 	private Group myRoot;
 	private ResourceBundle myResources;

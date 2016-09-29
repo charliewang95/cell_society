@@ -49,7 +49,7 @@ public class Playground {
 	private static final int STEP_Y = 2*Y_OFFSET;
 	private static final int RESET_Y = 3*Y_OFFSET;
 	private static final int SLIDER_Y = 4*Y_OFFSET;
-	private static final int TEXTFIELD_Y = 6*Y_OFFSET;
+	private static final int TEXTFIELD_Y = 5*Y_OFFSET;
 	private static final int X_OFFSET = BUTTON_SPACE - 10;
 	private static final double MAX_SLIDER = 10;
 	private static final double MIN_SLIDER = 0.1;
@@ -129,7 +129,7 @@ public class Playground {
 		myPlacer.addText(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y, FONT_SIZE, 
 						 myResources.getString("SameWindow"), false);
 		TextField sameWindow = myPlacer.addTextField(myResources.getString("TextFieldText"),
-													 myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + Y_OFFSET);
+													 myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 0.5*Y_OFFSET);
 		sameWindow.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				String inText = sameWindow.getCharacters().toString();
@@ -143,10 +143,10 @@ public class Playground {
 				}
 			}
 		});
-		myPlacer.addText(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 2*Y_OFFSET, FONT_SIZE, 
+		myPlacer.addText(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 1.5*Y_OFFSET, FONT_SIZE, 
 						 myResources.getString("NewWindow"), false);
 		TextField newWindow = myPlacer.addTextField(myResources.getString("TextFieldText"), 
-													myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 3*Y_OFFSET);
+													myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 2*Y_OFFSET);
 		newWindow.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				String inText = newWindow.getCharacters().toString();
@@ -154,6 +154,9 @@ public class Playground {
 					Playground playground = new Playground();
 					playground.setFileName(inText);
 					playground.init(new Stage());
+				}
+				else {
+					myPlacer.showError(myResources.getString("CouldNotLoadError") + inText);
 				}
 			}
 		});

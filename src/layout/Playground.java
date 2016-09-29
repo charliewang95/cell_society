@@ -85,6 +85,7 @@ public class Playground {
 									  mySliderValue, myResources.getString("SpeedSlider"));
 		setUpTextField();
 		myStage.setScene(myScene);
+		myStage.setTitle(myRule.getName());
 		myStage.show();
 		runSimulation();
 	}

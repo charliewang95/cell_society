@@ -28,8 +28,8 @@ public class SchellingRule extends Rule {
 	private int[] myEs;
 	private int[] myEsTMP;
 
-	public SchellingRule(int length, int width, int row, int column) {
-		super(length, width, row, column);
+	public SchellingRule(int cellLength, int row, int column) {
+		super(cellLength, row, column);
 		myColors = new Color[] { EMPTYCOLOR, AAACOLOR, BBBCOLOR };
 		myPercentageA = 0.1;
 		myPercentageEmpty = 0.1;
@@ -46,18 +46,20 @@ public class SchellingRule extends Rule {
 		myEs = new int[myNumE];
 		myEsTMP = new int[myNumE];
 		
-		initRec();
+		initTriangle();
 		initState();
-		initNeighbor8();
+		initNeighbor3();
 	}
 
 	@Override
 	public void initState() {
 		ArrayList<Integer> list = makeRandomList(myRow * myColumn);
+		
 		for (int k = 0; k < myRow * myColumn; k++) {
 			int index = list.get(k);
-			int i = index / myRow;
-			int j = index - i * myRow;
+			int i = index / myColumn;
+			int j = index - i * myColumn;
+			
 			if (k < myNumA) {
 				myGrid[i][j].init(AAA, myColors[AAA], NUMNEIGHBOR);
 				myUpdatedGrid[i][j] = AAA;
@@ -88,7 +90,11 @@ public class SchellingRule extends Rule {
 	public void changeState() {
 		if (myEs.length < 1)
 			return;
-
+//		System.out.println(myAs.length);
+//		System.out.println(myBs.length);
+//		System.out.println(myEs.length);
+//		System.out.println();
+		
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				double same = 0;
@@ -110,9 +116,10 @@ public class SchellingRule extends Rule {
 						Random random = new Random();
 						int r = random.nextInt(myEs.length);
 						int chosen = myEs[r];
+						
+						int a = chosen / myColumn;
+						int b = chosen - a * myColumn;
 
-						int a = chosen / myRow;
-						int b = chosen - a * myRow;
 						myUpdatedGrid[a][b] = myGrid[i][j].getState();
 						myEs[r] = i * myRow + j;
 					}

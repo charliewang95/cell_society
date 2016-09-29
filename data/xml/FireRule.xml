@@ -3,10 +3,10 @@
     <nameRule>FireRule</nameRule>
     <title>Catching Fire</title>
     <author>Charlie</author>
-    <length>400</length>
-    <width>400</width>
-    <xSize>20</xSize>
-    <ySize>20</ySize>
-    <probcatch>.6</probcatch>
+    <length>800</length>
+    <width>8</width>
+    <xSize>50</xSize>
+    <ySize>80</ySize>
+    <probcatch>.7</probcatch>
 
 </Rule>

@@ -15,12 +15,11 @@ public class Cell {
 	protected int myCol;
 	protected int myX;
 	protected int myY;
-	protected double myWidth;
-	protected double myLength;
+
 	protected ArrayList<Cell> myNeighbors;
 	protected int myNumNeighbors;
 	
-	public Cell (double[] x, double[] y, double width, double length, int row, int col) {
+	public Cell (double[] x, double[] y, int row, int col) {
 		myShape = new Polygon();
 		for (int i = 0; i < x.length; i++) {
 			myShape.getPoints().addAll(x[i], y[i]);
@@ -29,8 +28,7 @@ public class Cell {
 		myCol = col;
 		myState = 0;
 		myColor = null;
-		myWidth = width;
-		myLength = length;
+
 	}
 	
 	/**
@@ -111,12 +109,5 @@ public class Cell {
 	public int getCol() {
 		return myCol;
 	}
-	
-	public double getWidth() {
-		return myWidth;
-	}
-	
-	public double getLength() {
-		return myLength;
-	}
+
 }

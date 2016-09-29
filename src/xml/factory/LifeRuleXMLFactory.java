@@ -35,13 +35,13 @@ public class LifeRuleXMLFactory extends RuleXMLFactory {
 			throw new XMLFactoryException("XML file does not represent the %s", getRuleType());
 		}
 		Integer length = Integer.parseInt(getTextValue(root, myResources.getString("Length")));
-		Integer width = Integer.parseInt(getTextValue(root, myResources.getString("Width")));
+		Integer cellLength = Integer.parseInt(getTextValue(root, myResources.getString("Width")));
 		Integer row = Integer.parseInt(getTextValue(root, myResources.getString("Row")));
 		Integer column = Integer.parseInt(getTextValue(root, myResources.getString("Column")));
 		String typeLife = getTextValue(root, myResources.getString("LifeType"));
 		String name = getTextValue(root, myResources.getString("Title"));
 
-		LifeRule myLife = new LifeRule(length, width, row, column);
+		LifeRule myLife = new LifeRule(cellLength, row, column);
 		myLife.setModel(typeLife);
 		myLife.setName(name);
 

@@ -13,17 +13,16 @@ public class LifeRule extends Rule {
 	private String myModel;
 	private Color[] myColors;
 
-	public LifeRule(int length, int width, int row, int column) {
-		super(length, width, row, column);
+	public LifeRule(int cellLength, int row, int column) {
+		super(cellLength, row, column);
 		myColors = new Color[] { EMPTYCOLOR, LIVECOLOR };
 		myModel = "Gosper";
 	}
 
 	public void initGrid() {
-
 		initRec();
 		initState();
-		initNeighbor8();
+		initNeighbor4();
 	}
 
 	@Override

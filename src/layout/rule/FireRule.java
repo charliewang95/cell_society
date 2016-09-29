@@ -4,7 +4,6 @@ import java.util.Random;
 import javafx.scene.paint.Color;
 import layout.Cell;
 import layout.Rule;
-import layout.cell.RectangleCell;
 
 public class FireRule extends Rule {
 	private static final int EMPTY = 0;
@@ -17,21 +16,17 @@ public class FireRule extends Rule {
 	private static final Color BURNCOLOR = Color.RED;
 	private Color[] myColors;
 
-	public FireRule(int length, int width, int row, int column) {
-		super(length, width, row, column);
+	public FireRule(double cellLength, int row, int column) {
+		super(cellLength, row, column);
 		myColors = new Color[] { EMPTYCOLOR, TREECOLOR, BURNCOLOR };
 		myProbCatch = 0.5;
 	}
 
-	public int getColumn() {
-		return myColumn;
-	}
-
 	@Override
 	public void initGrid() {
-		initRec();
+		initTriangle();
 		initState();
-		initNeighbor4();
+		initNeighbor3();
 	}
 
 	@Override

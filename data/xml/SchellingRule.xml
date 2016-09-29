@@ -4,11 +4,11 @@
     <title>Segregation</title>
     <author>Charlie</author>
     <length>400</length>
-    <width>400</width>
-    <xSize>50</xSize>
-    <ySize>50</ySize>
+    <width>10</width>
+    <xSize>3</xSize>
+    <ySize>5</ySize>
     <rateA>0.5</rateA>
     <rateEmpty>0.3</rateEmpty>
-    <satisfied>0.7</satisfied>
+    <satisfied>0.6</satisfied>
 
 </Rule>

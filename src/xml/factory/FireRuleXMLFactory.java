@@ -37,13 +37,13 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
 		}
 
 		Integer length = Integer.parseInt(getTextValue(root, myResources.getString("Length")));
-		Integer width = Integer.parseInt(getTextValue(root, myResources.getString("Width")));
+		Integer cellLength = Integer.parseInt(getTextValue(root, myResources.getString("Width")));
 		Integer row = Integer.parseInt(getTextValue(root, myResources.getString("Row")));
 		Integer column = Integer.parseInt(getTextValue(root, myResources.getString("Column")));
 		double probCatch = Double.parseDouble(getTextValue(root, myResources.getString("ProbCatch")));
 		String title = getTextValue(root, myResources.getString("Title"));
 
-		FireRule myFire = new FireRule(length, width, row, column);
+		FireRule myFire = new FireRule(cellLength, row, column);
 		myFire.setProbCatch(probCatch);
 		myFire.setName(title);
 		return myFire;

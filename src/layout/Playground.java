@@ -199,9 +199,6 @@ public class Playground {
 	}
 
 	public void step(double elapsedTime) {
-		/*
-		 * for each step of the way: for each square, update it
-		 */
 		myAnimation.setRate(mySlider.getValue());
 		myRule.changeState();
 	}

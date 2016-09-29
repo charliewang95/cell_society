@@ -27,8 +27,8 @@ public class WatorRule extends Rule {
 	private Color[] myColors;
 	private TempGrid[][] myUpdatedGrid;
 
-	public WatorRule(int length, int width, int sizeX, int sizeY) {
-		super(length, width, sizeX, sizeY);
+	public WatorRule(int cellLength, int sizeX, int sizeY) {
+		super(cellLength, sizeX, sizeY);
 		myColors = new Color[] { WATERCOLOR, FISHCOLOR, SHARKCOLOR };
 	}
 
@@ -59,10 +59,17 @@ public class WatorRule extends Rule {
 				myUpdatedGrid[i][j] = new TempGrid();
 			}
 		}
+		initRec();
 		initState();
 		initNeighbor4();
 	}
 
+	@Override
+	public void initRec() {
+		super.initRec();
+		
+	}
+	
 	@Override
 	public void initState() {
 		ArrayList<Integer> list = makeRandomList(myRow * myColumn);

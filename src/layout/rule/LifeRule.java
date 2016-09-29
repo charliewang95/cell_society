@@ -12,26 +12,17 @@ public class LifeRule extends Rule {
 	private static final Color LIVECOLOR = Color.BLACK;
 	private String myModel;
 	private Color[] myColors;
-	private int[][] myUpdatedGrid;
 
-	public LifeRule(int length, int width, int row, int column) {
-		super(length, width, row, column);
+	public LifeRule(int cellLength, int row, int column) {
+		super(cellLength, row, column);
 		myColors = new Color[] { EMPTYCOLOR, LIVECOLOR };
 		myModel = "Gosper";
 	}
 
 	public void initGrid() {
-		myGrid = new Cell[myRow][myColumn];
-		myUpdatedGrid = new int[myRow][myColumn];
-		for (int i = 0; i < myRow; i++) {
-			for (int j = 0; j < myColumn; j++) {
-				int x = cellWidth * j;
-				int y = cellLength * i;
-				myGrid[i][j] = new Cell(x, y, cellWidth, cellLength, i, j);
-			}
-		}
+		initRec();
 		initState();
-		initNeighbor8();
+		initNeighbor4();
 	}
 
 	@Override

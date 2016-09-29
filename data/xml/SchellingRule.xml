@@ -3,12 +3,12 @@
     <nameRule>SchellingRule</nameRule>
     <title>Segregation</title>
     <author>Charlie</author>
-    <length>800</length>
-    <width>800</width>
-    <xSize>100</xSize>
-    <ySize>100</ySize>
+    <length>400</length>
+    <width>10</width>
+    <xSize>3</xSize>
+    <ySize>5</ySize>
     <rateA>0.5</rateA>
     <rateEmpty>0.3</rateEmpty>
-    <satisfied>0.7</satisfied>
+    <satisfied>0.6</satisfied>
 
 </Rule>

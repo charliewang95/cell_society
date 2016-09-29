@@ -3,44 +3,32 @@ package layout;
 import java.util.ArrayList;
 
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 public class Cell {
-	private Rectangle myRec;
-	private int myState;
-	private Color myColor;
-	private int myRow;
-	private int myCol;
-	private int myX;
-	private int myY;
-	private int myWidth;
-	private int myLength;
-	private ArrayList<Cell> myNeighbors;
-	private int myNumNeighbors;
+	protected Polygon myShape;
+	protected int myState;
+	protected Color myColor;
+	protected int myRow;
+	protected int myCol;
+	protected int myX;
+	protected int myY;
+
+	protected ArrayList<Cell> myNeighbors;
+	protected int myNumNeighbors;
 	
-	/**
-	 *    width
-	 * ___________   
-	 * |		 |
-	 * |		 |---> length
-	 * |		 |
-	 * |		 |
-	 * ___________
-	 * @param x x-coordinate
-	 * @param y y-coordinate
-	 * @param width (along x-axis)
-	 * @param length (along y-axis)
-	 */
-	public Cell (int x, int y, int width, int length, int row, int col) {
-		myRec = new Rectangle (x, y, width, length);
+	public Cell (double[] x, double[] y, int row, int col) {
+		myShape = new Polygon();
+		for (int i = 0; i < x.length; i++) {
+			myShape.getPoints().addAll(x[i], y[i]);
+		}
 		myRow = row;
 		myCol = col;
 		myState = 0;
 		myColor = null;
-		myX = x;
-		myY = y;
-		myWidth = width;
-		myLength = length;
+
 	}
 	
 	/**
@@ -50,13 +38,13 @@ public class Cell {
 	 */
 	public void init(int state, Color c, int num) {
 		myState = state;
-		myRec.setFill(c);
+		myShape.setFill(c);
 		myNeighbors = new ArrayList<Cell>();
 		myNumNeighbors = num;
 	}
 	
 	/**
-	 * Add all the neighbors of this cell according to the rule
+	 * Add a neighbor of this cell according to the rule
 	 * @param cell the neighbor cell
 	 */
 	public void addNeighbor(Cell cell) {
@@ -84,7 +72,7 @@ public class Cell {
 	 */
 	public void setColor(Color newcolor) {
 		myColor = newcolor;
-		myRec.setFill(newcolor);
+		myShape.setFill(newcolor);
 	}	
 	
 	/**
@@ -104,8 +92,8 @@ public class Cell {
 	/**
 	 * @return the rectangle object
 	 */
-	public Rectangle getRec() {
-		return myRec;
+	public Shape getRec() {
+		return myShape;
 	}
 	
 	/**
@@ -121,20 +109,5 @@ public class Cell {
 	public int getCol() {
 		return myCol;
 	}
-	
-	public int getX() {
-		return myX;
-	}
-	
-	public int getY() {
-		return myY;
-	}
-	
-	public int getWidth() {
-		return myWidth;
-	}
-	
-	public int getLength() {
-		return myLength;
-	}
+
 }

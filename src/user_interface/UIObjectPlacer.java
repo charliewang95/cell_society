@@ -33,7 +33,7 @@ public class UIObjectPlacer {
 		Text text = new Text(message);
 		text.setFont(new Font(myResources.getString("Font"), fontSize));
 		if (centered)
-			text.relocate(x - (text.getBoundsInLocal().getWidth()/2), y + text.getBoundsInLocal().getHeight());
+			text.relocate(x - (text.getBoundsInLocal().getWidth()/2), y);
 		else
 			text.relocate(x, y);
 		text.setFill(FONT_COLOR);

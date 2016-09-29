@@ -56,6 +56,7 @@ public class Playground {
 	private static final double INITIAL_VALUE = 1;
 	private static final int MILLISECOND_DELAY = 10000 / FRAMES_PER_SECOND;
 	private static final double SECOND_DELAY = 10.0 / FRAMES_PER_SECOND;
+	private static final int FONT_SIZE = 15;
 	
 	private Map<String, RuleXMLFactory> myRuleMap = new HashMap<String, RuleXMLFactory>();
 	private Group myRoot;
@@ -83,7 +84,7 @@ public class Playground {
 		setUpButtons();
 		mySlider = myPlacer.addSlider(myScene.getWidth() - X_OFFSET, SLIDER_Y, MIN_SLIDER, MAX_SLIDER, 
 									  mySliderValue, myResources.getString("SpeedSlider"));
-		setUpTextField();
+		setUpTextFields();
 		myStage.setScene(myScene);
 		myStage.setTitle(myRule.getName());
 		myStage.show();
@@ -124,13 +125,14 @@ public class Playground {
 		});
 	}
 
-	private void setUpTextField() {
-		TextField textField = myPlacer.addTextField(myResources.getString("TextFieldText"),
-													myScene.getWidth() - X_OFFSET, 
-								   					TEXTFIELD_Y);
-		textField.setOnAction(new EventHandler<ActionEvent>(){
+	private void setUpTextFields() {
+		myPlacer.addText(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y, FONT_SIZE, 
+						 myResources.getString("SameWindow"), false);
+		TextField sameWindow = myPlacer.addTextField(myResources.getString("TextFieldText"),
+													 myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + Y_OFFSET);
+		sameWindow.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
-				String inText = textField.getCharacters().toString();
+				String inText = sameWindow.getCharacters().toString();
 				if (myRuleList.contains(inText)) {
 					setFileName(inText);
 					myAnimation.stop();
@@ -138,6 +140,20 @@ public class Playground {
 					init(myStage);
 				} else {
 					myPlacer.showError(myResources.getString("CouldNotLoadError") + inText);
+				}
+			}
+		});
+		myPlacer.addText(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 2*Y_OFFSET, FONT_SIZE, 
+						 myResources.getString("NewWindow"), false);
+		TextField newWindow = myPlacer.addTextField(myResources.getString("TextFieldText"), 
+													myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 3*Y_OFFSET);
+		newWindow.setOnAction(new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				String inText = newWindow.getCharacters().toString();
+				if (myRuleList.contains(inText)){
+					Playground playground = new Playground();
+					playground.setFileName(inText);
+					playground.init(new Stage());
 				}
 			}
 		});

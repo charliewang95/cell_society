@@ -39,8 +39,7 @@ import xml.factory.XMLFactoryException;
  *
  */
 public class Playground {
-
-	public static final int FRAMES_PER_SECOND = 60;
+	private static final int FRAMES_PER_SECOND = 60;
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private static final String XML_FILES_LOCATION = "data/xml/";
 	private static final String XML_SUFFIX = ".xml";
@@ -55,12 +54,10 @@ public class Playground {
 	private static final double MAX_SLIDER = 10;
 	private static final double MIN_SLIDER = 0.1;
 	private static final double INITIAL_VALUE = 1;
-
-
 	private static final int MILLISECOND_DELAY = 10000 / FRAMES_PER_SECOND;
 	private static final double SECOND_DELAY = 10.0 / FRAMES_PER_SECOND;
-	private Map<String, RuleXMLFactory> ruleMap = new HashMap<String, RuleXMLFactory>();
-
+	
+	private Map<String, RuleXMLFactory> myRuleMap = new HashMap<String, RuleXMLFactory>();
 	private Group myRoot;
 	private Rule myRule;
 	private Timeline myAnimation;
@@ -84,19 +81,19 @@ public class Playground {
 		drawGrid();
 		myScene = new Scene(myRoot, myRule.getWidth() + BUTTON_SPACE, myRule.getLength());
 		setUpButtons();
-		mySlider = myPlacer.addSlider(myScene.getWidth() - X_OFFSET, SLIDER_Y, MIN_SLIDER, MAX_SLIDER, mySliderValue, 
-									  myResources.getString("Slider"));
+		mySlider = myPlacer.addSlider(myScene.getWidth() - X_OFFSET, SLIDER_Y, MIN_SLIDER, MAX_SLIDER, 
+									  mySliderValue, myResources.getString("SpeedSlider"));
 		setUpTextField();
-		s.setScene(myScene);
-		s.show();
+		myStage.setScene(myScene);
+		myStage.show();
 		runSimulation();
 	}
 
 	private void setUpRuleMap() {
-		ruleMap.put("FireRule", new FireRuleXMLFactory());
-		ruleMap.put("LifeRule", new LifeRuleXMLFactory());
-		ruleMap.put("WatorRule", new WatorRuleXMLFactory());
-		ruleMap.put("SchellingRule", new SchellingRuleXMLFactory());
+		myRuleMap.put("FireRule", new FireRuleXMLFactory());
+		myRuleMap.put("LifeRule", new LifeRuleXMLFactory());
+		myRuleMap.put("WatorRule", new WatorRuleXMLFactory());
+		myRuleMap.put("SchellingRule", new SchellingRuleXMLFactory());
 	}
 
 	private void setUpButtons() {
@@ -162,7 +159,7 @@ public class Playground {
 
 	private void getParsedObject(String fileName) {
 		XMLParser parser = new XMLParser();
-		RuleXMLFactory factory = ruleMap.get(fileName);
+		RuleXMLFactory factory = myRuleMap.get(fileName);
 		File f = new File(XML_FILES_LOCATION + myFileName + ".xml");
 		Rule ruleInXML;
 		if (f.isFile() && f.getName().endsWith(XML_SUFFIX)) {

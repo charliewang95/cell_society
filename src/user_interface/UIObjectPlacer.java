@@ -17,8 +17,8 @@ import javafx.scene.text.Text;
 
 public class UIObjectPlacer {
 	private static final Paint FONT_COLOR = Color.BLACK;
-	private static final int TEXT_OFFSET = 50;
-	private static final int SLIDER_FONT_SIZE = 15;
+	private static final int TEXT_OFFSET = 75;
+	private static final int SLIDER_FONT_SIZE = 10;
 	private static final int Y_OFFSET = 15;
 	
 	private Group myRoot;
@@ -59,8 +59,9 @@ public class UIObjectPlacer {
 	public Slider addSlider(double x, double y, double min, double max, double value, String message){
 		Slider slider = new Slider(min, max, value);
 		slider.relocate(x, y);
+		slider.setShowTickLabels(true);
 		myRoot.getChildren().add(slider);
-		addText(x + TEXT_OFFSET, y + Y_OFFSET, SLIDER_FONT_SIZE, message, false);
+		addText(x + TEXT_OFFSET, y + Y_OFFSET, SLIDER_FONT_SIZE, message, true);
 		return slider;
 	}
 	

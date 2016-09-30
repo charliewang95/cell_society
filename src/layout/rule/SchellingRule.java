@@ -15,7 +15,7 @@ public class SchellingRule extends Rule {
 	private static final int NUMNEIGHBOR = 6;
 	private double myPercentageA; // parameter
 	private double myPercentageEmpty; // parameter
-	private double mySatisfied; // parameter
+	private Parameter mySatisfied; // parameter
 	private static final Color EMPTYCOLOR = Color.WHITE;
 	private static final Color AAACOLOR = Color.RED;
 	private static final Color BBBCOLOR = Color.BLUE;
@@ -33,7 +33,8 @@ public class SchellingRule extends Rule {
 		myColors = new Color[] { EMPTYCOLOR, AAACOLOR, BBBCOLOR };
 		myPercentageA = 0.1;
 		myPercentageEmpty = 0.1;
-		mySatisfied = 0.7;
+		mySatisfied = new Parameter(0.7, "Satisfied Percentage", 0, 1);
+		parameters.add(mySatisfied);
 	}
 
 	@Override
@@ -111,7 +112,7 @@ public class SchellingRule extends Rule {
 
 					double percent = total == 0 ? 0 : same / total;
 
-					if (percent < mySatisfied) {
+					if (percent < mySatisfied.getValue()) {
 						myUpdatedGrid[i][j] = EMPTY;
 						Random random = new Random();
 						int r = random.nextInt(myEs.length);
@@ -136,7 +137,7 @@ public class SchellingRule extends Rule {
 	}
 
 	public void setSatisfied(double satisfied) {
-		mySatisfied = satisfied;
+		mySatisfied.setValue(satisfied);
 	}
 	
 	public void setPercentageA(double percentageA) {

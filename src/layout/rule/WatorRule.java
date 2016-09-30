@@ -18,9 +18,9 @@ public class WatorRule extends Rule {
 	private static final Color FISHCOLOR = Color.GREEN;
 	private static final Color SHARKCOLOR = Color.ORANGE;
 	
-	private int myFishReproduceRate = 8;
-	private int mySharkReproduceRate = 12;
-	private int mySharkDeathRate = 10;
+	private Parameter myFishReproduceRate = new Parameter(8, "Fish Reproduction Rate", 1, 20);
+	private Parameter mySharkReproduceRate = new Parameter(12, "Shark Reproduction Rate", 1, 20);
+	private Parameter mySharkDeathRate = new Parameter(10, "Shark Death Rate", 1, 20);
 	private double myPercentageWater = 0.98;
 	private double myPercentageFish = 0.95;
 	
@@ -30,6 +30,9 @@ public class WatorRule extends Rule {
 	public WatorRule(int cellLength, int sizeX, int sizeY) {
 		super(cellLength, sizeX, sizeY);
 		myColors = new Color[] { WATERCOLOR, FISHCOLOR, SHARKCOLOR };
+		parameters.add(myFishReproduceRate);
+		parameters.add(mySharkDeathRate);
+		parameters.add(mySharkReproduceRate);
 	}
 
 	private class TempGrid {
@@ -88,7 +91,7 @@ public class WatorRule extends Rule {
 				myUpdatedGrid[i][j].tempState = WATER;
 			} else if (k >= initWater && k < initWater + initFish) {
 				Random random = new Random();
-				int randomInt = random.nextInt(myFishReproduceRate);
+				int randomInt = random.nextInt((int) myFishReproduceRate.getValue());
 				
 				myGrid[i][j] = new Animal(x, y, cellWidth, cellLength, i, j);
 				myGrid[i][j].init(FISH, myColors[FISH], NUMNEIGHBOR);
@@ -99,17 +102,17 @@ public class WatorRule extends Rule {
 				myUpdatedGrid[i][j].tempReproduce = randomInt;
 			} else {
 				Random random = new Random();
-				int randomInt = random.nextInt(myFishReproduceRate);
+				int randomInt = random.nextInt((int) myFishReproduceRate.getValue());
 				
 				myGrid[i][j] = new Animal(x, y, cellWidth, cellLength, i, j);
 				myGrid[i][j].init(SHARK, myColors[SHARK], NUMNEIGHBOR);
 				if (myGrid[i][j] instanceof Animal) {
 					((Animal) myGrid[i][j]).setReproduce(randomInt);
-					((Animal) myGrid[i][j]).setHealth(mySharkDeathRate);
+					((Animal) myGrid[i][j]).setHealth((int) mySharkDeathRate.getValue());
 				}
 				myUpdatedGrid[i][j].tempState = SHARK;
 				myUpdatedGrid[i][j].tempReproduce = randomInt;
-				myUpdatedGrid[i][j].tempHealth = mySharkDeathRate;
+				myUpdatedGrid[i][j].tempHealth = (int) mySharkDeathRate.getValue();
 			}
 		}
 	}
@@ -220,7 +223,7 @@ public class WatorRule extends Rule {
 			myUpdatedGrid[fishGetEaten.getRow()][fishGetEaten.getCol()].tempState = SHARK;
 			updateReproduce(cell, fishGetEaten);
 			// since it eats a fish, its health resets
-			myUpdatedGrid[fishGetEaten.getRow()][fishGetEaten.getCol()].tempHealth = mySharkDeathRate;
+			myUpdatedGrid[fishGetEaten.getRow()][fishGetEaten.getCol()].tempHealth = (int) mySharkDeathRate.getValue();
 
 		} else if (vacant.size() != 0) {
 			Random random = new Random();
@@ -241,17 +244,17 @@ public class WatorRule extends Rule {
 		// if reproduce, leave a child
 		myUpdatedGrid[cell.getRow()][cell.getCol()].tempState = needReproduce(cell) ? SHARK : WATER;
 		// if reproduce, reset reproduce rate
-		myUpdatedGrid[cell.getRow()][cell.getCol()].tempReproduce = needReproduce(cell) ? mySharkReproduceRate
+		myUpdatedGrid[cell.getRow()][cell.getCol()].tempReproduce = needReproduce(cell) ? (int) mySharkReproduceRate.getValue()
 				: Integer.MAX_VALUE;
 		// if reproduce, reset health
-		myUpdatedGrid[cell.getRow()][cell.getCol()].tempHealth = needReproduce(cell) ? mySharkDeathRate
+		myUpdatedGrid[cell.getRow()][cell.getCol()].tempHealth = needReproduce(cell) ? (int) mySharkDeathRate.getValue()
 				: Integer.MAX_VALUE;
 	}
 
 	private void updateReproduce(Cell celltocheck, Cell celltooperate) {
 		if (needReproduce(celltocheck)) { // if it needs to reproduce, reset its
 			// reproduce rate
-			myUpdatedGrid[celltooperate.getRow()][celltooperate.getCol()].tempReproduce = mySharkReproduceRate;
+			myUpdatedGrid[celltooperate.getRow()][celltooperate.getCol()].tempReproduce = (int) mySharkReproduceRate.getValue();
 		} else { // if not, --1
 			myUpdatedGrid[celltooperate.getRow()][celltooperate.getCol()].tempReproduce = ((Animal) celltocheck).getReproduce() - 1;
 		}
@@ -272,14 +275,14 @@ public class WatorRule extends Rule {
 			Cell toMove = vacant.get(randomInt);
 			myUpdatedGrid[toMove.getRow()][toMove.getCol()].tempState = FISH;
 			if (needReproduce(cell)) {
-				myUpdatedGrid[toMove.getRow()][toMove.getCol()].tempReproduce = myFishReproduceRate;
+				myUpdatedGrid[toMove.getRow()][toMove.getCol()].tempReproduce = (int) myFishReproduceRate.getValue();
 			} else {
 				myUpdatedGrid[toMove.getRow()][toMove.getCol()].tempReproduce = ((Animal) cell).getReproduce() - 1;
 			}
 		} else {
 			if (needReproduce(cell)) { // if it needs to reproduce, reset its
 				// reproduce rate
-				myUpdatedGrid[cell.getRow()][cell.getCol()].tempReproduce = myFishReproduceRate;
+				myUpdatedGrid[cell.getRow()][cell.getCol()].tempReproduce = (int) myFishReproduceRate.getValue();
 			} else { // if not, --1
 				myUpdatedGrid[cell.getRow()][cell.getCol()].tempReproduce = ((Animal) cell).getReproduce() - 1;
 			}
@@ -288,7 +291,7 @@ public class WatorRule extends Rule {
 		// if reproduce, leave a child
 		myUpdatedGrid[cell.getRow()][cell.getCol()].tempState = needReproduce(cell) ? FISH : WATER;
 		// if reproduce, reset reproduce rate
-		myUpdatedGrid[cell.getRow()][cell.getCol()].tempReproduce = needReproduce(cell) ? myFishReproduceRate
+		myUpdatedGrid[cell.getRow()][cell.getCol()].tempReproduce = needReproduce(cell) ? (int) myFishReproduceRate.getValue()
 				: Integer.MAX_VALUE;
 	}
 
@@ -301,15 +304,15 @@ public class WatorRule extends Rule {
 	}
 
 	public void setFishReproduce(int fishReproduce) {
-		myFishReproduceRate = fishReproduce;
+		myFishReproduceRate.setValue(fishReproduce);
 	}
 
 	public void setSharkReproduce(int sharkReproduce) {
-		mySharkReproduceRate = sharkReproduce;
+		mySharkReproduceRate.setValue(sharkReproduce);
 	}
 
 	public void setSharkDeath(int sharkDeath) {
-		mySharkDeathRate = sharkDeath;
+		mySharkDeathRate.setValue(sharkDeath);
 	}
 
 	public void setPercentageWater(double percentageWater) {

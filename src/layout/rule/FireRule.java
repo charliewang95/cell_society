@@ -10,7 +10,7 @@ public class FireRule extends Rule {
 	private static final int TREE = 1;
 	private static final int BURN = 2;
 	private static final int NUMNEIGHBOR = 6;
-	private double myProbCatch; // parameter
+	private Parameter myProbCatch; // parameter
 	private static final Color EMPTYCOLOR = Color.YELLOW;
 	private static final Color TREECOLOR = Color.GREEN;
 	private static final Color BURNCOLOR = Color.RED;
@@ -19,7 +19,8 @@ public class FireRule extends Rule {
 	public FireRule(double cellLength, int row, int column) {
 		super(cellLength, row, column);
 		myColors = new Color[] { EMPTYCOLOR, TREECOLOR, BURNCOLOR };
-		myProbCatch = 0.5;
+		myProbCatch = new Parameter(0.5, "Catch Probability", 0, 1);
+		parameters.add(myProbCatch);
 	}
 
 	@Override
@@ -54,7 +55,7 @@ public class FireRule extends Rule {
 				if (myGrid[i][j].getState() == BURN) {
 					for (Cell c : myGrid[i][j].getNeighbors()) {
 						Random random = new Random();
-						if (random.nextDouble() < myProbCatch && c.getState() == TREE) {
+						if (random.nextDouble() < myProbCatch.getValue() && c.getState() == TREE) {
 							myUpdatedGrid[c.getRow()][c.getCol()] = BURN;
 						}
 					}
@@ -72,7 +73,7 @@ public class FireRule extends Rule {
 	}
 
 	public void setProbCatch(double probcatch) {
-		myProbCatch = probcatch;
+		myProbCatch.setValue(probcatch);
 	}
 	
 	public Color[] getColors(){

@@ -15,11 +15,11 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
-import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import layout.rule.FireRule;
 import layout.rule.LifeRule;
+import layout.rule.Parameter;
 import layout.rule.SchellingRule;
 import user_interface.UIObjectPlacer;
 import xml.XMLParser;
@@ -51,6 +51,7 @@ public class Playground {
 	private static final int RESET_Y = 3*Y_OFFSET;
 	private static final int SLIDER_Y = 4*Y_OFFSET;
 	private static final int TEXTFIELD_Y = 5*Y_OFFSET;
+	private static final int CUSTOM_SLIDER_Y = 8*Y_OFFSET;
 	private static final int X_OFFSET = BUTTON_SPACE - 10;
 	private static final double MAX_SLIDER = 10;
 	private static final double MIN_SLIDER = 0.1;
@@ -69,6 +70,8 @@ public class Playground {
 	private Slider mySlider;
 	private Stage myStage;
 	private UIObjectPlacer myPlacer;
+	private Parameter[] myParameters;
+	private Slider[] myCustomSliders;
 	private double mySliderValue = INITIAL_VALUE;
 	private List<String> myRuleList = Arrays.asList("FireRule", "LifeRule", "SchellingRule", "WatorRule");
 
@@ -86,6 +89,7 @@ public class Playground {
 		mySlider = myPlacer.addSlider(myScene.getWidth() - X_OFFSET, SLIDER_Y, MIN_SLIDER, MAX_SLIDER, 
 									  mySliderValue, myResources.getString("SpeedSlider"));
 		setUpTextFields();
+		addCustomSliders();
 		myScene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
 		myStage.setScene(myScene);
 		myStage.setTitle(myRule.getName());
@@ -116,7 +120,7 @@ public class Playground {
 		myPlacer.addButton(myScene.getWidth() - X_OFFSET, STEP_Y, myResources.getString("TakeStepButton"), 
 						   new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
-				myRule.changeState();
+				step(0);
 			}
 		});
 		myPlacer.addButton(myScene.getWidth() - X_OFFSET, RESET_Y, myResources.getString("ResetButton"),
@@ -205,6 +209,9 @@ public class Playground {
 
 	public void step(double elapsedTime) {
 		myAnimation.setRate(mySlider.getValue());
+		for (int i = 0; i < myParameters.length; i++){
+			myParameters[i].setValue(myCustomSliders[i].getValue());
+		}
 		myRule.changeState();
 	}
 	
@@ -236,6 +243,20 @@ public class Playground {
 					myRule.getUpdatedGrid()[i][j] = newState;
 				}
 			}
+		}
+	}
+	
+	private void addCustomSliders(){
+		List<Parameter> parameters = myRule.getParameters();
+		myParameters = new Parameter[parameters.size()];
+		myCustomSliders = new Slider[parameters.size()];
+		int i = 0;
+		for (Parameter parameter: parameters){
+			myParameters[i] = parameter;
+			Slider slider = myPlacer.addSlider(myScene.getWidth() - X_OFFSET, CUSTOM_SLIDER_Y + i*Y_OFFSET, 
+											   parameter.getMin(), parameter.getMax(), parameter.getValue(), 
+											   parameter.getMessage());
+			myCustomSliders[i] = slider;
 		}
 	}
 }

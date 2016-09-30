@@ -1,6 +1,9 @@
 package layout;
 
+import java.util.ArrayList;
+
 import javafx.scene.paint.Color;
+import layout.rule.Parameter;
 
 public abstract class Rule {
 	protected Cell[][] myGrid;
@@ -11,6 +14,7 @@ public abstract class Rule {
 	protected double myLength;
 	protected double myWidth;
 	protected String ruleName;
+	protected ArrayList<Parameter> parameters;
 
 	/**
 	 * Construct the rule
@@ -28,6 +32,7 @@ public abstract class Rule {
 		myCellLength = cellLength;
 		myRow = row;
 		myColumn = column;
+		parameters = new ArrayList<Parameter>();
 	}
 
 	public abstract void initGrid();
@@ -304,4 +309,8 @@ public abstract class Rule {
 	}
 	
 	public abstract Color[] getColors();
+	
+	public ArrayList<Parameter> getParameters(){
+		return parameters;
+	}
 }

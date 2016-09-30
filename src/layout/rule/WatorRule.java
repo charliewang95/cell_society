@@ -33,6 +33,7 @@ public class WatorRule extends Rule {
 		parameters.add(myFishReproduceRate);
 		parameters.add(mySharkDeathRate);
 		parameters.add(mySharkReproduceRate);
+		myCounters = new int[2];
 	}
 
 	private class TempGrid {
@@ -100,6 +101,7 @@ public class WatorRule extends Rule {
 				}
 				myUpdatedGrid[i][j].tempState = FISH;
 				myUpdatedGrid[i][j].tempReproduce = randomInt;
+				myCounters[0]++;
 			} else {
 				Random random = new Random();
 				int randomInt = random.nextInt((int) myFishReproduceRate.getValue());
@@ -113,6 +115,7 @@ public class WatorRule extends Rule {
 				myUpdatedGrid[i][j].tempState = SHARK;
 				myUpdatedGrid[i][j].tempReproduce = randomInt;
 				myUpdatedGrid[i][j].tempHealth = (int) mySharkDeathRate.getValue();
+				myCounters[1]++;
 			}
 		}
 	}
@@ -203,6 +206,7 @@ public class WatorRule extends Rule {
 		ArrayList<Cell> vacant = new ArrayList<Cell>();
 		if (((Animal) cell).getHealth() == 0) { // if dead, turn it to water
 			myUpdatedGrid[cell.getRow()][cell.getCol()].tempState = 0;
+			myCounters[1]--;
 			return;
 		}
 
@@ -221,6 +225,7 @@ public class WatorRule extends Rule {
 			
 			// shark moves to new location
 			myUpdatedGrid[fishGetEaten.getRow()][fishGetEaten.getCol()].tempState = SHARK;
+			myCounters[0]--;
 			updateReproduce(cell, fishGetEaten);
 			// since it eats a fish, its health resets
 			myUpdatedGrid[fishGetEaten.getRow()][fishGetEaten.getCol()].tempHealth = (int) mySharkDeathRate.getValue();
@@ -243,6 +248,7 @@ public class WatorRule extends Rule {
 		}
 		// if reproduce, leave a child
 		myUpdatedGrid[cell.getRow()][cell.getCol()].tempState = needReproduce(cell) ? SHARK : WATER;
+		myCounters[1]++;
 		// if reproduce, reset reproduce rate
 		myUpdatedGrid[cell.getRow()][cell.getCol()].tempReproduce = needReproduce(cell) ? (int) mySharkReproduceRate.getValue()
 				: Integer.MAX_VALUE;
@@ -290,6 +296,7 @@ public class WatorRule extends Rule {
 		}
 		// if reproduce, leave a child
 		myUpdatedGrid[cell.getRow()][cell.getCol()].tempState = needReproduce(cell) ? FISH : WATER;
+		myCounters[0]++;
 		// if reproduce, reset reproduce rate
 		myUpdatedGrid[cell.getRow()][cell.getCol()].tempReproduce = needReproduce(cell) ? (int) myFishReproduceRate.getValue()
 				: Integer.MAX_VALUE;

@@ -19,6 +19,7 @@ public abstract class Rule {
 	protected String ruleName;
 	protected ArrayList<Parameter> parameters;
 	protected ResourceBundle myResources;
+	protected int[] myCounters;
 
 	/**
 	 * Construct the rule
@@ -317,5 +318,9 @@ public abstract class Rule {
 	
 	public ArrayList<Parameter> getParameters(){
 		return parameters;
+	}
+	
+	public int[] getCounters(){
+		return myCounters;
 	}
 }

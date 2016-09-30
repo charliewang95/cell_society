@@ -2,6 +2,7 @@ package layout;
 
 import java.io.File;
 import java.util.ResourceBundle;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +14,9 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.XYChart;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
@@ -44,7 +48,7 @@ public class Playground {
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private static final String XML_FILES_LOCATION = "data/xml/";
 	private static final String XML_SUFFIX = ".xml";
-	private static final int BUTTON_SPACE = 165;
+	private static final int BUTTON_SPACE = 180;
 	private static final int PAUSE_Y = 0;
 	private static final int Y_OFFSET = 30;
 	private static final int STEP_Y = 2*Y_OFFSET;
@@ -72,8 +76,11 @@ public class Playground {
 	private UIObjectPlacer myPlacer;
 	private Parameter[] myParameters;
 	private Slider[] myCustomSliders;
+	private LineChart<Number, Number> myLineChart;
+	private ArrayList<XYChart.Series<Number, Number>> mySeries;
 	private double mySliderValue = INITIAL_VALUE;
 	private List<String> myRuleList = Arrays.asList("FireRule", "LifeRule", "SchellingRule", "WatorRule");
+	private int mySteps;
 
 	public void init(Stage s) {
 		myStage = s;
@@ -84,7 +91,11 @@ public class Playground {
 		myPlacer = new UIObjectPlacer(myRoot, myResources);
 		myRule.initGrid();
 		drawGrid();
-		myScene = new Scene(myRoot, myRule.getWidth() + BUTTON_SPACE, myRule.getLength());
+		addLineChart();
+		if (myLineChart != null)
+			myScene = new Scene(myRoot, myRule.getWidth()+BUTTON_SPACE, myRule.getLength()+140);
+		else
+			myScene = new Scene(myRoot, myRule.getWidth()+BUTTON_SPACE, myRule.getLength());
 		setUpButtons();
 		mySlider = myPlacer.addSlider(myScene.getWidth() - X_OFFSET, SLIDER_Y, MIN_SLIDER, MAX_SLIDER, 
 									  mySliderValue, myResources.getString("SpeedSlider"));
@@ -173,6 +184,7 @@ public class Playground {
 		myAnimation = new Timeline();
 		myAnimation.setCycleCount(Timeline.INDEFINITE);
 		myAnimation.getKeyFrames().add(frame);
+		mySteps = 0;
 	}
 
 	public String getFileName() {
@@ -208,11 +220,15 @@ public class Playground {
 	}
 
 	public void step(double elapsedTime) {
+		mySteps++;
 		myAnimation.setRate(mySlider.getValue());
 		for (int i = 0; i < myParameters.length; i++){
 			myParameters[i].setValue(myCustomSliders[i].getValue());
 		}
 		myRule.changeState();
+		for (int j = 0; j < mySeries.size(); j++){
+			mySeries.get(j).getData().add(new XYChart.Data<Number, Number>(mySteps, myRule.getCounters()[j]));
+		}
 	}
 	
 	private void pause(){
@@ -234,9 +250,15 @@ public class Playground {
 		for (int i = 0; i < grid.length; i++){
 			for (int j = 0; j < grid[0].length; j++){
 				if (grid[i][j].getRec().contains(x, y)){
+					if (grid[i][j].getState() != 0){
+						myRule.getCounters()[grid[i][j].getState() - 1]--;
+					}
 					int newState = grid[i][j].getState() + 1;
 					if (newState >= myRule.getColors().length){
 						newState = 0;
+					}
+					else{
+						myRule.getCounters()[newState - 1]++;
 					}
 					grid[i][j].setState(newState);
 					grid[i][j].setColor(myRule.getColors()[newState]);
@@ -258,5 +280,24 @@ public class Playground {
 											   parameter.getMessage());
 			myCustomSliders[i] = slider;
 		}
+	}
+	
+	private void addLineChart(){
+		if (myRule.getCounters().length == 0){
+			return;
+		}
+		NumberAxis xAxis = new NumberAxis();
+		NumberAxis yAxis = new NumberAxis(0,myRule.myRow*myRule.myColumn-(2*myRule.myRow+2*(myRule.myColumn-2)),1);
+		myLineChart = new LineChart<Number, Number>(xAxis, yAxis);
+		myLineChart.setMaxHeight(100);
+		mySeries = new ArrayList<XYChart.Series<Number, Number>>();
+		for (int counter: myRule.getCounters()){
+			XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
+			series.getData().add(new XYChart.Data<Number, Number>(0, counter));
+			mySeries.add(series);
+			myLineChart.getData().add(series);
+		}
+		myLineChart.relocate(0, myRule.getLength());
+		myRoot.getChildren().add(myLineChart);
 	}
 }

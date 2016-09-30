@@ -35,6 +35,7 @@ public class SchellingRule extends Rule {
 		myPercentageEmpty = 0.1;
 		mySatisfied = new Parameter(0.7, myResources.getString("SchellingRuleSlider"), 0, 1);
 		parameters.add(mySatisfied);
+		myCounters = new int[0];
 	}
 
 	@Override

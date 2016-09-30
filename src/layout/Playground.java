@@ -15,6 +15,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import layout.rule.FireRule;
@@ -85,6 +86,7 @@ public class Playground {
 		mySlider = myPlacer.addSlider(myScene.getWidth() - X_OFFSET, SLIDER_Y, MIN_SLIDER, MAX_SLIDER, 
 									  mySliderValue, myResources.getString("SpeedSlider"));
 		setUpTextFields();
+		myScene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
 		myStage.setScene(myScene);
 		myStage.setTitle(myRule.getName());
 		myStage.show();
@@ -218,5 +220,22 @@ public class Playground {
 		myAnimation.stop();
 		mySliderValue = mySlider.getValue();
 		init(myStage);
+	}
+	
+	private void handleMouseInput(double x, double y){
+		Cell[][] grid = myRule.getGrid();
+		for (int i = 0; i < grid.length; i++){
+			for (int j = 0; j < grid[0].length; j++){
+				if (grid[i][j].getRec().contains(x, y)){
+					int newState = grid[i][j].getState() + 1;
+					if (newState >= myRule.getColors().length){
+						newState = 0;
+					}
+					grid[i][j].setState(newState);
+					grid[i][j].setColor(myRule.getColors()[newState]);
+					myRule.getUpdatedGrid()[i][j] = newState;
+				}
+			}
+		}
 	}
 }

@@ -319,4 +319,8 @@ public class WatorRule extends Rule {
 	public void setPercentageFish(double percentageFish) {
 		myPercentageFish = percentageFish;
 	}
+	
+	public Color[] getColors(){
+		return myColors;
+	}
 }

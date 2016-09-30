@@ -119,5 +119,9 @@ public class LifeRule extends Rule {
 	public void setModel(String model) {
 		myModel = model;
 	}
+	
+	public Color[] getColors(){
+		return myColors;
+	}
 
 }

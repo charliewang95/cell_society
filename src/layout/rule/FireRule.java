@@ -74,4 +74,8 @@ public class FireRule extends Rule {
 	public void setProbCatch(double probcatch) {
 		myProbCatch = probcatch;
 	}
+	
+	public Color[] getColors(){
+		return myColors;
+	}
 }

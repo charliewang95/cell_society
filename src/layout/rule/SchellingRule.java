@@ -146,4 +146,8 @@ public class SchellingRule extends Rule {
 	public void setPercentageEmpty(double percentageEmpty) {
 		myPercentageEmpty = percentageEmpty;
 	}
+	
+	public Color[] getColors(){
+		return myColors;
+	}
 }

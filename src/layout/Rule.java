@@ -1,5 +1,7 @@
 package layout;
 
+import javafx.scene.paint.Color;
+
 public abstract class Rule {
 	protected Cell[][] myGrid;
 	protected int[][] myUpdatedGrid;
@@ -225,6 +227,10 @@ public abstract class Rule {
 	public Cell[][] getGrid() {
 		return myGrid;
 	}
+	
+	public int[][] getUpdatedGrid(){
+		return myUpdatedGrid;
+	}
 
 	public double getWidth() {
 		return myWidth;
@@ -246,4 +252,6 @@ public abstract class Rule {
 		}
 		System.out.println();
 	}
+	
+	public abstract Color[] getColors();
 }

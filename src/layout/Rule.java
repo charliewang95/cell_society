@@ -32,6 +32,16 @@ public abstract class Rule {
 
 	public abstract void initGrid();
 
+	public void initBoard(int numSide) {
+		if (numSide == 3) {
+			initTri();
+		} else if (numSide == 4) {
+			initRec();
+		} else if (numSide == 6) {
+			initHex();
+		}
+	}
+
 	protected void initRec() {
 		myWidth = myCellLength * myColumn;
 		myLength = myCellLength * myRow;
@@ -47,12 +57,14 @@ public abstract class Rule {
 				double y3 = myCellLength * (i + 1);
 				double x4 = myCellLength * (j);
 				double y4 = myCellLength * (i + 1);
-				myGrid[i][j] = new Cell(new double[] { x1, x2, x3, x4 }, new double[] { y1, y2, y3, y4 }, i, j);
+				double x5 = myCellLength * j;
+				double y5 = myCellLength * i;
+				myGrid[i][j] = new Cell(new double[] { x1, x2, x3, x4, x5 }, new double[] { y1, y2, y3, y4, y5 }, i, j);
 			}
 		}
 	}
 
-	protected void initTriangle() {
+	protected void initTri() {
 		myWidth = myCellLength * (myColumn + 1) / 2;
 		myLength = (myCellLength * Math.sqrt(3) / 2) * myRow;
 		myGrid = new Cell[myRow][myColumn];
@@ -81,30 +93,38 @@ public abstract class Rule {
 	}
 
 	protected void initHex() {
-		myWidth = myCellLength * (3/2) * (myRow - 1) + myCellLength / 2;
-		myLength = myCellLength * (Math.sqrt(3)) * myColumn + myCellLength * (Math.sqrt(3)) / 2;
+		myWidth = myCellLength * (3.0 / 2) * (myColumn) + myCellLength / 2;
+		myLength = myCellLength * (Math.sqrt(3)) * myRow + myCellLength * (Math.sqrt(3)) / 2;
+		System.out.print(myWidth + " " + myLength);
 		myGrid = new Cell[myRow][myColumn];
 		myUpdatedGrid = new int[myRow][myColumn];
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				double[] x = new double[6];
 				double[] y = new double[6];
-				if ((i + j) % 2 == 0) {
-					x[0] = (myCellLength / 2) * j;
-					y[0] = (myCellLength/2 * Math.sqrt(3)) * 2 * i;
-					x[1] = (myCellLength / 2) * (j + 2);
-					y[1] = (myCellLength/2 * Math.sqrt(3)) * i;
-					x[2] = (myCellLength / 2) * (j + 1);
-					y[2] = (myCellLength/2 * Math.sqrt(3)) * (i + 1);
-					x[3];
-					y[3];
-					x[4];
-					y[4];
-					x[5];
-					y[5];
-					x[6];
-					y[6];
+				x[0] = (myCellLength / 2) * (3 * j + 1);
+				x[1] = (myCellLength / 2) * (3 * j + 3);
+				x[2] = (myCellLength / 2) * (3 * j + 4);
+				x[3] = (myCellLength / 2) * (3 * j + 3);
+				x[4] = (myCellLength / 2) * (3 * j + 1);
+				x[5] = (myCellLength / 2) * (3 * j + 0);
+				if (j % 2 == 0) {
+					y[0] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i);
+					y[1] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i);
+					y[2] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 1);
+					y[3] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 2);
+					y[4] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 2);
+					y[5] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 1);
+				} else {
+					y[0] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 1);
+					y[1] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 1);
+					y[2] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 2);
+					y[3] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 3);
+					y[4] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 3);
+					y[5] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 2);
 				}
+
+				myGrid[i][j] = new Cell(x, y, i, j);
 			}
 		}
 	}
@@ -131,6 +151,18 @@ public abstract class Rule {
 	 */
 	public abstract void initState();
 
+	public void initNeighbor(int numNeighbor) {
+		if (numNeighbor == 3) {
+			initNeighbor3();
+		} else if (numNeighbor == 4) {
+			initNeighbor4();
+		} else if (numNeighbor == 6) {
+			initNeighbor6();
+		} else if (numNeighbor == 8) {
+			initNeighbor8();
+		}
+	}
+
 	public void initNeighbor3() {
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
@@ -148,6 +180,24 @@ public abstract class Rule {
 	public void initNeighbor4() {
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
+				initNeighborUp(i, j);
+				initNeighborLeft(i, j);
+				initNeighborRight(i, j);
+				initNeighborDown(i, j);
+			}
+		}
+	}
+
+	public void initNeighbor6() {
+		for (int i = 0; i < myRow; i++) {
+			for (int j = 0; j < myColumn; j++) {
+				if (j % 2 == 0) {
+					initNeighborTopLeft(i, j);
+					initNeighborTopRight(i, j);
+				} else {
+					initNeighborBottomLeft(i, j);
+					initNeighborBottomRight(i, j);
+				}
 				initNeighborUp(i, j);
 				initNeighborLeft(i, j);
 				initNeighborRight(i, j);

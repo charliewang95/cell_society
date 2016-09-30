@@ -4,9 +4,9 @@
     <title>Catching Fire</title>
     <author>Charlie</author>
     <length>800</length>
-    <width>8</width>
-    <xSize>50</xSize>
-    <ySize>80</ySize>
-    <probcatch>.7</probcatch>
+    <width>20</width>
+    <xSize>10</xSize>
+    <ySize>10</ySize>
+    <probcatch>.4</probcatch>
 
 </Rule>

@@ -9,7 +9,7 @@ public class FireRule extends Rule {
 	private static final int EMPTY = 0;
 	private static final int TREE = 1;
 	private static final int BURN = 2;
-	private static final int NUMNEIGHBOR = 4;
+	private static final int NUMNEIGHBOR = 6;
 	private double myProbCatch; // parameter
 	private static final Color EMPTYCOLOR = Color.YELLOW;
 	private static final Color TREECOLOR = Color.GREEN;
@@ -24,9 +24,9 @@ public class FireRule extends Rule {
 
 	@Override
 	public void initGrid() {
-		initTriangle();
+		initBoard(NUMNEIGHBOR);
 		initState();
-		initNeighbor3();
+		initNeighbor(NUMNEIGHBOR);
 	}
 
 	@Override

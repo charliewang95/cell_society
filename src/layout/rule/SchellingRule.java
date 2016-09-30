@@ -33,7 +33,7 @@ public class SchellingRule extends Rule {
 		myColors = new Color[] { EMPTYCOLOR, AAACOLOR, BBBCOLOR };
 		myPercentageA = 0.1;
 		myPercentageEmpty = 0.1;
-		mySatisfied = new Parameter(0.7, "Satisfied Percentage", 0, 1);
+		mySatisfied = new Parameter(0.7, myResources.getString("SchellingRuleSlider"), 0, 1);
 		parameters.add(mySatisfied);
 	}
 

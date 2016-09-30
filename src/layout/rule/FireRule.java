@@ -19,7 +19,7 @@ public class FireRule extends Rule {
 	public FireRule(double cellLength, int row, int column) {
 		super(cellLength, row, column);
 		myColors = new Color[] { EMPTYCOLOR, TREECOLOR, BURNCOLOR };
-		myProbCatch = new Parameter(0.5, "Catch Probability", 0, 1);
+		myProbCatch = new Parameter(0.5, myResources.getString("FireRuleSlider"), 0, 1);
 		parameters.add(myProbCatch);
 	}
 

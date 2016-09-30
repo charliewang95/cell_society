@@ -1,11 +1,14 @@
 package layout;
 
 import java.util.ArrayList;
+import java.util.ResourceBundle;
 
 import javafx.scene.paint.Color;
 import layout.rule.Parameter;
 
 public abstract class Rule {
+	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
+	
 	protected Cell[][] myGrid;
 	protected int[][] myUpdatedGrid;
 	protected double myCellLength;
@@ -15,6 +18,7 @@ public abstract class Rule {
 	protected double myWidth;
 	protected String ruleName;
 	protected ArrayList<Parameter> parameters;
+	protected ResourceBundle myResources;
 
 	/**
 	 * Construct the rule
@@ -33,6 +37,7 @@ public abstract class Rule {
 		myRow = row;
 		myColumn = column;
 		parameters = new ArrayList<Parameter>();
+		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
 	}
 
 	public abstract void initGrid();

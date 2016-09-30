@@ -18,9 +18,9 @@ public class WatorRule extends Rule {
 	private static final Color FISHCOLOR = Color.GREEN;
 	private static final Color SHARKCOLOR = Color.ORANGE;
 	
-	private Parameter myFishReproduceRate = new Parameter(8, "Fish Reproduction Rate", 1, 20);
-	private Parameter mySharkReproduceRate = new Parameter(12, "Shark Reproduction Rate", 1, 20);
-	private Parameter mySharkDeathRate = new Parameter(10, "Shark Death Rate", 1, 20);
+	private Parameter myFishReproduceRate = new Parameter(8, myResources.getString("FishReproductionSlider"), 1, 20);
+	private Parameter mySharkReproduceRate = new Parameter(12, myResources.getString("SharkReproductionSlider"), 1, 20);
+	private Parameter mySharkDeathRate = new Parameter(10, myResources.getString("SharkDeathSlider"), 1, 20);
 	private double myPercentageWater = 0.98;
 	private double myPercentageFish = 0.95;
 	

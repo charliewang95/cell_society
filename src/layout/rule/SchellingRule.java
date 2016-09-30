@@ -12,7 +12,7 @@ public class SchellingRule extends Rule {
 	private static final int EMPTY = 0;
 	private static final int AAA = 1; // group A
 	private static final int BBB = 2; // group B
-	private static final int NUMNEIGHBOR = 8;
+	private static final int NUMNEIGHBOR = 6;
 	private double myPercentageA; // parameter
 	private double myPercentageEmpty; // parameter
 	private double mySatisfied; // parameter
@@ -46,9 +46,9 @@ public class SchellingRule extends Rule {
 		myEs = new int[myNumE];
 		myEsTMP = new int[myNumE];
 		
-		initTriangle();
+		initBoard(NUMNEIGHBOR);
 		initState();
-		initNeighbor3();
+		initNeighbor(NUMNEIGHBOR);
 	}
 
 	@Override

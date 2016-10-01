@@ -299,6 +299,7 @@ public class Playground {
 											   parameter.getMin(), parameter.getMax(), parameter.getValue(), 
 											   parameter.getMessage());
 			myCustomSliders[i] = slider;
+			i++;
 		}
 	}
 	

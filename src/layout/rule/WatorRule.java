@@ -9,11 +9,17 @@ import layout.Cell;
 import layout.Rule;
 import layout.rule.watoranimals.Animal;
 
+/**
+ * Backend Class for Wa-tor Simulation Rule
+ * 
+ * @author Charlie Wang
+ *
+ */
 public class WatorRule extends Rule {
 	private static final int WATER = 0;
 	private static final int FISH = 1;
 	private static final int SHARK = 2;
-	private static final int NUMNEIGHBOR = 3;
+	private static final int NUMNEIGHBOR = 6;
 	private static final Color WATERCOLOR = Color.LIGHTBLUE;
 	private static final Color FISHCOLOR = Color.GREEN;
 	private static final Color SHARKCOLOR = Color.ORANGE;
@@ -57,12 +63,12 @@ public class WatorRule extends Rule {
 	@Override
 	public void initGrid() {
 		myGrid = new Animal[myRow][myColumn];
-		myUpdatedGrid = new TempGrid[myRow][myColumn];
 		initBoard(NUMNEIGHBOR);
+		myUpdatedGrid = new TempGrid[myRow][myColumn];
+		
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				myUpdatedGrid[i][j] = new TempGrid();
-				//myGrid[i][j] = (Animal) myGrid[i][j];
 			}
 		}
 		initState();

@@ -17,6 +17,8 @@ public class LifeRule extends Rule {
 		myColors = new Color[] { EMPTYCOLOR, LIVECOLOR };
 		myModel = "Gosper";
 		myCounters = new int[1];
+		myLegend = new String[1];
+		myLegend[0] = "Live";
 	}
 
 	public void initGrid() {
@@ -50,20 +52,21 @@ public class LifeRule extends Rule {
 				if (myGrid[i][j].getState() == EMPTY) {
 					if (neighbors == 3) {
 						myUpdatedGrid[i][j] = LIVE;
-						myCounters[0]++;
 					}
 				} else if (myGrid[i][j].getState() == LIVE) {
 					if (neighbors < 2 || neighbors > 3) {
 						myUpdatedGrid[i][j] = EMPTY;
-						myCounters[0]--;
 					}
 				}
 			}
 		}
-
+		myCounters[0] = 0;
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				myGrid[i][j].setState(myUpdatedGrid[i][j]);
+				if (myUpdatedGrid[i][j] == LIVE){
+					myCounters[0]++;
+				}
 				myGrid[i][j].setColor(myColors[myUpdatedGrid[i][j]]);
 			}
 		}

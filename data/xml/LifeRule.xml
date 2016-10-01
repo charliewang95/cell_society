@@ -4,10 +4,10 @@
     <title>Game of Life</title>
     <author>Charlie</author>
     <length>400</length>
-    <width>400</width>
-    <xSize>50</xSize>
-    <ySize>70</ySize>
+    <width>10</width>
+    <xSize>30</xSize>
+    <ySize>30</ySize>
     
-    <typeLife>Gosper</typeLife>
+    <typeLife>10Cell</typeLife>
 
 </Rule>

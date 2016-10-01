@@ -5,6 +5,7 @@ import java.util.ResourceBundle;
 
 import javafx.scene.paint.Color;
 import layout.rule.Parameter;
+import layout.rule.watoranimals.Animal;
 
 public abstract class Rule {
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
@@ -69,9 +70,7 @@ public abstract class Rule {
 				double y3 = myCellLength * (i + 1);
 				double x4 = myCellLength * (j);
 				double y4 = myCellLength * (i + 1);
-				double x5 = myCellLength * j;
-				double y5 = myCellLength * i;
-				myGrid[i][j] = new Cell(new double[] { x1, x2, x3, x4, x5 }, new double[] { y1, y2, y3, y4, y5 }, i, j);
+				myGrid[i][j] = new Animal(new double[] { x1, x2, x3, x4}, new double[] { y1, y2, y3, y4}, i, j);
 			}
 		}
 	}

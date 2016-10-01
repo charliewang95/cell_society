@@ -11,7 +11,6 @@ public class LifeRule extends Rule {
 	private static final Color EMPTYCOLOR = Color.LIGHTGREY;
 	private static final Color LIVECOLOR = Color.BLACK;
 	private String myModel;
-	private Color[] myColors;
 
 	public LifeRule(int cellLength, int row, int column) {
 		super(cellLength, row, column);
@@ -21,9 +20,10 @@ public class LifeRule extends Rule {
 	}
 
 	public void initGrid() {
-		initRec();
+		myGrid = new Cell[myRow][myColumn];
+		initBoard(4);
 		initState();
-		initNeighbor4();
+		initNeighbor(NUMNEIGHBOR);
 	}
 
 	@Override

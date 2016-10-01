@@ -250,14 +250,14 @@ public class Playground {
 		for (int i = 0; i < grid.length; i++){
 			for (int j = 0; j < grid[0].length; j++){
 				if (grid[i][j].getShape().contains(x, y)){
-					if (grid[i][j].getState() != 0){
+					if (grid[i][j].getState() != 0 && myRule.getCounters().length > 0){
 						myRule.getCounters()[grid[i][j].getState() - 1]--;
 					}
 					int newState = grid[i][j].getState() + 1;
 					if (newState >= myRule.getColors().length){
 						newState = 0;
 					}
-					else{
+					else if (myRule.getCounters().length > 0){
 						myRule.getCounters()[newState - 1]++;
 					}
 					grid[i][j].setState(newState);
@@ -283,6 +283,7 @@ public class Playground {
 	}
 	
 	private void addLineChart(){
+		mySeries = new ArrayList<XYChart.Series<Number, Number>>();
 		if (myRule.getCounters().length == 0){
 			return;
 		}
@@ -290,7 +291,6 @@ public class Playground {
 		NumberAxis yAxis = new NumberAxis(0,myRule.myRow*myRule.myColumn-(2*myRule.myRow+2*(myRule.myColumn-2)),1);
 		myLineChart = new LineChart<Number, Number>(xAxis, yAxis);
 		myLineChart.setMaxHeight(100);
-		mySeries = new ArrayList<XYChart.Series<Number, Number>>();
 		for (int counter: myRule.getCounters()){
 			XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
 			series.getData().add(new XYChart.Data<Number, Number>(0, counter));

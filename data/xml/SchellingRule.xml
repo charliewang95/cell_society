@@ -5,8 +5,8 @@
     <author>Charlie</author>
     <length>400</length>
     <width>20</width>
-    <xSize>10</xSize>
-    <ySize>10</ySize>
+    <xSize>5</xSize>
+    <ySize>6</ySize>
     <rateA>0.6</rateA>
     <rateEmpty>0.3</rateEmpty>
     <satisfied>0.6</satisfied>

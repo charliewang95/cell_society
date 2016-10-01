@@ -83,8 +83,8 @@ public class WatorRule extends Rule {
 		//int initShark = myRow * myColumn - initWater - initFish;
 		for (int k = 0; k < myRow * myColumn; k++) {
 			int index = list.get(k);
-			int i = index / myRow;
-			int j = index - i * myRow;
+			int i = index / myColumn;
+			int j = index - i * myColumn;
 			//int x = cellWidth * j;
 			//int y = cellLength * i;
 			if (k < initWater) {

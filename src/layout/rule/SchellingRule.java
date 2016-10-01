@@ -91,10 +91,6 @@ public class SchellingRule extends Rule {
 	public void changeState() {
 		if (myEs.length < 1)
 			return;
-//		System.out.println(myAs.length);
-//		System.out.println(myBs.length);
-//		System.out.println(myEs.length);
-//		System.out.println();
 		
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
@@ -120,13 +116,25 @@ public class SchellingRule extends Rule {
 						
 						int a = chosen / myColumn;
 						int b = chosen - a * myColumn;
-
+						
+//						for (int k=0; k<myAs.length; k++) {
+//							System.out.println(myAs[k]);
+//						}
+//						for (int k=0; k<myAs.length; k++) {
+//							System.out.println(myBs[k]);
+//						}
+						for (int k=0; k<myEs.length; k++) {
+							System.out.print(myEs[k]+" ");
+						}
+						System.out.println();
+						
 						myUpdatedGrid[a][b] = myGrid[i][j].getState();
 						myEs[r] = i * myRow + j;
 					}
 				}
 			}
 		}
+		System.out.println();
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				myGrid[i][j].setState(myUpdatedGrid[i][j]);

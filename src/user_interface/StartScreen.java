@@ -29,14 +29,16 @@ public class StartScreen {
 	private static final int TITLE_Y = 0;
 	private static final int SUBTITLE_Y = 60;
 	private static final int TITLE_SIZE = 50;
-	private static final int TEXTFIELD_X_OFFSET = 70;
-	private static final int TEXTFIELD_Y_OFFSET = 30;
+	private static final int X_OFFSET = 70;
+	private static final int Y_OFFSET = 30;
+	private static final int TEXT_Y_OFFSET = 2*Y_OFFSET;
+	private static final int BUTTON_Y_OFFSET = 3*Y_OFFSET;
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
+	private static final int TEXT_SIZE = 20;
 	
 	
 	private Group myRoot;
 	private Stage myStage;
-	private Playground myPlayground;
 	private ResourceBundle myResources;
 	private UIObjectPlacer myPlacer;
 	private List<String> myRuleList = Arrays.asList("FireRule", "LifeRule", "SchellingRule", "WatorRule");
@@ -54,7 +56,6 @@ public class StartScreen {
 		Scene scene = init();
 		myStage.setScene(scene);
 		myStage.show();
-		myPlayground = new Playground();
 	}
 	
 	/**
@@ -78,6 +79,14 @@ public class StartScreen {
 		Scene scene = new Scene(myRoot, SIZE, SIZE, BACKGROUND_COLOR);
 		setUpTitle(scene);
 		setUpTextField(scene);
+		myPlacer.addText(scene.getWidth()/2 - X_OFFSET, scene.getHeight()/2 + TEXT_Y_OFFSET, TEXT_SIZE, 
+						 myResources.getString("Or"), false);
+		myPlacer.addButton(scene.getWidth()/2 - X_OFFSET, scene.getHeight()/2 + BUTTON_Y_OFFSET, 
+						   myResources.getString("ChooseFile"), new EventHandler<ActionEvent>(){
+			public void handle(ActionEvent event){
+				
+			}
+		});
 		return scene;
 	}
 	
@@ -88,15 +97,15 @@ public class StartScreen {
 	 */
 	private void setUpTextField(Scene scene) {
 		TextField textField = myPlacer.addTextField(myResources.getString("TextFieldText"), 
-													scene.getWidth()/2 - TEXTFIELD_X_OFFSET, 
-													scene.getHeight()/2 + TEXTFIELD_Y_OFFSET);
+													scene.getWidth()/2 - X_OFFSET, 
+													scene.getHeight()/2 + Y_OFFSET);
 		textField.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				String inText = textField.getCharacters().toString();
 				if (myRuleList.contains(inText)) {
 					try {
-						myPlayground.setFileName(inText);
-						myPlayground.init(myStage);
+						Playground playground = new Playground(myStage, inText);
+						playground.init();
 					} catch (XMLFactoryException e){
 						myPlacer.showError(myResources.getString("ReadingFileError") + inText);
 					}

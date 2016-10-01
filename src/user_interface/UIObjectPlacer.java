@@ -23,7 +23,7 @@ public class UIObjectPlacer {
 	
 	private Group myRoot;
 	private ResourceBundle myResources;
-	
+
 	public UIObjectPlacer(Group root, ResourceBundle resources){
 		myRoot = root;
 		myResources = resources;

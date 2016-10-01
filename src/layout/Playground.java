@@ -86,9 +86,22 @@ public class Playground {
 	private double mySliderValue = INITIAL_VALUE;
 	private List<String> myRuleList = Arrays.asList("FireRule", "LifeRule", "SchellingRule", "WatorRule");
 	private int mySteps;
-
-	public void init(Stage s) throws XMLFactoryException {
+	private File myFile;
+	
+	public Playground(Stage s, String fileName) throws XMLFactoryException{
 		myStage = s;
+		setFileName(fileName);
+		init();
+	}
+	
+	public Playground(Stage s, File file) throws XMLFactoryException{
+		myStage = s;
+		myFile = file;
+		setFileName(myFile.getName());
+		init();
+	}
+
+	public void init() throws XMLFactoryException {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
 		setUpRuleMap();
 		myRoot = new Group();
@@ -179,7 +192,7 @@ public class Playground {
 					myAnimation.stop();
 					mySliderValue = mySlider.getValue();
 					try {
-						init(myStage);
+						init();
 					} catch (XMLFactoryException e) {
 						myPlacer.showError(myResources.getString("ReadingFileError") + inText);
 					}
@@ -196,10 +209,9 @@ public class Playground {
 			public void handle(ActionEvent event){
 				String inText = newWindow.getCharacters().toString();
 				if (myRuleList.contains(inText)){
-					Playground playground = new Playground();
-					playground.setFileName(inText);
 					try {
-						playground.init(new Stage());
+						Playground playground = new Playground(new Stage(), inText);
+						playground.init();
 					} catch (XMLFactoryException e) {
 						myPlacer.showError(myResources.getString("ReadingFileError") + inText);
 					}
@@ -231,7 +243,11 @@ public class Playground {
 		XMLParser parser = new XMLParser();
 		RuleXMLFactory factory = myRuleMap.get(fileName);
 		//be able to take in a file with or without the xml extension
-		File f = new File(XML_FILES_LOCATION + myFileName + ".xml");
+		File f;
+		if (myFile == null)
+			f = new File(XML_FILES_LOCATION + myFileName + ".xml");
+		else
+			f = myFile;
 		Rule ruleInXML;
 		if (f.isFile() && f.getName().endsWith(XML_SUFFIX)) {
 			try {
@@ -275,7 +291,7 @@ public class Playground {
 		myAnimation.stop();
 		mySliderValue = mySlider.getValue();
 		try {
-			init(myStage);
+			init();
 		} catch (XMLFactoryException e) {
 			myPlacer.showError(myResources.getString("ReadingFileError") + myFileName);
 		}

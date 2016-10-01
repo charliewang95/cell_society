@@ -13,6 +13,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import layout.Playground;
+import xml.factory.XMLFactoryException;
 
 /**
  * Class that sets up the start screen, reads the input from the user, and passes it on to Playground
@@ -46,7 +47,7 @@ public class StartScreen {
 	 * 
 	 * @param s - the stage on which the start screen will be displayed
 	 */
-	public StartScreen(Stage s){
+	public StartScreen(Stage s) throws XMLFactoryException{
 		myStage = s;
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
 		myStage.setTitle(getTitle());
@@ -54,6 +55,7 @@ public class StartScreen {
 		myStage.setScene(scene);
 		myStage.show();
 		myPlayground = new Playground();
+		
 	}
 	
 	/**
@@ -94,9 +96,13 @@ public class StartScreen {
 				String inText = textField.getCharacters().toString();
 				if (myRuleList.contains(inText)) {
 					myPlayground.setFileName(inText);
-					myPlayground.init(myStage);
+					try {
+						myPlayground.init(myStage);
+					} catch (XMLFactoryException e) {
+						myPlacer.showError(myResources.getString("ReadingFileError") + inText);
+					}
 				} else {
-					myPlacer.showError(myResources.getString("CouldNotLoadError") + inText);
+					myPlacer.showError(myResources.getString("CouldNotLoadError") + inText + "haypptrj china");
 				}
 				
 			}

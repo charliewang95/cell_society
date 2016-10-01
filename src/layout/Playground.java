@@ -86,13 +86,18 @@ public class Playground {
 	private List<String> myRuleList = Arrays.asList("FireRule", "LifeRule", "SchellingRule", "WatorRule");
 	private int mySteps;
 
-	public void init(Stage s) {
+	public void init(Stage s) throws XMLFactoryException {
 		myStage = s;
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
 		setUpRuleMap();
-		getParsedObject(myFileName);
 		myRoot = new Group();
 		myPlacer = new UIObjectPlacer(myRoot, myResources);
+		try {
+			getParsedObject(myFileName);
+		} catch (XMLFactoryException e) {
+			System.out.println("who");
+			throw e;
+		}
 		myRule.initGrid();
 		drawGrid();
 		NumberAxis xAxis = new NumberAxis();
@@ -159,7 +164,12 @@ public class Playground {
 		myPlacer.addButton(myScene.getWidth() - X_OFFSET, RESET_Y, myResources.getString("ResetButton"),
 						   new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
-				reset();
+				try {
+					reset();
+				} catch (XMLFactoryException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 	}
@@ -176,7 +186,12 @@ public class Playground {
 					setFileName(inText);
 					myAnimation.stop();
 					mySliderValue = mySlider.getValue();
-					init(myStage);
+					try {
+						init(myStage);
+					} catch (XMLFactoryException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				} else {
 					myPlacer.showError(myResources.getString("CouldNotLoadError") + inText);
 				}
@@ -192,7 +207,12 @@ public class Playground {
 				if (myRuleList.contains(inText)){
 					Playground playground = new Playground();
 					playground.setFileName(inText);
-					playground.init(new Stage());
+					try {
+						playground.init(new Stage());
+					} catch (XMLFactoryException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 				else {
 					myPlacer.showError(myResources.getString("CouldNotLoadError") + inText);
@@ -217,19 +237,29 @@ public class Playground {
 		myFileName = file;
 	}
 
-	private void getParsedObject(String fileName) {
-		XMLParser parser = new XMLParser();
+	private void getParsedObject(String fileName) throws XMLFactoryException {
+		try {
+			if (!(fileName.substring(fileName.length()-4)).equals(".xml")) {
+				fileName = fileName + ".xml";
+			}
+			File f = new File(XML_FILES_LOCATION + fileName);
+			XMLParser parser = new XMLParser();
+
+		}
+		
 		RuleXMLFactory factory = myRuleMap.get(fileName);
-		//be able to take in a file with or without the xml extension
-		File f = new File(XML_FILES_LOCATION + myFileName + ".xml");
+		File f = new File(XML_FILES_LOCATION + fileName + ".xml");
 		Rule ruleInXML;
 		if (f.isFile() && f.getName().endsWith(XML_SUFFIX)) {
 			try {
 				ruleInXML = factory.getRule(parser.getRootElement(f.getAbsolutePath()));
 				myRule = ruleInXML;
 			} catch (XMLFactoryException e) {
-				System.err.println(myResources.getString("ReadingFileError") + f.getPath());
-				e.printStackTrace();
+				System.out.println("what");
+				throw e;
+				//myPlacer.showError(myResources.getString("ReadingFileError") + f.getPath());
+				//System.err.println(myResources.getString("ReadingFileError") + f.getPath());
+				//e.printStackTrace();
 				//need to retry, maybe return to the startscreen and pop up an error that says
 				//could not read file. 
 			}
@@ -264,7 +294,7 @@ public class Playground {
 		myAnimation.play();
 	}
 	
-	private void reset(){
+	private void reset() throws XMLFactoryException{
 		myAnimation.stop();
 		mySliderValue = mySlider.getValue();
 		init(myStage);

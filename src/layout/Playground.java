@@ -44,11 +44,13 @@ import xml.factory.XMLFactoryException;
  *
  */
 public class Playground {
+	private static final int CHART_SPACE = 140;
+	private static final int SIZE = 500;
 	private static final int FRAMES_PER_SECOND = 60;
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private static final String XML_FILES_LOCATION = "data/xml/";
 	private static final String XML_SUFFIX = ".xml";
-	private static final int BUTTON_SPACE = 180;
+	private static final int BUTTON_SPACE = 190;
 	private static final int PAUSE_Y = 0;
 	private static final int Y_OFFSET = 30;
 	private static final int STEP_Y = 2*Y_OFFSET;
@@ -91,11 +93,29 @@ public class Playground {
 		myPlacer = new UIObjectPlacer(myRoot, myResources);
 		myRule.initGrid();
 		drawGrid();
-		addLineChart();
-		if (myLineChart != null)
-			myScene = new Scene(myRoot, myRule.getWidth()+BUTTON_SPACE, myRule.getLength()+140);
+		NumberAxis xAxis = new NumberAxis();
+		NumberAxis yAxis = new NumberAxis(0,myRule.myRow*myRule.myColumn-(2*myRule.myRow+2*(myRule.myColumn-2)),1);
+		myLineChart = new LineChart<Number, Number>(xAxis, yAxis);
+		double width;
+		double length;
+		if (myRule.getWidth() + BUTTON_SPACE < SIZE)
+			width = SIZE;
 		else
-			myScene = new Scene(myRoot, myRule.getWidth()+BUTTON_SPACE, myRule.getLength());
+			width = myRule.getWidth() + BUTTON_SPACE;
+		if (myLineChart != null){
+			if (myRule.getLength() + CHART_SPACE < SIZE)
+				length = SIZE;
+			else
+				length = myRule.getLength() + CHART_SPACE;
+		}
+		else{
+			if (myRule.getLength() < SIZE - CHART_SPACE)
+				length = SIZE - CHART_SPACE;
+			else
+				length = myRule.getLength();
+		}
+		myScene = new Scene(myRoot, width, length);
+		addLineChart();
 		setUpButtons();
 		mySlider = myPlacer.addSlider(myScene.getWidth() - X_OFFSET, SLIDER_Y, MIN_SLIDER, MAX_SLIDER, 
 									  mySliderValue, myResources.getString("SpeedSlider"));
@@ -279,6 +299,7 @@ public class Playground {
 											   parameter.getMin(), parameter.getMax(), parameter.getValue(), 
 											   parameter.getMessage());
 			myCustomSliders[i] = slider;
+			i++;
 		}
 	}
 	
@@ -287,9 +308,6 @@ public class Playground {
 		if (myRule.getCounters().length == 0){
 			return;
 		}
-		NumberAxis xAxis = new NumberAxis();
-		NumberAxis yAxis = new NumberAxis(0,myRule.myRow*myRule.myColumn-(2*myRule.myRow+2*(myRule.myColumn-2)),1);
-		myLineChart = new LineChart<Number, Number>(xAxis, yAxis);
 		myLineChart.setMaxHeight(100);
 		for (int counter: myRule.getCounters()){
 			XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
@@ -297,7 +315,7 @@ public class Playground {
 			mySeries.add(series);
 			myLineChart.getData().add(series);
 		}
-		myLineChart.relocate(0, myRule.getLength());
+		myLineChart.relocate(0, myScene.getHeight() - 135);
 		myRoot.getChildren().add(myLineChart);
 	}
 }

@@ -60,12 +60,9 @@ public class FireRule extends Rule {
 						Random random = new Random();
 						if (random.nextDouble() < myProbCatch.getValue() && c.getState() == TREE) {
 							myUpdatedGrid[c.getRow()][c.getCol()] = BURN;
-//							myCounters[1]++;
-//							myCounters[0]--;
 						}
 					}
 					myUpdatedGrid[i][j] = EMPTY;
-//					myCounters[1]--;
 				}
 			}
 		}

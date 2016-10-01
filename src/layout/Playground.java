@@ -27,6 +27,7 @@ import layout.rule.FireRule;
 import layout.rule.LifeRule;
 import layout.rule.Parameter;
 import layout.rule.SchellingRule;
+import user_interface.StartScreen;
 import user_interface.UIObjectPlacer;
 import xml.XMLParser;
 import xml.factory.FireRuleXMLFactory;
@@ -86,17 +87,18 @@ public class Playground {
 	private List<String> myRuleList = Arrays.asList("FireRule", "LifeRule", "SchellingRule", "WatorRule");
 	private int mySteps;
 
-	public void init(Stage s) {
+	public void init(Stage s) throws XMLFactoryException {
 		myStage = s;
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
 		setUpRuleMap();
-		getParsedObject(myFileName);
 		myRoot = new Group();
 		myPlacer = new UIObjectPlacer(myRoot, myResources);
+		getParsedObject(myFileName);
 		myRule.initGrid();
 		drawGrid();
 		NumberAxis xAxis = new NumberAxis();
-		NumberAxis yAxis = new NumberAxis(0,myRule.myRow*myRule.myColumn-(2*myRule.myRow+2*(myRule.myColumn-2)),1);
+		NumberAxis yAxis = new NumberAxis(0,myRule.myRow*myRule.myColumn,1);
+		yAxis.setTickUnit(10);
 		myLineChart = new LineChart<Number, Number>(xAxis, yAxis);
 		double width;
 		double length;
@@ -176,7 +178,11 @@ public class Playground {
 					setFileName(inText);
 					myAnimation.stop();
 					mySliderValue = mySlider.getValue();
-					init(myStage);
+					try {
+						init(myStage);
+					} catch (XMLFactoryException e) {
+						myPlacer.showError(myResources.getString("ReadingFileError") + inText);
+					}
 				} else {
 					myPlacer.showError(myResources.getString("CouldNotLoadError") + inText);
 				}
@@ -192,7 +198,11 @@ public class Playground {
 				if (myRuleList.contains(inText)){
 					Playground playground = new Playground();
 					playground.setFileName(inText);
-					playground.init(new Stage());
+					try {
+						playground.init(new Stage());
+					} catch (XMLFactoryException e) {
+						myPlacer.showError(myResources.getString("ReadingFileError") + inText);
+					}
 				}
 				else {
 					myPlacer.showError(myResources.getString("CouldNotLoadError") + inText);
@@ -217,7 +227,7 @@ public class Playground {
 		myFileName = file;
 	}
 
-	private void getParsedObject(String fileName) {
+	private void getParsedObject(String fileName) throws XMLFactoryException {
 		XMLParser parser = new XMLParser();
 		RuleXMLFactory factory = myRuleMap.get(fileName);
 		//be able to take in a file with or without the xml extension
@@ -228,10 +238,7 @@ public class Playground {
 				ruleInXML = factory.getRule(parser.getRootElement(f.getAbsolutePath()));
 				myRule = ruleInXML;
 			} catch (XMLFactoryException e) {
-				System.err.println(myResources.getString("ReadingFileError") + f.getPath());
-				e.printStackTrace();
-				//need to retry, maybe return to the startscreen and pop up an error that says
-				//could not read file. 
+				 throw e;
 			}
 		}
 	}
@@ -267,7 +274,11 @@ public class Playground {
 	private void reset(){
 		myAnimation.stop();
 		mySliderValue = mySlider.getValue();
-		init(myStage);
+		try {
+			init(myStage);
+		} catch (XMLFactoryException e) {
+			myPlacer.showError(myResources.getString("ReadingFileError") + myFileName);
+		}
 	}
 	
 	private void handleMouseInput(double x, double y){

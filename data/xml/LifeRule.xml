@@ -5,8 +5,8 @@
     <author>Charlie</author>
     
     <cellLength>10</cellLength>
-    <xSize>100</xSize>
-    <ySize>100</ySize>
+    <xSize>50</xSize>
+    <ySize>50</ySize>
     
     <emptyColor>LIGHTGREY</emptyColor>
     <liveColor>BLACK</liveColor>

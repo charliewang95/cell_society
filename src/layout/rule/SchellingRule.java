@@ -117,19 +117,8 @@ public class SchellingRule extends Rule {
 						int a = chosen / myColumn;
 						int b = chosen - a * myColumn;
 						
-//						for (int k=0; k<myAs.length; k++) {
-//							System.out.println(myAs[k]);
-//						}
-//						for (int k=0; k<myAs.length; k++) {
-//							System.out.println(myBs[k]);
-//						}
-						for (int k=0; k<myEs.length; k++) {
-							System.out.print(myEs[k]+" ");
-						}
-						System.out.println();
-						
 						myUpdatedGrid[a][b] = myGrid[i][j].getState();
-						myEs[r] = i * myRow + j;
+						myEs[r] = i * myColumn + j;
 					}
 				}
 			}

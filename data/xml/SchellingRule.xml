@@ -4,9 +4,9 @@
     <title>Segregation</title>
     <author>Charlie</author>
     <length>400</length>
-    <width>20</width>
-    <xSize>5</xSize>
-    <ySize>6</ySize>
+    <width>10</width>
+    <xSize>30</xSize>
+    <ySize>50</ySize>
     <rateA>0.6</rateA>
     <rateEmpty>0.3</rateEmpty>
     <satisfied>0.6</satisfied>

@@ -13,6 +13,6 @@
     <liveColor>BLACK</liveColor>
     
     <numNeighbor>8</numNeighbor>
-    <typeLife>10Cell</typeLife>
+    <typeLife>Gosper</typeLife>
 
 </Rule>

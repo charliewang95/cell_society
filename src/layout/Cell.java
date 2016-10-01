@@ -6,6 +6,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 
+/**
+ * The Cell class contains the state, color, and the actual shape that's going
+ * to be displayed on the screen.
+ * 
+ * @author Charlie Wang
+ *
+ */
 public class Cell {
 	protected Polygon myShape;
 	protected int myState;
@@ -17,8 +24,8 @@ public class Cell {
 
 	protected ArrayList<Cell> myNeighbors;
 	protected int myNumNeighbors;
-	
-	public Cell (double[] x, double[] y, int row, int col) {
+
+	public Cell(double[] x, double[] y, int row, int col) {
 		myShape = new Polygon();
 		for (int i = 0; i < x.length; i++) {
 			myShape.getPoints().addAll(x[i], y[i]);
@@ -29,11 +36,14 @@ public class Cell {
 		myColor = null;
 
 	}
-	
+
 	/**
 	 * Initialize the cell according to the rule
-	 * @param state the cell's initial state
-	 * @param c the rectangle's initial color
+	 * 
+	 * @param state
+	 *            the cell's initial state
+	 * @param c
+	 *            the rectangle's initial color
 	 */
 	public void init(int state, Color c, int num) {
 		myState = state;
@@ -41,67 +51,73 @@ public class Cell {
 		myNeighbors = new ArrayList<Cell>();
 		myNumNeighbors = num;
 	}
-	
+
 	/**
 	 * Add a neighbor of this cell according to the rule
-	 * @param cell the neighbor cell
+	 * 
+	 * @param cell
+	 *            the neighbor cell
 	 */
 	public void addNeighbor(Cell cell) {
 		myNeighbors.add(cell);
 	}
-	
+
 	/**
 	 * @return the neighbor arraylists
 	 */
 	public ArrayList<Cell> getNeighbors() {
 		return myNeighbors;
 	}
-	
+
 	/**
 	 * Set the cell's new state
-	 * @param newState the cell's new state
+	 * 
+	 * @param newState
+	 *            the cell's new state
 	 */
 	public void setState(int newState) {
 		myState = newState;
-	}	
-	
+	}
+
 	/**
 	 * Set the cell's new color
-	 * @param newState the cell's new color
+	 * 
+	 * @param newState
+	 *            the cell's new color
 	 */
 	public void setColor(Color newcolor) {
 		myColor = newcolor;
 		myShape.setFill(newcolor);
-	}	
-	
+	}
+
 	/**
 	 * @return the cell's color
 	 */
 	public Color getColor() {
-		return myColor;		
-	}	
-	
+		return myColor;
+	}
+
 	/**
 	 * @return the cell's current state
 	 */
 	public int getState() {
 		return myState;
 	}
-	
+
 	/**
 	 * @return the rectangle object
 	 */
 	public Shape getShape() {
 		return myShape;
 	}
-	
+
 	/**
 	 * @return the row number specified by the rule
 	 */
 	public int getRow() {
 		return myRow;
 	}
-	
+
 	/**
 	 * @return the column number specified by the rule
 	 */

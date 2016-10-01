@@ -5,12 +5,13 @@ import java.util.ResourceBundle;
 import javafx.scene.paint.Color;
 import layout.rule.NeighborManager;
 import layout.rule.Parameter;
+import layout.rule.ShapeManager;
 import layout.rule.WatorRule;
 import layout.rule.watoranimals.Animal;
 
 /**
- * The parent class for all the subclass rules Most methods are defined in this
- * class
+ * The parent class for all the subclass rules. Most common methods are defined in this
+ * class.
  * 
  * @author Charlie Wang
  *
@@ -27,6 +28,7 @@ public abstract class Rule {
 	protected double myWidth;
 	protected String ruleName;
 	private NeighborManager myNeighborManager;
+	private ShapeManager myShapeManager;
 
 	protected ArrayList<Parameter> parameters;
 	protected ResourceBundle myResources;
@@ -37,10 +39,8 @@ public abstract class Rule {
 	/**
 	 * Construct the rule
 	 * 
-	 * @param length
-	 *            length of the board
-	 * @param width
-	 *            width of the board
+	 * @param cellLength
+	 *            length of each cell (the side length of each polygon)
 	 * @param row
 	 *            total number of rows
 	 * @param column
@@ -52,112 +52,43 @@ public abstract class Rule {
 		myRow = row;
 		myColumn = column;
 		myNeighborManager = new NeighborManager(row, column);
+		myShapeManager = new ShapeManager(row, column, cellLength);
 		parameters = new ArrayList<Parameter>();
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
 	}
 
+	/**
+	 * Initialize myGrid. Different rules have different appraoches.
+	 */
 	public abstract void initGrid();
 
+	/**
+	 * Initialize the state and color of the cell grid
+	 * 
+	 * @param i
+	 *            row number
+	 * @param j
+	 *            col number
+	 */
+	public abstract void initState();
+
+	/**
+	 * Change each cell's state according to its neighbors
+	 */
+	public abstract void changeState();
+	
+	/**
+	 * initialize the board according to different shapes
+	 * 
+	 * @param numSide the shape of the cell (options: triangle, rectangle, hexagon)
+	 */
 	public void initBoard(int numSide) {
-		if (numSide == 3) {
-			initTri();
-		} else if (numSide == 4) {
-			initRec();
-		} else if (numSide == 6) {
-			initHex();
-		}
-	}
-
-	protected void initRec() {
-		myWidth = myCellLength * myColumn;
-		myLength = myCellLength * myRow;
 		myUpdatedGrid = new int[myRow][myColumn];
-		for (int i = 0; i < myRow; i++) {
-			for (int j = 0; j < myColumn; j++) {
-				double x1 = myCellLength * j;
-				double y1 = myCellLength * i;
-				double x2 = myCellLength * (j + 1);
-				double y2 = myCellLength * i;
-				double x3 = myCellLength * (j + 1);
-				double y3 = myCellLength * (i + 1);
-				double x4 = myCellLength * (j);
-				double y4 = myCellLength * (i + 1);
-				if (this instanceof WatorRule) {
-					myGrid[i][j] = new Animal(new double[] { x1, x2, x3, x4 }, new double[] { y1, y2, y3, y4 }, i, j);
-				} else {
-					myGrid[i][j] = new Cell(new double[] { x1, x2, x3, x4 }, new double[] { y1, y2, y3, y4 }, i, j);
-				}
-			}
-		}
-	}
-
-	protected void initTri() {
-		myWidth = myCellLength * (myColumn + 1) / 2;
-		myLength = (myCellLength * Math.sqrt(3) / 2) * myRow;
-		myUpdatedGrid = new int[myRow][myColumn];
-		for (int i = 0; i < myRow; i++) {
-			for (int j = 0; j < myColumn; j++) {
-				double x1, x2, x3, y1, y2, y3;
-				if ((i + j) % 2 == 0) {
-					x1 = (myCellLength / 2) * j;
-					y1 = (myCellLength * Math.sqrt(3) / 2) * i;
-					x2 = (myCellLength / 2) * (j + 2);
-					y2 = (myCellLength * Math.sqrt(3) / 2) * i;
-					x3 = (myCellLength / 2) * (j + 1);
-					y3 = (myCellLength * Math.sqrt(3) / 2) * (i + 1);
-				} else {
-					x1 = (myCellLength / 2) * (j + 1);
-					y1 = (myCellLength * Math.sqrt(3) / 2) * i;
-					x2 = (myCellLength / 2) * (j);
-					y2 = (myCellLength * Math.sqrt(3) / 2) * (i + 1);
-					x3 = (myCellLength / 2) * (j + 2);
-					y3 = (myCellLength * Math.sqrt(3) / 2) * (i + 1);
-				}
-				if (this instanceof WatorRule) {
-					myGrid[i][j] = new Animal(new double[] { x1, x2, x3 }, new double[] { y1, y2, y3 }, i, j);
-				} else {
-					myGrid[i][j] = new Cell(new double[] { x1, x2, x3 }, new double[] { y1, y2, y3 }, i, j);
-				}
-			}
-		}
-	}
-
-	protected void initHex() {
-		myWidth = myCellLength * (3.0 / 2) * (myColumn) + myCellLength / 2;
-		myLength = myCellLength * (Math.sqrt(3)) * myRow + myCellLength * (Math.sqrt(3)) / 2;
-		myUpdatedGrid = new int[myRow][myColumn];
-		for (int i = 0; i < myRow; i++) {
-			for (int j = 0; j < myColumn; j++) {
-				double[] x = new double[6];
-				double[] y = new double[6];
-				x[0] = (myCellLength / 2) * (3 * j + 1);
-				x[1] = (myCellLength / 2) * (3 * j + 3);
-				x[2] = (myCellLength / 2) * (3 * j + 4);
-				x[3] = (myCellLength / 2) * (3 * j + 3);
-				x[4] = (myCellLength / 2) * (3 * j + 1);
-				x[5] = (myCellLength / 2) * (3 * j + 0);
-				if (j % 2 == 0) {
-					y[0] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i);
-					y[1] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i);
-					y[2] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 1);
-					y[3] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 2);
-					y[4] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 2);
-					y[5] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 1);
-				} else {
-					y[0] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 1);
-					y[1] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 1);
-					y[2] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 2);
-					y[3] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 3);
-					y[4] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 3);
-					y[5] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 2);
-				}
-				if (this instanceof WatorRule) {
-					myGrid[i][j] = new Animal(x, y, i, j);
-				} else {
-					myGrid[i][j] = new Cell(x, y, i, j);
-				}
-			}
-		}
+		myShapeManager.init(numSide, myGrid, this);
+		myShapeManager.chooseMethod();
+		myGrid=myShapeManager.getGrid();
+		myWidth = myShapeManager.getWidth();
+		myLength = myShapeManager.getLength();
 	}
 
 	public double getCellLength() {
@@ -172,26 +103,11 @@ public abstract class Rule {
 		return ruleName;
 	}
 
-	/**
-	 * Initialize the state and color of the cell grid
-	 * 
-	 * @param i
-	 *            row number
-	 * @param j
-	 *            col number
-	 */
-	public abstract void initState();
-
 	public void initNeighbor(int numNeighbor, boolean toroidal) {
 		myNeighborManager.init(numNeighbor, myGrid, toroidal);
 		myNeighborManager.chooseMethod();
 		myGrid = myNeighborManager.getGrid();
 	}
-
-	/**
-	 * Change each cell's state according to its neighbors
-	 */
-	public abstract void changeState();
 
 	public Cell[][] getGrid() {
 		return myGrid;
@@ -209,19 +125,6 @@ public abstract class Rule {
 		return myLength;
 	}
 
-	/**
-	 * A testing method that prints each step's states in console as a grid
-	 */
-	protected void testByPrintingEachState() {
-		for (Cell[] p : myGrid) {
-			for (Cell q : p) {
-				System.out.print(q.getState() + " ");
-			}
-			System.out.println();
-		}
-		System.out.println();
-	}
-
 	public ArrayList<Parameter> getParameters() {
 		return parameters;
 	}
@@ -236,6 +139,19 @@ public abstract class Rule {
 
 	public String[] getLegend() {
 		return myLegend;
+	}
+	
+	/**
+	 * A tester that prints each step's states in console as a grid
+	 */
+	protected void testByPrintingEachState() {
+		for (Cell[] p : myGrid) {
+			for (Cell q : p) {
+				System.out.print(q.getState() + " ");
+			}
+			System.out.println();
+		}
+		System.out.println();
 	}
 
 }

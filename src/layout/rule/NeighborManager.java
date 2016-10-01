@@ -2,6 +2,13 @@ package layout.rule;
 
 import layout.Cell;
 
+/**
+ * 
+ * This class help the rule class initialize its neighbor array
+ * 
+ * @author Charlie Wang
+ *
+ */
 public class NeighborManager {
 	private int myRow;
 	private int myColumn;

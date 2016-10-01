@@ -3,9 +3,9 @@ package layout;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.paint.Color;
-import layout.rule.NeighborManager;
+import layout.manager.NeighborManager;
+import layout.manager.ShapeManager;
 import layout.rule.Parameter;
-import layout.rule.ShapeManager;
 import layout.rule.WatorRule;
 import layout.rule.watoranimals.Animal;
 

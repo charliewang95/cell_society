@@ -1,4 +1,4 @@
-package layout.rule;
+package layout.manager;
 
 import layout.Cell;
 

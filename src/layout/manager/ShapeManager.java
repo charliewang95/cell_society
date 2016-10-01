@@ -1,9 +1,17 @@
-package layout.rule;
+package layout.manager;
 
 import layout.Cell;
 import layout.Rule;
+import layout.rule.WatorRule;
 import layout.rule.watoranimals.Animal;
 
+/**
+ * 
+ * This class help the rule class initialize its shape and board size
+ * 
+ * @author Charlie Wang
+ *
+ */
 public class ShapeManager {
 	private double myLength;
 	private double myWidth;

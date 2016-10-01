@@ -12,7 +12,9 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
+import javafx.geometry.Side;
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -102,7 +104,7 @@ public class Playground {
 			width = SIZE;
 		else
 			width = myRule.getWidth() + BUTTON_SPACE;
-		if (myLineChart != null){
+		if (myRule.getCounters().length > 0){
 			if (myRule.getLength() + CHART_SPACE < SIZE)
 				length = SIZE;
 			else
@@ -309,13 +311,18 @@ public class Playground {
 			return;
 		}
 		myLineChart.setMaxHeight(100);
+		int i = 0;
 		for (int counter: myRule.getCounters()){
 			XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
 			series.getData().add(new XYChart.Data<Number, Number>(0, counter));
+			series.setName(myRule.getLegend()[i]);
 			mySeries.add(series);
 			myLineChart.getData().add(series);
+			i++;
 		}
 		myLineChart.relocate(0, myScene.getHeight() - 135);
+		myLineChart.setLegendSide(Side.RIGHT);
+		myLineChart.setLegendVisible(true);
 		myRoot.getChildren().add(myLineChart);
 	}
 }

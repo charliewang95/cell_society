@@ -31,6 +31,7 @@ public abstract class Rule {
 	protected ResourceBundle myResources;
 	protected int[] myCounters;
 	protected Color[] myColors;
+	protected String[] myLegend;
 
 	/**
 	 * Construct the rule
@@ -340,5 +341,9 @@ public abstract class Rule {
 	
 	public Color[] getColors() {
 		return myColors;
+	}
+	
+	public String[] getLegend(){
+		return myLegend;
 	}
 }

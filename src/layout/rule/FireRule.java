@@ -21,6 +21,9 @@ public class FireRule extends Rule {
 		myProbCatch = new Parameter(0.5, myResources.getString("FireRuleSlider"), 0, 1);
 		parameters.add(myProbCatch);
 		myCounters = new int[2];
+		myLegend = new String[2];
+		myLegend[0] = "Tree";
+		myLegend[1] = "Fire";
 	}
 
 	@Override

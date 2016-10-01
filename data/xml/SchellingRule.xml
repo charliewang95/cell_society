@@ -3,12 +3,16 @@
     <nameRule>SchellingRule</nameRule>
     <title>Segregation</title>
     <author>Charlie</author>
-    <length>400</length>
-    <width>10</width>
+    <cellLength>10</cellLength>
     <xSize>30</xSize>
     <ySize>50</ySize>
-    <rateA>0.6</rateA>
-    <rateEmpty>0.3</rateEmpty>
-    <satisfied>0.6</satisfied>
+    <rateA>0.1</rateA>
+    <rateEmpty>0.1</rateEmpty>
+    <satisfied>0.7</satisfied>
+    <numNeighbor>6</numNeighbor>
+    
+    <emptyColor>WHITE</emptyColor>
+    <aaaColor>RED</aaaColor>
+    <bbbColor>BLUE</bbbColor>
 
 </Rule>

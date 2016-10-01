@@ -19,23 +19,34 @@ public class WatorRule extends Rule {
 	private static final int WATER = 0;
 	private static final int FISH = 1;
 	private static final int SHARK = 2;
-	private static final int NUMNEIGHBOR = 6;
-	private static final Color WATERCOLOR = Color.LIGHTBLUE;
-	private static final Color FISHCOLOR = Color.GREEN;
-	private static final Color SHARKCOLOR = Color.ORANGE;
+	private static final double LIFEMIN = 1;
+	private static final double LIFEMAX = 20;
+	private int NUMNEIGHBOR;
+//	private static final Color WATERCOLOR = Color.LIGHTBLUE;
+//	private static final Color FISHCOLOR = Color.GREEN;
+//	private static final Color SHARKCOLOR = Color.ORANGE;
 	
-	private Parameter myFishReproduceRate = new Parameter(8, myResources.getString("FishReproductionSlider"), 1, 20);
-	private Parameter mySharkReproduceRate = new Parameter(12, myResources.getString("SharkReproductionSlider"), 1, 20);
-	private Parameter mySharkDeathRate = new Parameter(10, myResources.getString("SharkDeathSlider"), 1, 20);
+	private Parameter myFishReproduceRate;
+	private Parameter mySharkReproduceRate;
+	private Parameter mySharkDeathRate;
 
-	private double myPercentageWater = 0.98;
-	private double myPercentageFish = 0.95;
+	private double myPercentageWater;
+	private double myPercentageFish;
 
 	private TempGrid[][] myUpdatedGrid;
 
-	public WatorRule(int cellLength, int sizeX, int sizeY) {
+	public WatorRule(double cellLength, int sizeX, int sizeY, int neighbor, Color water, Color fish, Color shark, double fishBirth, double sharkBirth, double sharkDeath, double percentWater, double percentFish) {
 		super(cellLength, sizeX, sizeY);
-		myColors = new Color[] { WATERCOLOR, FISHCOLOR, SHARKCOLOR };
+		myColors = new Color[] { water, fish, shark };
+		
+		myFishReproduceRate = new Parameter(fishBirth, myResources.getString("FishReproductionSlider"), LIFEMIN, LIFEMAX);
+		mySharkReproduceRate = new Parameter(sharkBirth, myResources.getString("SharkReproductionSlider"), LIFEMIN, LIFEMAX);
+		mySharkDeathRate = new Parameter(sharkDeath, myResources.getString("SharkDeathSlider"), LIFEMIN, LIFEMAX);
+		
+		NUMNEIGHBOR = neighbor;
+		
+		myPercentageWater = percentWater;
+		myPercentageFish = percentFish;
 		parameters.add(myFishReproduceRate);
 		parameters.add(mySharkDeathRate);
 		parameters.add(mySharkReproduceRate);

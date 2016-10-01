@@ -3,11 +3,15 @@
     <nameRule>LifeRule</nameRule>
     <title>Game of Life</title>
     <author>Charlie</author>
-    <length>400</length>
-    <width>10</width>
-    <xSize>30</xSize>
-    <ySize>30</ySize>
     
-    <typeLife>10Cell</typeLife>
+    <cellLength>10</cellLength>
+    <xSize>100</xSize>
+    <ySize>100</ySize>
+    
+    <emptyColor>LIGHTGREY</emptyColor>
+    <liveColor>BLACK</liveColor>
+    
+    <numNeighbor>8</numNeighbor>
+    <typeLife>Gosper</typeLife>
 
 </Rule>

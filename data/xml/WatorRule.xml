@@ -3,16 +3,21 @@
     <nameRule>WatorRule</nameRule>
     <title>Wa-Tor</title>
     <author>Charlie</author>
-    <length>400</length>
-    <width>8</width>
+    <cellLength>10</cellLength>
     <xSize>30</xSize>
     <ySize>20</ySize>
     
-    <waterPercent>.95</waterPercent>
-    <fishPercent>.9</fishPercent>
+    <percentWater>.98</percentWater>
+    <percentFish>.95</percentFish>
     <fishReproduce>8</fishReproduce>
-    <sharkReproduce>15</sharkReproduce>
+    <sharkReproduce>12</sharkReproduce>
     <sharkDeath>10</sharkDeath>
+    
+    <numNeighbor>6</numNeighbor>
+    <emptyColor>LIGHTBLUE</emptyColor>
+    <fishColor>GREEN</fishColor>
+    <sharkColor>ORANGE</sharkColor>
+    
     
 
 </Rule>

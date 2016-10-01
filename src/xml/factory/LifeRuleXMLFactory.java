@@ -4,6 +4,7 @@ import java.util.ResourceBundle;
 
 import org.w3c.dom.Element;
 
+import javafx.scene.paint.Color;
 import layout.Rule;
 import layout.rule.LifeRule;
 
@@ -16,7 +17,7 @@ public class LifeRuleXMLFactory extends RuleXMLFactory {
 	private static final String XML_TAG_NAME = "LifeRule";
 	public static final String DEFAULT_RESOURCE_PACKAGE = "xml.properties/";
 	private static final String RULE_PROPERTY = "Rule";
-	private ResourceBundle myResources;
+	private ResourceBundle myXMLResources;
 
 	/**
 	 * Factory for LifeRule
@@ -30,19 +31,23 @@ public class LifeRuleXMLFactory extends RuleXMLFactory {
 	 */
 	@Override
 	public Rule getRule(Element root) throws XMLFactoryException {
-		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + getRuleProperty());
-		if (!getTextValue(root, myResources.getString("RuleName")).equals("LifeRule")) {
+		myXMLResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + getRuleProperty());
+		if (!getTextValue(root, myXMLResources.getString("RuleName")).equals("LifeRule")) {
 			throw new XMLFactoryException("XML file does not represent the %s", getRuleType());
 		}
-		Integer length = Integer.parseInt(getTextValue(root, myResources.getString("Length")));
-		Integer cellLength = Integer.parseInt(getTextValue(root, myResources.getString("Width")));
-		Integer row = Integer.parseInt(getTextValue(root, myResources.getString("Row")));
-		Integer column = Integer.parseInt(getTextValue(root, myResources.getString("Column")));
-		String typeLife = getTextValue(root, myResources.getString("LifeType"));
-		String name = getTextValue(root, myResources.getString("Title"));
+		//Integer length = Integer.parseInt(getTextValue(root, myXMLResources.getString("Length")));
+		double cellLength = Double.parseDouble(getTextValue(root, myXMLResources.getString("CellLength")));
+		Integer row = Integer.parseInt(getTextValue(root, myXMLResources.getString("Row")));
+		Integer column = Integer.parseInt(getTextValue(root, myXMLResources.getString("Column")));
+		
+		Color emptyColor = Color.valueOf(getTextValue(root, myXMLResources.getString("EmptyColor")));
+		Color liveColor = Color.valueOf(getTextValue(root, myXMLResources.getString("LiveColor")));
 
-		LifeRule myLife = new LifeRule(cellLength, row, column);
-		myLife.setModel(typeLife);
+		int neighbor = Integer.parseInt(getTextValue(root, myXMLResources.getString("Neighbor")));
+		String typeLife = getTextValue(root, myXMLResources.getString("LifeType"));
+		String name = getTextValue(root, myXMLResources.getString("Title"));
+
+		LifeRule myLife = new LifeRule(cellLength, row, column, neighbor, emptyColor, liveColor, typeLife);
 		myLife.setName(name);
 
 		return myLife;

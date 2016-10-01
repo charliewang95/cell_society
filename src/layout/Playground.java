@@ -220,6 +220,7 @@ public class Playground {
 	private void getParsedObject(String fileName) {
 		XMLParser parser = new XMLParser();
 		RuleXMLFactory factory = myRuleMap.get(fileName);
+		//be able to take in a file with or without the xml extension
 		File f = new File(XML_FILES_LOCATION + myFileName + ".xml");
 		Rule ruleInXML;
 		if (f.isFile() && f.getName().endsWith(XML_SUFFIX)) {

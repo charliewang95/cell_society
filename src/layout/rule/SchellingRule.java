@@ -12,13 +12,13 @@ public class SchellingRule extends Rule {
 	private static final int EMPTY = 0;
 	private static final int AAA = 1; // group A
 	private static final int BBB = 2; // group B
-	private static final int NUMNEIGHBOR = 6;
+	private int NUMNEIGHBOR;
 	private double myPercentageA; // parameter
 	private double myPercentageEmpty; // parameter
 	private Parameter mySatisfied; // parameter
-	private static final Color EMPTYCOLOR = Color.WHITE;
-	private static final Color AAACOLOR = Color.RED;
-	private static final Color BBBCOLOR = Color.BLUE;
+//	private static final Color EMPTYCOLOR = Color.WHITE;
+//	private static final Color AAACOLOR = Color.RED;
+//	private static final Color BBBCOLOR = Color.BLUE;
 	private int myNumA;
 	private int myNumB;
 	private int myNumE;
@@ -27,12 +27,13 @@ public class SchellingRule extends Rule {
 	private int[] myEs;
 	private int[] myEsTMP;
 
-	public SchellingRule(int cellLength, int row, int column) {
+	public SchellingRule(double cellLength, int row, int column, int neighbor, double percentA, double percentEmpty, double satisfy, Color empty, Color aColor, Color bColor) {
 		super(cellLength, row, column);
-		myColors = new Color[] { EMPTYCOLOR, AAACOLOR, BBBCOLOR };
-		myPercentageA = 0.1;
-		myPercentageEmpty = 0.1;
-		mySatisfied = new Parameter(0.7, myResources.getString("SchellingRuleSlider"), 0, 1);
+		myColors = new Color[] { empty, aColor, bColor };
+		myPercentageA = percentA;
+		myPercentageEmpty = percentEmpty;
+		NUMNEIGHBOR = neighbor;
+		mySatisfied = new Parameter(satisfy, myResources.getString("SchellingRuleSlider"), 0, 1);
 		parameters.add(mySatisfied);
 		myCounters = new int[0];
 		myLegend = new String[0];

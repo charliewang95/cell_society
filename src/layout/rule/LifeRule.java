@@ -7,15 +7,16 @@ import layout.Rule;
 public class LifeRule extends Rule {
 	private static final int EMPTY = 0;
 	private static final int LIVE = 1;
-	private static final int NUMNEIGHBOR = 8;
-	private static final Color EMPTYCOLOR = Color.LIGHTGREY;
-	private static final Color LIVECOLOR = Color.BLACK;
+	private int NUMNEIGHBOR;
+//	private static final Color EMPTYCOLOR = Color.LIGHTGREY;
+//	private static final Color LIVECOLOR = Color.BLACK;
 	private String myModel;
 
-	public LifeRule(int cellLength, int row, int column) {
+	public LifeRule(double cellLength, int row, int column, int neighbor, Color empty, Color live, String model) {
 		super(cellLength, row, column);
-		myColors = new Color[] { EMPTYCOLOR, LIVECOLOR };
-		myModel = "Gosper";
+		myColors = new Color[] { empty, live };
+		myModel = model;
+		NUMNEIGHBOR = neighbor;
 		myCounters = new int[1];
 		myLegend = new String[1];
 		myLegend[0] = "Live";

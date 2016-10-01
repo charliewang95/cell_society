@@ -5,8 +5,16 @@ import java.util.ResourceBundle;
 
 import javafx.scene.paint.Color;
 import layout.rule.Parameter;
+import layout.rule.WatorRule;
 import layout.rule.watoranimals.Animal;
 
+/**
+ * The parent class for all the subclass rules
+ * Most methods are defined in this class 
+ * 
+ * @author Charlie Wang
+ *
+ */
 public abstract class Rule {
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	
@@ -70,7 +78,11 @@ public abstract class Rule {
 				double y3 = myCellLength * (i + 1);
 				double x4 = myCellLength * (j);
 				double y4 = myCellLength * (i + 1);
-				myGrid[i][j] = new Animal(new double[] { x1, x2, x3, x4}, new double[] { y1, y2, y3, y4}, i, j);
+				if (this instanceof WatorRule) {
+					myGrid[i][j] = new Animal(new double[] { x1, x2, x3, x4}, new double[] { y1, y2, y3, y4}, i, j);
+				} else {
+					myGrid[i][j] = new Cell(new double[] { x1, x2, x3, x4}, new double[] { y1, y2, y3, y4}, i, j);
+				}
 			}
 		}
 	}
@@ -97,7 +109,11 @@ public abstract class Rule {
 					x3 = (myCellLength / 2) * (j + 2);
 					y3 = (myCellLength * Math.sqrt(3) / 2) * (i + 1);
 				}
-				myGrid[i][j] = new Cell(new double[] { x1, x2, x3 }, new double[] { y1, y2, y3 }, i, j);
+				if (this instanceof WatorRule) {
+					myGrid[i][j] = new Animal(new double[] { x1, x2, x3 }, new double[] { y1, y2, y3 }, i, j);
+				} else {
+					myGrid[i][j] = new Cell(new double[] { x1, x2, x3 }, new double[] { y1, y2, y3 }, i, j);
+				}
 			}
 		}
 	}
@@ -131,8 +147,11 @@ public abstract class Rule {
 					y[4] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 3);
 					y[5] = (myCellLength / 2 * Math.sqrt(3)) * (2 * i + 2);
 				}
-
-				myGrid[i][j] = new Cell(x, y, i, j);
+				if (this instanceof WatorRule) {
+					myGrid[i][j] = new Animal(x, y, i, j);
+				} else {
+					myGrid[i][j] = new Cell(x, y, i, j);
+				} 
 			}
 		}
 	}

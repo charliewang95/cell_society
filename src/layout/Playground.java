@@ -173,6 +173,8 @@ public class Playground {
 			} catch (XMLFactoryException e) {
 				System.err.println(myResources.getString("ReadingFileError") + f.getPath());
 				e.printStackTrace();
+				//need to retry, maybe return to the startscreen and pop up an error that says
+				//could not read file. 
 			}
 		}
 	}

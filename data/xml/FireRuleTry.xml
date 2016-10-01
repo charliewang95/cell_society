@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Rule id = "FireRule">
+	<nameRule>FireRule</nameRule>
+	<title>Catching Fire</title>
+	<author>Charlie</author>
+	<length>600</length>
+	<width>600</width>
+	<xSize>10</xSize>
+	<ySize>10</ySize>
+	<probcatch>.6</probcatch>
+	
+	<init>
+		<row id = "1">
+			<column>state</column>
+			<column>state</column>
+			<column>state</column>
+			<column>state</column>
+			<column>state</column>
+			<column>state</column>
+			<column>state</column>
+			<column>state</column>
+			<column>state</column>
+			<column>state</column>
+		</row>
+		<row id = "2">
+			<column>state</column>
+			<column>state</column>
+			<column>state</column>
+			<column>state</column>
+			<column>state</column>
+			<column>state</column>
+			<column>state</column>
+			<column>state</column>
+			<column>state</column>
+			<column>state</column>
+		</row>
+	</init>	
+		
+</Rule>

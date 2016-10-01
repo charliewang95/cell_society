@@ -2,6 +2,7 @@ package layout;
 
 public abstract class Rule {
 	protected Cell[][] myGrid;
+	protected int[][] myUpdatedGrid;
 	protected int myLength;
 	protected int myWidth;
 	protected int myRow;
@@ -23,7 +24,8 @@ public abstract class Rule {
 	 * @param column
 	 *            total number of columns
 	 */
-	protected Rule(int length, int width, int row, int column) {
+	protected Rule(int length, int width, int row, int column, Cell[][] newGrid) {
+		myGrid = newGrid;
 		myLength = length;
 		myWidth = width;
 		myRow = row;
@@ -174,6 +176,20 @@ public abstract class Rule {
 	 */
 	public Cell[][] getGrid(){
 		return myGrid;
+	}
+	
+	/**
+	 * set the grid through parameter 
+	 */
+	public void setGrid(Cell[][] grid) {
+		myGrid = grid;
+	}
+	
+	/**
+	 * set the updated grid through parameter 
+	 */
+	public void setUpdatedGrid(int[][] upGrid) {
+		myUpdatedGrid = upGrid;
 	}
 	
 	/**

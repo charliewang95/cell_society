@@ -11,24 +11,34 @@ public class FireRule extends Rule {
 	private static final int BURN = 2;
 	private static final int NUMNEIGHBOR = 4;
 	private double myProbCatch; // parameter
-	private static final Color EMPTYCOLOR = Color.YELLOW;
-	private static final Color TREECOLOR = Color.GREEN;
-	private static final Color BURNCOLOR = Color.RED;
+//	private static final Color EMPTYCOLOR = Color.YELLOW;
+//	private static final Color TREECOLOR = Color.GREEN;
+//	private static final Color BURNCOLOR = Color.RED;
 	private Color[] myColors;
 	private int[][] myUpdatedGrid;
 
-	public FireRule(int length, int width, int row, int column) {
-		super(length, width, row, column);
-		myColors = new Color[] { EMPTYCOLOR, TREECOLOR, BURNCOLOR };
-		myProbCatch = 0.5;
+	public FireRule(int length, int width, int row, int column, Cell[][] newGrid) {
+		super(length, width, row, column, newGrid);
+		//myProbCatch = 0.5;
 	}
+
 
 	public int getColumn() {
 		return myColumn;
 	}
+	
+	public void setProbCatch(double probcatch) {
+		myProbCatch = probcatch;
+	}
+	
+	public void setColor(Color empty, Color tree, Color burn) {
+		myColors = new Color[] { empty, tree, burn };
+	}
 
 	@Override
 	public void initGrid() {
+		//if myGrid is null, proceed. else, it was already created 
+		//through XML
 		myGrid = new Cell[myRow][myColumn];
 		myUpdatedGrid = new int[myRow][myColumn];
 		for (int i = 0; i < myRow; i++) {
@@ -84,7 +94,5 @@ public class FireRule extends Rule {
 		}
 	}
 
-	public void setProbCatch(double probcatch) {
-		myProbCatch = probcatch;
-	}
+	
 }

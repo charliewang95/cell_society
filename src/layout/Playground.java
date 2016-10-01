@@ -214,7 +214,7 @@ public class Playground {
 	public void drawGrid() {
 		for (int i = 0; i < myRule.myRow; i++) {
 			for (int j = 0; j < myRule.myColumn; j++) {
-				myRoot.getChildren().add(myRule.getGrid()[i][j].getRec());
+				myRoot.getChildren().add(myRule.getGrid()[i][j].getShape());
 			}
 		}
 	}
@@ -249,7 +249,7 @@ public class Playground {
 		Cell[][] grid = myRule.getGrid();
 		for (int i = 0; i < grid.length; i++){
 			for (int j = 0; j < grid[0].length; j++){
-				if (grid[i][j].getRec().contains(x, y)){
+				if (grid[i][j].getShape().contains(x, y)){
 					if (grid[i][j].getState() != 0){
 						myRule.getCounters()[grid[i][j].getState() - 1]--;
 					}

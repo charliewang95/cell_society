@@ -19,7 +19,6 @@ public class SchellingRule extends Rule {
 	private static final Color EMPTYCOLOR = Color.WHITE;
 	private static final Color AAACOLOR = Color.RED;
 	private static final Color BBBCOLOR = Color.BLUE;
-	private Color[] myColors;
 	private int myNumA;
 	private int myNumB;
 	private int myNumE;
@@ -47,7 +46,7 @@ public class SchellingRule extends Rule {
 		myBs = new int[myNumB];
 		myEs = new int[myNumE];
 		myEsTMP = new int[myNumE];
-		
+		myGrid = new Cell[myRow][myColumn];
 		initBoard(NUMNEIGHBOR);
 		initState();
 		initNeighbor(NUMNEIGHBOR);
@@ -148,8 +147,5 @@ public class SchellingRule extends Rule {
 	public void setPercentageEmpty(double percentageEmpty) {
 		myPercentageEmpty = percentageEmpty;
 	}
-	
-	public Color[] getColors(){
-		return myColors;
-	}
+
 }

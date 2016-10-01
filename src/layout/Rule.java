@@ -17,9 +17,11 @@ public abstract class Rule {
 	protected double myLength;
 	protected double myWidth;
 	protected String ruleName;
+
 	protected ArrayList<Parameter> parameters;
 	protected ResourceBundle myResources;
 	protected int[] myCounters;
+	protected Color[] myColors;
 
 	/**
 	 * Construct the rule
@@ -56,7 +58,6 @@ public abstract class Rule {
 	protected void initRec() {
 		myWidth = myCellLength * myColumn;
 		myLength = myCellLength * myRow;
-		myGrid = new Cell[myRow][myColumn];
 		myUpdatedGrid = new int[myRow][myColumn];
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
@@ -78,7 +79,6 @@ public abstract class Rule {
 	protected void initTri() {
 		myWidth = myCellLength * (myColumn + 1) / 2;
 		myLength = (myCellLength * Math.sqrt(3) / 2) * myRow;
-		myGrid = new Cell[myRow][myColumn];
 		myUpdatedGrid = new int[myRow][myColumn];
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
@@ -106,8 +106,6 @@ public abstract class Rule {
 	protected void initHex() {
 		myWidth = myCellLength * (3.0 / 2) * (myColumn) + myCellLength / 2;
 		myLength = myCellLength * (Math.sqrt(3)) * myRow + myCellLength * (Math.sqrt(3)) / 2;
-		System.out.print(myWidth + " " + myLength);
-		myGrid = new Cell[myRow][myColumn];
 		myUpdatedGrid = new int[myRow][myColumn];
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
@@ -314,13 +312,15 @@ public abstract class Rule {
 		System.out.println();
 	}
 	
-	public abstract Color[] getColors();
-	
 	public ArrayList<Parameter> getParameters(){
 		return parameters;
 	}
 	
 	public int[] getCounters(){
 		return myCounters;
+	}
+	
+	public Color[] getColors() {
+		return myColors;
 	}
 }

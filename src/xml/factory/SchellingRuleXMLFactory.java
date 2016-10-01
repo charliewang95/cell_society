@@ -36,7 +36,7 @@ public class SchellingRuleXMLFactory extends RuleXMLFactory {
             throw new XMLFactoryException("XML file does not represent the %s", getRuleType());
         }
         Integer length = Integer.parseInt(getTextValue(root, myResources.getString("Length")));
-        Integer width = Integer.parseInt(getTextValue(root, myResources.getString("Width")));
+        Integer cellLength = Integer.parseInt(getTextValue(root, myResources.getString("Width")));
         Integer row = Integer.parseInt(getTextValue(root, myResources.getString("Row")));
         Integer column = Integer.parseInt(getTextValue(root, myResources.getString("Column")));
         double percentageA = Double.parseDouble(getTextValue(root, myResources.getString("PercentageA")));
@@ -44,7 +44,7 @@ public class SchellingRuleXMLFactory extends RuleXMLFactory {
         double satisfy = Double.parseDouble(getTextValue(root, myResources.getString("Satisfy")));
         String name = getTextValue(root, myResources.getString("Title"));
         
-        SchellingRule mySchelling = new SchellingRule(length, width, row, column);
+        SchellingRule mySchelling = new SchellingRule(cellLength, row, column);
         mySchelling.setSatisfied(satisfy);
         mySchelling.setPercentageA(percentageA);
         mySchelling.setPercentageEmpty(percentageEmpty);

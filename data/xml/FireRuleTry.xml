@@ -36,4 +36,19 @@
 		</row>
 	</init>	
 		
+		
+		
+	<length>800</length>
+    <width>800</width>
+    <xSize>100</xSize>
+    <ySize>100</ySize>
+    <probcatch>.6</probcatch>
+    <color>
+    	<empty>YELLOW</empty>
+    	<tree>GREEN</tree>
+    	<burn>RED</burn>
+    </color>
+		
+	
+	
 </Rule>

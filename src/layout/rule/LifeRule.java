@@ -11,27 +11,21 @@ public class LifeRule extends Rule {
 	private static final Color EMPTYCOLOR = Color.LIGHTGREY;
 	private static final Color LIVECOLOR = Color.BLACK;
 	private String myModel;
-	private Color[] myColors;
-	private int[][] myUpdatedGrid;
 
-	public LifeRule(int length, int width, int row, int column) {
-		super(length, width, row, column);
+	public LifeRule(int cellLength, int row, int column) {
+		super(cellLength, row, column);
 		myColors = new Color[] { EMPTYCOLOR, LIVECOLOR };
 		myModel = "Gosper";
+		myCounters = new int[1];
+		myLegend = new String[1];
+		myLegend[0] = "Live";
 	}
 
 	public void initGrid() {
 		myGrid = new Cell[myRow][myColumn];
-		myUpdatedGrid = new int[myRow][myColumn];
-		for (int i = 0; i < myRow; i++) {
-			for (int j = 0; j < myColumn; j++) {
-				int x = cellWidth * j;
-				int y = cellLength * i;
-				myGrid[i][j] = new Cell(x, y, cellWidth, cellLength, i, j);
-			}
-		}
+		initBoard(4);
 		initState();
-		initNeighbor8();
+		initNeighbor(NUMNEIGHBOR);
 	}
 
 	@Override
@@ -66,10 +60,13 @@ public class LifeRule extends Rule {
 				}
 			}
 		}
-
+		myCounters[0] = 0;
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				myGrid[i][j].setState(myUpdatedGrid[i][j]);
+				if (myUpdatedGrid[i][j] == LIVE){
+					myCounters[0]++;
+				}
 				myGrid[i][j].setColor(myColors[myUpdatedGrid[i][j]]);
 			}
 		}
@@ -81,6 +78,7 @@ public class LifeRule extends Rule {
 				if (i == myRow / 2 && j < myColumn / 2 + 6 && j > myColumn / 2 - 5) {
 					myGrid[i][j].init(LIVE, myColors[LIVE], NUMNEIGHBOR);
 					myUpdatedGrid[i][j] = LIVE;
+					myCounters[0]++;
 				} else {
 					myGrid[i][j].init(EMPTY, myColors[EMPTY], NUMNEIGHBOR);
 					myUpdatedGrid[i][j] = EMPTY;
@@ -98,6 +96,7 @@ public class LifeRule extends Rule {
 						|| (i == myRow / 2 - 2 && j == myColumn / 2) || (i == myRow / 2 + 2 && j == myColumn / 2)) {
 					myGrid[i][j].init(LIVE, myColors[LIVE], NUMNEIGHBOR);
 					myUpdatedGrid[i][j] = LIVE;
+					myCounters[0]++;
 				} else {
 					myGrid[i][j].init(EMPTY, myColors[EMPTY], NUMNEIGHBOR);
 					myUpdatedGrid[i][j] = EMPTY;
@@ -114,6 +113,7 @@ public class LifeRule extends Rule {
 		for (int i = 0; i < xarray.length; i++) {
 			myGrid[xarray[i]][yarray[i]].init(LIVE, myColors[LIVE], NUMNEIGHBOR);
 			myUpdatedGrid[xarray[i]][yarray[i]] = LIVE;
+			myCounters[0]++;
 		}
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
@@ -127,6 +127,10 @@ public class LifeRule extends Rule {
 
 	public void setModel(String model) {
 		myModel = model;
+	}
+	
+	public Color[] getColors(){
+		return myColors;
 	}
 
 }

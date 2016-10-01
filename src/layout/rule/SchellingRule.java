@@ -12,15 +12,13 @@ public class SchellingRule extends Rule {
 	private static final int EMPTY = 0;
 	private static final int AAA = 1; // group A
 	private static final int BBB = 2; // group B
-	private static final int NUMNEIGHBOR = 8;
+	private static final int NUMNEIGHBOR = 6;
 	private double myPercentageA; // parameter
 	private double myPercentageEmpty; // parameter
-	private double mySatisfied; // parameter
+	private Parameter mySatisfied; // parameter
 	private static final Color EMPTYCOLOR = Color.WHITE;
 	private static final Color AAACOLOR = Color.RED;
 	private static final Color BBBCOLOR = Color.BLUE;
-	private Color[] myColors;
-	private int[][] myUpdatedGrid;
 	private int myNumA;
 	private int myNumB;
 	private int myNumE;
@@ -29,12 +27,15 @@ public class SchellingRule extends Rule {
 	private int[] myEs;
 	private int[] myEsTMP;
 
-	public SchellingRule(int length, int width, int row, int column) {
-		super(length, width, row, column);
+	public SchellingRule(int cellLength, int row, int column) {
+		super(cellLength, row, column);
 		myColors = new Color[] { EMPTYCOLOR, AAACOLOR, BBBCOLOR };
 		myPercentageA = 0.1;
 		myPercentageEmpty = 0.1;
-		mySatisfied = 0.7;
+		mySatisfied = new Parameter(0.7, myResources.getString("SchellingRuleSlider"), 0, 1);
+		parameters.add(mySatisfied);
+		myCounters = new int[0];
+		myLegend = new String[0];
 	}
 
 	@Override
@@ -46,27 +47,21 @@ public class SchellingRule extends Rule {
 		myBs = new int[myNumB];
 		myEs = new int[myNumE];
 		myEsTMP = new int[myNumE];
-		
 		myGrid = new Cell[myRow][myColumn];
-		myUpdatedGrid = new int[myRow][myColumn];
-		for (int i = 0; i < myRow; i++) {
-			for (int j = 0; j < myColumn; j++) {
-				int x = cellWidth * j;
-				int y = cellLength * i;
-				myGrid[i][j] = new Cell(x, y, cellWidth, cellLength, i, j);
-			}
-		}
+		initBoard(NUMNEIGHBOR);
 		initState();
-		initNeighbor8();
+		initNeighbor(NUMNEIGHBOR);
 	}
 
 	@Override
 	public void initState() {
 		ArrayList<Integer> list = makeRandomList(myRow * myColumn);
+		
 		for (int k = 0; k < myRow * myColumn; k++) {
 			int index = list.get(k);
-			int i = index / myRow;
-			int j = index - i * myRow;
+			int i = index / myColumn;
+			int j = index - i * myColumn;
+			
 			if (k < myNumA) {
 				myGrid[i][j].init(AAA, myColors[AAA], NUMNEIGHBOR);
 				myUpdatedGrid[i][j] = AAA;
@@ -97,7 +92,7 @@ public class SchellingRule extends Rule {
 	public void changeState() {
 		if (myEs.length < 1)
 			return;
-
+		
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				double same = 0;
@@ -114,20 +109,22 @@ public class SchellingRule extends Rule {
 
 					double percent = total == 0 ? 0 : same / total;
 
-					if (percent < mySatisfied) {
+					if (percent < mySatisfied.getValue()) {
 						myUpdatedGrid[i][j] = EMPTY;
 						Random random = new Random();
 						int r = random.nextInt(myEs.length);
 						int chosen = myEs[r];
-
-						int a = chosen / myRow;
-						int b = chosen - a * myRow;
+						
+						int a = chosen / myColumn;
+						int b = chosen - a * myColumn;
+						
 						myUpdatedGrid[a][b] = myGrid[i][j].getState();
-						myEs[r] = i * myRow + j;
+						myEs[r] = i * myColumn + j;
 					}
 				}
 			}
 		}
+		System.out.println();
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				myGrid[i][j].setState(myUpdatedGrid[i][j]);
@@ -138,7 +135,7 @@ public class SchellingRule extends Rule {
 	}
 
 	public void setSatisfied(double satisfied) {
-		mySatisfied = satisfied;
+		mySatisfied.setValue(satisfied);
 	}
 	
 	public void setPercentageA(double percentageA) {
@@ -148,4 +145,5 @@ public class SchellingRule extends Rule {
 	public void setPercentageEmpty(double percentageEmpty) {
 		myPercentageEmpty = percentageEmpty;
 	}
+
 }

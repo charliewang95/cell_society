@@ -38,7 +38,7 @@ public class StartScreen {
 	private Playground myPlayground;
 	private ResourceBundle myResources;
 	private UIObjectPlacer myPlacer;
-	private List<String> ruleList = Arrays.asList("FireRule", "LifeRule", "SchellingRule", "WatorRule");
+	private List<String> myRuleList = Arrays.asList("FireRule", "LifeRule", "SchellingRule", "WatorRule");
 	
 	/**
 	 * Constructor for StartScreen that initializes the stage, the resource bundle, and the playground, calls init to
@@ -92,7 +92,7 @@ public class StartScreen {
 		textField.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				String inText = textField.getCharacters().toString();
-				if (ruleList.contains(inText)) {
+				if (myRuleList.contains(inText)) {
 					myPlayground.setFileName(inText);
 					myPlayground.init(myStage);
 				} else {
@@ -109,7 +109,7 @@ public class StartScreen {
 	 * @param scene - the scene to which the title and subtitle should be added
 	 */
 	private void setUpTitle(Scene scene) {
-		myPlacer.addText(scene.getWidth()/2, TITLE_Y, TITLE_SIZE, myResources.getString("Title"));
-		myPlacer.addText(scene.getWidth()/2, SUBTITLE_Y, TITLE_SIZE/2, myResources.getString("Subtitle"));
+		myPlacer.addText(scene.getWidth()/2, TITLE_Y, TITLE_SIZE, myResources.getString("Title"), true);
+		myPlacer.addText(scene.getWidth()/2, SUBTITLE_Y, TITLE_SIZE/2, myResources.getString("Subtitle"), true);
 	}
 }

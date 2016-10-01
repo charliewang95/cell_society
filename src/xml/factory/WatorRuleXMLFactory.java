@@ -36,7 +36,7 @@ public class WatorRuleXMLFactory extends RuleXMLFactory {
             throw new XMLFactoryException("XML file does not represent the %s", getRuleType());
         }
         Integer length = Integer.parseInt(getTextValue(root, myResources.getString("Length")));
-        Integer width = Integer.parseInt(getTextValue(root, myResources.getString("Width")));
+        Integer cellLength = Integer.parseInt(getTextValue(root, myResources.getString("Width")));
         Integer row = Integer.parseInt(getTextValue(root, myResources.getString("Row")));
         Integer column = Integer.parseInt(getTextValue(root, myResources.getString("Column")));
         
@@ -47,7 +47,7 @@ public class WatorRuleXMLFactory extends RuleXMLFactory {
         Integer sharkDeath = Integer.parseInt(getTextValue(root, myResources.getString("SharkDeath")));
         String name = getTextValue(root, myResources.getString("Title"));
         
-        WatorRule myWator = new WatorRule(length, width, row, column);
+        WatorRule myWator = new WatorRule(cellLength, row, column);
         myWator.setFishReproduce(fishRepro);
         myWator.setSharkReproduce(sharkRepro);
         myWator.setSharkDeath(sharkDeath);

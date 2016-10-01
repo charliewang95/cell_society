@@ -17,9 +17,9 @@ import javafx.scene.text.Text;
 
 public class UIObjectPlacer {
 	private static final Paint FONT_COLOR = Color.BLACK;
-	private static final int TEXT_OFFSET = 50;
-	private static final int FONT_SIZE = 15;
-	private static final int Y_OFFSET = 30;
+	private static final int TEXT_OFFSET = 75;
+	private static final int SLIDER_FONT_SIZE = 10;
+	private static final int Y_OFFSET = 15;
 	
 	private Group myRoot;
 	private ResourceBundle myResources;
@@ -29,16 +29,19 @@ public class UIObjectPlacer {
 		myResources = resources;
 	}
 	
-	public void addText(double x, double y, int fontSize, String message){
+	public Text addText(double x, double y, int fontSize, String message, boolean centered){
 		Text text = new Text(message);
 		text.setFont(new Font(myResources.getString("Font"), fontSize));
-		text.setX(x - (text.getBoundsInLocal().getWidth()/2));
-		text.setY(y + text.getBoundsInLocal().getHeight());
+		if (centered)
+			text.relocate(x - (text.getBoundsInLocal().getWidth()/2), y);
+		else
+			text.relocate(x, y);
 		text.setFill(FONT_COLOR);
 		myRoot.getChildren().add(text);
+		return text;
 	}
 	
-	public  TextField addTextField(String message, double x, double y){
+	public TextField addTextField(String message, double x, double y){
 		TextField textField = new TextField(message);
 		textField.relocate(x, y);
 		myRoot.getChildren().add(textField);
@@ -56,10 +59,9 @@ public class UIObjectPlacer {
 	public Slider addSlider(double x, double y, double min, double max, double value, String message){
 		Slider slider = new Slider(min, max, value);
 		slider.relocate(x, y);
+		slider.setShowTickLabels(true);
 		myRoot.getChildren().add(slider);
-		Text text = new Text(x + TEXT_OFFSET, y + Y_OFFSET, message);
-		text.setFont(new Font(FONT_SIZE));
-		myRoot.getChildren().add(text);
+		addText(x + TEXT_OFFSET, y + Y_OFFSET, SLIDER_FONT_SIZE, message, true);
 		return slider;
 	}
 	

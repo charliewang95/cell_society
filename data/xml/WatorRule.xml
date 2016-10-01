@@ -3,10 +3,10 @@
     <nameRule>WatorRule</nameRule>
     <title>Wa-Tor</title>
     <author>Charlie</author>
-    <length>800</length>
-    <width>800</width>
-    <xSize>100</xSize>
-    <ySize>100</ySize>
+    <length>400</length>
+    <width>8</width>
+    <xSize>30</xSize>
+    <ySize>20</ySize>
     
     <waterPercent>.95</waterPercent>
     <fishPercent>.9</fishPercent>

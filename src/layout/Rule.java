@@ -2,7 +2,6 @@ package layout;
 
 import java.util.ArrayList;
 import java.util.ResourceBundle;
-
 import javafx.scene.paint.Color;
 import layout.rule.Parameter;
 import layout.rule.WatorRule;
@@ -31,6 +30,7 @@ public abstract class Rule {
 	protected ResourceBundle myResources;
 	protected int[] myCounters;
 	protected Color[] myColors;
+	protected String[] myLegend;
 
 	/**
 	 * Construct the rule
@@ -44,6 +44,12 @@ public abstract class Rule {
 	 * @param column
 	 *            total number of columns
 	 */
+//<<<<<<< HEAD
+//	protected Rule(int length, int width, int row, int column, Cell[][] newGrid) {
+//		myGrid = newGrid;
+//		myLength = length;
+//		myWidth = width;
+//=======
 	protected Rule(double cellLength, int row, int column) {
 		myCellLength = cellLength;
 		myRow = row;
@@ -317,6 +323,20 @@ public abstract class Rule {
 		return myLength;
 	}
 
+//	/**
+//	 * set the grid through parameter 
+//	 */
+//	public void setGrid(Cell[][] grid) {
+//		myGrid = grid;
+//	}
+//	
+//	/**
+//	 * set the updated grid through parameter 
+//	 */
+//	public void setUpdatedGrid(int[][] upGrid) {
+//		myUpdatedGrid = upGrid;
+//	}
+	
 	/**
 	 * A testing method that prints each step's states in console as a grid
 	 */
@@ -340,5 +360,9 @@ public abstract class Rule {
 	
 	public Color[] getColors() {
 		return myColors;
+	}
+	
+	public String[] getLegend(){
+		return myLegend;
 	}
 }

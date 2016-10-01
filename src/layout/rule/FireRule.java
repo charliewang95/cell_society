@@ -9,22 +9,41 @@ public class FireRule extends Rule {
 	private static final int EMPTY = 0;
 	private static final int TREE = 1;
 	private static final int BURN = 2;
-	private static final int NUMNEIGHBOR = 6;
-	private Parameter myProbCatch; // parameter
-	private static final Color EMPTYCOLOR = Color.YELLOW;
-	private static final Color TREECOLOR = Color.GREEN;
-	private static final Color BURNCOLOR = Color.RED;
+	private final int NUMNEIGHBOR;
+	//private double myProbCatch; // parameter
+	private Parameter myProbCatch;
+//	private static final Color EMPTYCOLOR = Color.YELLOW;
+//	private static final Color TREECOLOR = Color.GREEN;
+//	private static final Color BURNCOLOR = Color.RED;
+//	private Color[] myColors;
+//	private int[][] myUpdatedGrid;
 
-	public FireRule(double cellLength, int row, int column) {
+//	public FireRule(int length, int width, int row, int column, Cell[][] newGrid) {
+//		super(length, width, row, column, newGrid);
+//		//myProbCatch = 0.5;
+//	}
+
+	public FireRule(double cellLength, int row, int column, Color empty, Color tree, Color burn, double probCatch, int neighbor) {
 		super(cellLength, row, column);
-		myColors = new Color[] { EMPTYCOLOR, TREECOLOR, BURNCOLOR };
-		myProbCatch = new Parameter(0.5, myResources.getString("FireRuleSlider"), 0, 1);
+		myColors = new Color[] { empty, tree, burn };
+		NUMNEIGHBOR = neighbor;
+		myProbCatch = new Parameter(probCatch, myResources.getString("FireRuleSlider"), 0, 1);
 		parameters.add(myProbCatch);
 		myCounters = new int[2];
+		myLegend = new String[2];
+		myLegend[0] = "Tree";
+		myLegend[1] = "Fire";
 	}
+
+	
+//	public void setColor(Color empty, Color tree, Color burn) {
+//		myColors = new Color[] { empty, tree, burn };
+//	}
 
 	@Override
 	public void initGrid() {
+		//if myGrid is null, proceed. else, it was already created 
+		//through XML
 		myGrid = new Cell[myRow][myColumn];
 		initBoard(NUMNEIGHBOR);
 		initState();
@@ -79,6 +98,7 @@ public class FireRule extends Rule {
 			}
 		}
 	}
+
 
 	public void setProbCatch(double probcatch) {
 		myProbCatch.setValue(probcatch);

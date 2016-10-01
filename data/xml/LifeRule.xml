@@ -4,14 +4,14 @@
     <title>Game of Life</title>
     <author>Charlie</author>
     
-    <cellLength>10</cellLength>
-    <xSize>100</xSize>
-    <ySize>100</ySize>
+    <cellLength>5</cellLength>
+    <xSize>5</xSize>
+    <ySize>5</ySize>
     
     <emptyColor>LIGHTGREY</emptyColor>
     <liveColor>BLACK</liveColor>
     
     <numNeighbor>8</numNeighbor>
-    <typeLife>Gosper</typeLife>
+    <typeLife>10Cell</typeLife>
 
 </Rule>

@@ -3,20 +3,21 @@ package layout;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.scene.paint.Color;
+import layout.rule.NeighborManager;
 import layout.rule.Parameter;
 import layout.rule.WatorRule;
 import layout.rule.watoranimals.Animal;
 
 /**
- * The parent class for all the subclass rules
- * Most methods are defined in this class 
+ * The parent class for all the subclass rules Most methods are defined in this
+ * class
  * 
  * @author Charlie Wang
  *
  */
 public abstract class Rule {
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
-	
+
 	protected Cell[][] myGrid;
 	protected int[][] myUpdatedGrid;
 	protected double myCellLength;
@@ -25,6 +26,7 @@ public abstract class Rule {
 	protected double myLength;
 	protected double myWidth;
 	protected String ruleName;
+	private NeighborManager myNeighborManager;
 
 	protected ArrayList<Parameter> parameters;
 	protected ResourceBundle myResources;
@@ -44,16 +46,12 @@ public abstract class Rule {
 	 * @param column
 	 *            total number of columns
 	 */
-//<<<<<<< HEAD
-//	protected Rule(int length, int width, int row, int column, Cell[][] newGrid) {
-//		myGrid = newGrid;
-//		myLength = length;
-//		myWidth = width;
-//=======
+
 	protected Rule(double cellLength, int row, int column) {
 		myCellLength = cellLength;
 		myRow = row;
 		myColumn = column;
+		myNeighborManager = new NeighborManager(row, column);
 		parameters = new ArrayList<Parameter>();
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
 	}
@@ -85,9 +83,9 @@ public abstract class Rule {
 				double x4 = myCellLength * (j);
 				double y4 = myCellLength * (i + 1);
 				if (this instanceof WatorRule) {
-					myGrid[i][j] = new Animal(new double[] { x1, x2, x3, x4}, new double[] { y1, y2, y3, y4}, i, j);
+					myGrid[i][j] = new Animal(new double[] { x1, x2, x3, x4 }, new double[] { y1, y2, y3, y4 }, i, j);
 				} else {
-					myGrid[i][j] = new Cell(new double[] { x1, x2, x3, x4}, new double[] { y1, y2, y3, y4}, i, j);
+					myGrid[i][j] = new Cell(new double[] { x1, x2, x3, x4 }, new double[] { y1, y2, y3, y4 }, i, j);
 				}
 			}
 		}
@@ -157,7 +155,7 @@ public abstract class Rule {
 					myGrid[i][j] = new Animal(x, y, i, j);
 				} else {
 					myGrid[i][j] = new Cell(x, y, i, j);
-				} 
+				}
 			}
 		}
 	}
@@ -184,122 +182,10 @@ public abstract class Rule {
 	 */
 	public abstract void initState();
 
-	public void initNeighbor(int numNeighbor) {
-		if (numNeighbor == 3) {
-			initNeighbor3();
-		} else if (numNeighbor == 4) {
-			initNeighbor4();
-		} else if (numNeighbor == 6) {
-			initNeighbor6();
-		} else if (numNeighbor == 8) {
-			initNeighbor8();
-		}
-	}
-
-	public void initNeighbor3() {
-		for (int i = 0; i < myRow; i++) {
-			for (int j = 0; j < myColumn; j++) {
-				if ((i + j) % 2 == 0) {
-					initNeighborUp(i, j);
-				} else {
-					initNeighborDown(i, j);
-				}
-				initNeighborLeft(i, j);
-				initNeighborRight(i, j);
-			}
-		}
-	}
-
-	public void initNeighbor4() {
-		for (int i = 0; i < myRow; i++) {
-			for (int j = 0; j < myColumn; j++) {
-				initNeighborUp(i, j);
-				initNeighborLeft(i, j);
-				initNeighborRight(i, j);
-				initNeighborDown(i, j);
-			}
-		}
-	}
-
-	public void initNeighbor6() {
-		for (int i = 0; i < myRow; i++) {
-			for (int j = 0; j < myColumn; j++) {
-				if (j % 2 == 0) {
-					initNeighborTopLeft(i, j);
-					initNeighborTopRight(i, j);
-				} else {
-					initNeighborBottomLeft(i, j);
-					initNeighborBottomRight(i, j);
-				}
-				initNeighborUp(i, j);
-				initNeighborLeft(i, j);
-				initNeighborRight(i, j);
-				initNeighborDown(i, j);
-			}
-		}
-	}
-
-	public void initNeighbor8() {
-		for (int i = 0; i < myRow; i++) {
-			for (int j = 0; j < myColumn; j++) {
-				initNeighborTopLeft(i, j);
-				initNeighborUp(i, j);
-				initNeighborTopRight(i, j);
-				initNeighborLeft(i, j);
-				initNeighborRight(i, j);
-				initNeighborBottomLeft(i, j);
-				initNeighborDown(i, j);
-				initNeighborBottomRight(i, j);
-			}
-		}
-	}
-
-	public void initNeighborUp(int i, int j) {
-		if (i != 0) {
-			myGrid[i][j].addNeighbor(myGrid[i - 1][j]);
-		}
-	}
-
-	public void initNeighborLeft(int i, int j) {
-		if (j != 0) {
-			myGrid[i][j].addNeighbor(myGrid[i][j - 1]);
-		}
-	}
-
-	public void initNeighborRight(int i, int j) {
-		if (j != myColumn - 1) {
-			myGrid[i][j].addNeighbor(myGrid[i][j + 1]);
-		}
-	}
-
-	public void initNeighborDown(int i, int j) {
-		if (i != myRow - 1) {
-			myGrid[i][j].addNeighbor(myGrid[i + 1][j]);
-		}
-	}
-
-	public void initNeighborBottomRight(int i, int j) {
-		if (i != myRow - 1 && j != myColumn - 1) {
-			myGrid[i][j].addNeighbor(myGrid[i + 1][j + 1]);
-		}
-	}
-
-	public void initNeighborBottomLeft(int i, int j) {
-		if (i != myRow - 1 && j != 0) {
-			myGrid[i][j].addNeighbor(myGrid[i + 1][j - 1]);
-		}
-	}
-
-	public void initNeighborTopRight(int i, int j) {
-		if (i != 0 && j != myColumn - 1) {
-			myGrid[i][j].addNeighbor(myGrid[i - 1][j + 1]);
-		}
-	}
-
-	public void initNeighborTopLeft(int i, int j) {
-		if (i != 0 && j != 0) {
-			myGrid[i][j].addNeighbor(myGrid[i - 1][j - 1]);
-		}
+	public void initNeighbor(int numNeighbor, boolean toroidal) {
+		myNeighborManager.init(numNeighbor, myGrid, toroidal);
+		myNeighborManager.chooseMethod();
+		myGrid = myNeighborManager.getGrid();
 	}
 
 	/**
@@ -310,8 +196,8 @@ public abstract class Rule {
 	public Cell[][] getGrid() {
 		return myGrid;
 	}
-	
-	public int[][] getUpdatedGrid(){
+
+	public int[][] getUpdatedGrid() {
 		return myUpdatedGrid;
 	}
 
@@ -323,20 +209,6 @@ public abstract class Rule {
 		return myLength;
 	}
 
-//	/**
-//	 * set the grid through parameter 
-//	 */
-//	public void setGrid(Cell[][] grid) {
-//		myGrid = grid;
-//	}
-//	
-//	/**
-//	 * set the updated grid through parameter 
-//	 */
-//	public void setUpdatedGrid(int[][] upGrid) {
-//		myUpdatedGrid = upGrid;
-//	}
-	
 	/**
 	 * A testing method that prints each step's states in console as a grid
 	 */
@@ -349,20 +221,21 @@ public abstract class Rule {
 		}
 		System.out.println();
 	}
-	
-	public ArrayList<Parameter> getParameters(){
+
+	public ArrayList<Parameter> getParameters() {
 		return parameters;
 	}
-	
-	public int[] getCounters(){
+
+	public int[] getCounters() {
 		return myCounters;
 	}
-	
+
 	public Color[] getColors() {
 		return myColors;
 	}
-	
-	public String[] getLegend(){
+
+	public String[] getLegend() {
 		return myLegend;
 	}
+
 }

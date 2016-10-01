@@ -5,28 +5,25 @@ import javafx.scene.paint.Color;
 import layout.Cell;
 import layout.Rule;
 
+/**
+ * Back-end Algorithm for Fire Simulation rule
+ * 
+ * @author Charlie Wang
+ *
+ */
 public class FireRule extends Rule {
 	private static final int EMPTY = 0;
 	private static final int TREE = 1;
 	private static final int BURN = 2;
-	private final int NUMNEIGHBOR;
-	//private double myProbCatch; // parameter
+	private final int myNumNeighbor;
+	private final boolean myToroidal; //new
 	private Parameter myProbCatch;
-//	private static final Color EMPTYCOLOR = Color.YELLOW;
-//	private static final Color TREECOLOR = Color.GREEN;
-//	private static final Color BURNCOLOR = Color.RED;
-//	private Color[] myColors;
-//	private int[][] myUpdatedGrid;
-
-//	public FireRule(int length, int width, int row, int column, Cell[][] newGrid) {
-//		super(length, width, row, column, newGrid);
-//		//myProbCatch = 0.5;
-//	}
 
 	public FireRule(double cellLength, int row, int column, Color empty, Color tree, Color burn, double probCatch, int neighbor) {
 		super(cellLength, row, column);
 		myColors = new Color[] { empty, tree, burn };
-		NUMNEIGHBOR = neighbor;
+		myNumNeighbor = neighbor;
+		myToroidal = true;
 		myProbCatch = new Parameter(probCatch, myResources.getString("FireRuleSlider"), 0, 1);
 		parameters.add(myProbCatch);
 		myCounters = new int[2];
@@ -35,34 +32,30 @@ public class FireRule extends Rule {
 		myLegend[1] = "Fire";
 	}
 
-	
-//	public void setColor(Color empty, Color tree, Color burn) {
-//		myColors = new Color[] { empty, tree, burn };
-//	}
-
 	@Override
 	public void initGrid() {
 		//if myGrid is null, proceed. else, it was already created 
 		//through XML
 		myGrid = new Cell[myRow][myColumn];
-		initBoard(NUMNEIGHBOR);
+		initBoard(myNumNeighbor);
 		initState();
-		initNeighbor(NUMNEIGHBOR);
+		initNeighbor(myNumNeighbor, myToroidal);
 	}
 
 	@Override
 	public void initState() {
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
-				if (i == 0 || i == myRow - 1 || j == 0 || j == myColumn - 1) {
-					myGrid[i][j].init(EMPTY, myColors[EMPTY], NUMNEIGHBOR);
-					myUpdatedGrid[i][j] = EMPTY;
-				} else if (i == myRow / 2 && j == myColumn / 2) {
-					myGrid[i][j].init(BURN, myColors[BURN], NUMNEIGHBOR);
+//				if (i == 0 || i == myRow - 1 || j == 0 || j == myColumn - 1) {
+//					myGrid[i][j].init(EMPTY, myColors[EMPTY], myNumNeighbor);
+//					myUpdatedGrid[i][j] = EMPTY;
+//				} 
+				if (i == myRow / 2 && j == myColumn / 2) {
+					myGrid[i][j].init(BURN, myColors[BURN], myNumNeighbor);
 					myUpdatedGrid[i][j] = BURN;
 					myCounters[1]++;
 				} else {
-					myGrid[i][j].init(TREE, myColors[TREE], NUMNEIGHBOR);
+					myGrid[i][j].init(TREE, myColors[TREE], myNumNeighbor);
 					myUpdatedGrid[i][j] = TREE;
 					myCounters[0]++;
 				}

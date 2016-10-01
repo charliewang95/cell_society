@@ -8,17 +8,21 @@ import javafx.scene.paint.Color;
 import layout.Cell;
 import layout.Rule;
 
+/**
+ * Back-end Algorithm file for Schelling's Segregation model
+ * 
+ * @author Charlie Wang
+ *
+ */
 public class SchellingRule extends Rule {
 	private static final int EMPTY = 0;
 	private static final int AAA = 1; // group A
 	private static final int BBB = 2; // group B
-	private int NUMNEIGHBOR;
+	private int myNumNeighbor;
 	private double myPercentageA; // parameter
 	private double myPercentageEmpty; // parameter
 	private Parameter mySatisfied; // parameter
-//	private static final Color EMPTYCOLOR = Color.WHITE;
-//	private static final Color AAACOLOR = Color.RED;
-//	private static final Color BBBCOLOR = Color.BLUE;
+	private boolean myToroidal;
 	private int myNumA;
 	private int myNumB;
 	private int myNumE;
@@ -32,7 +36,8 @@ public class SchellingRule extends Rule {
 		myColors = new Color[] { empty, aColor, bColor };
 		myPercentageA = percentA;
 		myPercentageEmpty = percentEmpty;
-		NUMNEIGHBOR = neighbor;
+		myNumNeighbor = neighbor;
+		myToroidal = true;
 		mySatisfied = new Parameter(satisfy, myResources.getString("SchellingRuleSlider"), 0, 1);
 		parameters.add(mySatisfied);
 		myCounters = new int[0];
@@ -49,9 +54,9 @@ public class SchellingRule extends Rule {
 		myEs = new int[myNumE];
 		myEsTMP = new int[myNumE];
 		myGrid = new Cell[myRow][myColumn];
-		initBoard(NUMNEIGHBOR);
+		initBoard(myNumNeighbor);
 		initState();
-		initNeighbor(NUMNEIGHBOR);
+		initNeighbor(myNumNeighbor, myToroidal);
 	}
 
 	@Override
@@ -64,15 +69,15 @@ public class SchellingRule extends Rule {
 			int j = index - i * myColumn;
 			
 			if (k < myNumA) {
-				myGrid[i][j].init(AAA, myColors[AAA], NUMNEIGHBOR);
+				myGrid[i][j].init(AAA, myColors[AAA], myNumNeighbor);
 				myUpdatedGrid[i][j] = AAA;
 				myAs[k] = index;
 			} else if (k >= myNumA && k < myNumA + myNumB) {
-				myGrid[i][j].init(BBB, myColors[BBB], NUMNEIGHBOR);
+				myGrid[i][j].init(BBB, myColors[BBB], myNumNeighbor);
 				myUpdatedGrid[i][j] = BBB;
 				myBs[k - myNumA] = index;
 			} else {
-				myGrid[i][j].init(EMPTY, myColors[EMPTY], NUMNEIGHBOR);
+				myGrid[i][j].init(EMPTY, myColors[EMPTY], myNumNeighbor);
 				myUpdatedGrid[i][j] = EMPTY;
 				myEs[k - myNumA - myNumB] = index;
 				myEsTMP[k - myNumA - myNumB] = index;

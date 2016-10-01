@@ -4,10 +4,10 @@
     <title>Segregation</title>
     <author>Charlie</author>
     <cellLength>10</cellLength>
-    <xSize>30</xSize>
-    <ySize>50</ySize>
-    <rateA>0.1</rateA>
-    <rateEmpty>0.1</rateEmpty>
+    <xSize>50</xSize>
+    <ySize>30</ySize>
+    <rateA>0.55</rateA>
+    <rateEmpty>0.3</rateEmpty>
     <satisfied>0.7</satisfied>
     <numNeighbor>6</numNeighbor>
     

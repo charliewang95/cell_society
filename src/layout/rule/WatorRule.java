@@ -21,10 +21,8 @@ public class WatorRule extends Rule {
 	private static final int SHARK = 2;
 	private static final double LIFEMIN = 1;
 	private static final double LIFEMAX = 20;
-	private int NUMNEIGHBOR;
-//	private static final Color WATERCOLOR = Color.LIGHTBLUE;
-//	private static final Color FISHCOLOR = Color.GREEN;
-//	private static final Color SHARKCOLOR = Color.ORANGE;
+	private final boolean myToroidal; //new
+	private int myNumNeighbor;
 	
 	private Parameter myFishReproduceRate;
 	private Parameter mySharkReproduceRate;
@@ -38,12 +36,12 @@ public class WatorRule extends Rule {
 	public WatorRule(double cellLength, int sizeX, int sizeY, int neighbor, Color water, Color fish, Color shark, double fishBirth, double sharkBirth, double sharkDeath, double percentWater, double percentFish) {
 		super(cellLength, sizeX, sizeY);
 		myColors = new Color[] { water, fish, shark };
-		
+		myToroidal = true; //new
 		myFishReproduceRate = new Parameter(fishBirth, myResources.getString("FishReproductionSlider"), LIFEMIN, LIFEMAX);
 		mySharkReproduceRate = new Parameter(sharkBirth, myResources.getString("SharkReproductionSlider"), LIFEMIN, LIFEMAX);
 		mySharkDeathRate = new Parameter(sharkDeath, myResources.getString("SharkDeathSlider"), LIFEMIN, LIFEMAX);
 		
-		NUMNEIGHBOR = neighbor;
+		myNumNeighbor = neighbor;
 		
 		myPercentageWater = percentWater;
 		myPercentageFish = percentFish;
@@ -77,7 +75,7 @@ public class WatorRule extends Rule {
 	@Override
 	public void initGrid() {
 		myGrid = new Animal[myRow][myColumn];
-		initBoard(NUMNEIGHBOR);
+		initBoard(myNumNeighbor);
 		myUpdatedGrid = new TempGrid[myRow][myColumn];
 		
 		for (int i = 0; i < myRow; i++) {
@@ -86,7 +84,7 @@ public class WatorRule extends Rule {
 			}
 		}
 		initState();
-		initNeighbor(NUMNEIGHBOR);
+		initNeighbor(myNumNeighbor, myToroidal);
 	}
 
 	@Override
@@ -94,23 +92,20 @@ public class WatorRule extends Rule {
 		ArrayList<Integer> list = makeRandomList(myRow * myColumn);
 		int initWater = (int) (myRow * myColumn * myPercentageWater);
 		int initFish = (int) ((myRow * myColumn - initWater) * myPercentageFish);
-		//int initShark = myRow * myColumn - initWater - initFish;
+		
 		for (int k = 0; k < myRow * myColumn; k++) {
 			int index = list.get(k);
 			int i = index / myColumn;
 			int j = index - i * myColumn;
-			//int x = cellWidth * j;
-			//int y = cellLength * i;
+			
 			if (k < initWater) {
-				//myGrid[i][j] = new Animal(x, y, cellWidth, cellLength, i, j);
-				myGrid[i][j].init(WATER, myColors[WATER], NUMNEIGHBOR);
+				myGrid[i][j].init(WATER, myColors[WATER], myNumNeighbor);
 				myUpdatedGrid[i][j].tempState = WATER;
 			} else if (k >= initWater && k < initWater + initFish) {
 				Random random = new Random();
 				int randomInt = random.nextInt((int) myFishReproduceRate.getValue());
 				
-				//myGrid[i][j] = new Animal(x, y, cellWidth, cellLength, i, j);
-				myGrid[i][j].init(FISH, myColors[FISH], NUMNEIGHBOR);
+				myGrid[i][j].init(FISH, myColors[FISH], myNumNeighbor);
 				if (myGrid[i][j] instanceof Animal) {
 					((Animal) myGrid[i][j]).setReproduce(randomInt);
 				}
@@ -121,8 +116,7 @@ public class WatorRule extends Rule {
 				Random random = new Random();
 				int randomInt = random.nextInt((int) myFishReproduceRate.getValue());
 
-				//myGrid[i][j] = new Animal(x, y, cellWidth, cellLength, i, j);
-				myGrid[i][j].init(SHARK, myColors[SHARK], NUMNEIGHBOR);
+				myGrid[i][j].init(SHARK, myColors[SHARK], myNumNeighbor);
 				if (myGrid[i][j] instanceof Animal) {
 					((Animal) myGrid[i][j]).setReproduce(randomInt);
 					((Animal) myGrid[i][j]).setHealth((int) mySharkDeathRate.getValue());
@@ -132,39 +126,6 @@ public class WatorRule extends Rule {
 				myUpdatedGrid[i][j].tempHealth = (int) mySharkDeathRate.getValue();
 				myCounters[1]++;
 			}
-		}
-	}
-
-	// neighbors can roll over across board
-	public void initNeighborUp(int i, int j) {
-		if (i != 0) {
-			myGrid[i][j].addNeighbor(myGrid[i - 1][j]);
-		} else {
-			myGrid[i][j].addNeighbor(myGrid[myRow - 1][j]);
-		}
-	}
-
-	public void initNeighborLeft(int i, int j) {
-		if (j != 0) {
-			myGrid[i][j].addNeighbor(myGrid[i][j - 1]);
-		} else {
-			myGrid[i][j].addNeighbor(myGrid[i][myColumn - 1]);
-		}
-	}
-
-	public void initNeighborRight(int i, int j) {
-		if (j != myColumn - 1) {
-			myGrid[i][j].addNeighbor(myGrid[i][j + 1]);
-		} else {
-			myGrid[i][j].addNeighbor(myGrid[i][0]);
-		}
-	}
-
-	public void initNeighborDown(int i, int j) {
-		if (i != myRow - 1) {
-			myGrid[i][j].addNeighbor(myGrid[i + 1][j]);
-		} else {
-			myGrid[i][j].addNeighbor(myGrid[0][j]);
 		}
 	}
 

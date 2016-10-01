@@ -91,7 +91,7 @@ public class Cell {
 	/**
 	 * @return the rectangle object
 	 */
-	public Shape getRec() {
+	public Shape getShape() {
 		return myShape;
 	}
 	

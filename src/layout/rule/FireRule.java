@@ -14,7 +14,6 @@ public class FireRule extends Rule {
 	private static final Color EMPTYCOLOR = Color.YELLOW;
 	private static final Color TREECOLOR = Color.GREEN;
 	private static final Color BURNCOLOR = Color.RED;
-	private Color[] myColors;
 
 	public FireRule(double cellLength, int row, int column) {
 		super(cellLength, row, column);
@@ -24,6 +23,7 @@ public class FireRule extends Rule {
 
 	@Override
 	public void initGrid() {
+		myGrid = new Cell[myRow][myColumn];
 		initBoard(NUMNEIGHBOR);
 		initState();
 		initNeighbor(NUMNEIGHBOR);
@@ -74,8 +74,5 @@ public class FireRule extends Rule {
 	public void setProbCatch(double probcatch) {
 		myProbCatch = probcatch;
 	}
-	
-	public Color[] getColors(){
-		return myColors;
-	}
+
 }

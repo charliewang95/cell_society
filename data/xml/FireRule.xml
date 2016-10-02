@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Rule id = "FireRule">
-    <nameRule>FiRule</nameRule>
+    <nameRule>FireRule</nameRule>
     <title>Catching Fire</title>
     <author>Charlie</author>
     <cellLength>20</cellLength>

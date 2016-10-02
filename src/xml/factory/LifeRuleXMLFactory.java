@@ -45,7 +45,7 @@ public class LifeRuleXMLFactory extends RuleXMLFactory {
 
 		int neighbor = Integer.parseInt(getTextValue(root, myXMLResources.getString("Neighbor")));
 		String typeLife = getTextValue(root, myXMLResources.getString("LifeType"));
-		if (typeLife.equals("Gosper") && (row <= 30 || column <= 50)) {
+		if (typeLife.equals("Gosper") && (row < 30 || column < 50)) {
 			throw new XMLFactoryException("GOSPER SIZE");
 		}
 		String name = getTextValue(root, myXMLResources.getString("Title"));

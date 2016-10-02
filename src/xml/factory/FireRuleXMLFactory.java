@@ -100,7 +100,7 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
 	 */
 	@Override
 	public Rule getRule(Element root) throws XMLFactoryException {
-		myXMLResources = ResourceBundle.getBundle(XML_RESOURCE_PACKAGE + getRuleProperty());
+		myXMLResources = ResourceBundle.getBundle(XML_RESOURCE_PACKAGE + RULE_PROPERTY);
 		if (!getTextValue(root, myXMLResources.getString("RuleName")).equals("FireRule")) {
 			throw new XMLFactoryException("XML file does not represent the %s", getRuleType());
 		}

@@ -1,5 +1,6 @@
 package user_interface;
 
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -13,6 +14,7 @@ import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import layout.Playground;
+import xml.XMLParserException;
 import xml.factory.XMLFactoryException;
 
 /**
@@ -94,16 +96,12 @@ public class StartScreen {
 		textField.setOnAction(new EventHandler<ActionEvent>(){
 			public void handle(ActionEvent event){
 				String inText = textField.getCharacters().toString();
-				if (myRuleList.contains(inText)) {
-					myPlayground.setFileName(inText);
 					try {
+						myPlayground.setFileName(inText);
 						myPlayground.init(myStage);
-					} catch (XMLFactoryException e) {
-						myPlacer.showError(myResources.getString("ReadingFileError") + inText);
+					} catch (XMLFactoryException | XMLParserException e){
+						myPlacer.showError(e.getMessage());
 					}
-				} else {
-					myPlacer.showError(myResources.getString("CouldNotLoadError") + inText + "haypptrj china");
-				}
 				
 			}
 		});

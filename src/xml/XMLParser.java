@@ -27,10 +27,7 @@ public class XMLParser {
      * @return the root element in the xmlFile
      */
     public Element getRootElement (String xmlFilename) {
-    	//saxe parser, giant xml files. suggest not to use. 
-    	//stick with dom parser bc it loads raw up into a tree. one root node, 
-    	//everything below is children node. you can organize.
-    	//you can look up and down the tree
+
         try {
             DOCUMENT_BUILDER.reset();
             Document xmlDocument = DOCUMENT_BUILDER.parse(xmlFilename);

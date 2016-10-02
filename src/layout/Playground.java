@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ResourceBundle;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,7 +14,6 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Side;
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
@@ -24,11 +22,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import layout.rule.FireRule;
-import layout.rule.LifeRule;
 import layout.rule.Parameter;
-import layout.rule.SchellingRule;
-import user_interface.StartScreen;
 import user_interface.UIObjectPlacer;
 import xml.XMLParser;
 import xml.XMLParserException;
@@ -37,7 +31,6 @@ import xml.factory.LifeRuleXMLFactory;
 import xml.factory.RuleXMLFactory;
 import xml.factory.SchellingRuleXMLFactory;
 import xml.factory.WatorRuleXMLFactory;
-import xml.factory.XMLFactory;
 import xml.factory.XMLFactoryException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -58,7 +51,6 @@ public class Playground {
 	private static final String XML_RESOURCE_PACKAGE = "xml.properties/";
 	private static final String RULE_PROPERTY = "Rule";
 	private static final String XML_FILES_LOCATION = "data/xml/";
-	private static final String XML_SUFFIX = ".xml";
 	private static final int BUTTON_SPACE = 190;
 	private static final int PAUSE_Y = 0;
 	private static final int Y_OFFSET = 30;
@@ -66,7 +58,7 @@ public class Playground {
 	private static final int RESET_Y = 3 * Y_OFFSET;
 	private static final int SLIDER_Y = 4 * Y_OFFSET;
 	private static final int TEXTFIELD_Y = 5 * Y_OFFSET;
-	private static final int CUSTOM_SLIDER_Y = 8 * Y_OFFSET;
+	private static final int CUSTOM_SLIDER_Y = 10 * Y_OFFSET;
 	private static final int X_OFFSET = BUTTON_SPACE - 10;
 	private static final double MAX_SLIDER = 10;
 	private static final double MIN_SLIDER = 0.1;
@@ -91,11 +83,10 @@ public class Playground {
 	private LineChart<Number, Number> myLineChart;
 	private ArrayList<XYChart.Series<Number, Number>> mySeries;
 	private double mySliderValue = INITIAL_VALUE;
-	private List<String> myRuleList = Arrays.asList("FireRule", "LifeRule", "SchellingRule", "WatorRule");
 	private int mySteps;
 	private File myFile;
-
-	// public void init(Stage s) throws XMLFactoryException, {
+	private double myWidth;
+	private double myLength;
 
 	public Playground(Stage s, String fileName) throws XMLFactoryException {
 		myStage = s;
@@ -122,31 +113,14 @@ public class Playground {
 			System.out.println("who");
 			throw e;
 		}
-
 		myRule.initGrid();
 		drawGrid();
 		NumberAxis xAxis = new NumberAxis();
 		NumberAxis yAxis = new NumberAxis(0, myRule.myRow * myRule.myColumn, 1);
 		yAxis.setTickUnit(10);
 		myLineChart = new LineChart<Number, Number>(xAxis, yAxis);
-		double width;
-		double length;
-		if (myRule.getWidth() + BUTTON_SPACE < SIZE)
-			width = SIZE;
-		else
-			width = myRule.getWidth() + BUTTON_SPACE;
-		if (myRule.getCounters().length > 0) {
-			if (myRule.getLength() + CHART_SPACE < SIZE)
-				length = SIZE;
-			else
-				length = myRule.getLength() + CHART_SPACE;
-		} else {
-			if (myRule.getLength() < SIZE - CHART_SPACE)
-				length = SIZE - CHART_SPACE;
-			else
-				length = myRule.getLength();
-		}
-		myScene = new Scene(myRoot, width, length);
+		setWidthAndLength();
+		myScene = new Scene(myRoot, myWidth, myLength);
 		addLineChart();
 		setUpButtons();
 		mySlider = myPlacer.addSlider(myScene.getWidth() - X_OFFSET, SLIDER_Y, MIN_SLIDER, MAX_SLIDER, mySliderValue,
@@ -158,6 +132,24 @@ public class Playground {
 		myStage.setTitle(myRule.getName());
 		myStage.show();
 		runSimulation();
+	}
+
+	private void setWidthAndLength() {
+		if (myRule.getWidth() + BUTTON_SPACE < SIZE)
+			myWidth = SIZE;
+		else
+			myWidth = myRule.getWidth() + BUTTON_SPACE;
+		if (myRule.getCounters().length > 0) {
+			if (myRule.getLength() + CHART_SPACE < SIZE)
+				myLength = SIZE;
+			else
+				myLength = myRule.getLength() + CHART_SPACE;
+		} else {
+			if (myRule.getLength() < SIZE - CHART_SPACE)
+				myLength = SIZE - CHART_SPACE;
+			else
+				myLength = myRule.getLength();
+		}
 	}
 
 	private void setUpRuleMap() {
@@ -203,41 +195,12 @@ public class Playground {
 	private void setUpTextFields() {
 		myPlacer.addText(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y, FONT_SIZE, myResources.getString("SameWindow"),
 				false);
-		TextField sameWindow = myPlacer.addTextField(myResources.getString("TextFieldText"),
-				myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 0.5 * Y_OFFSET);
-		sameWindow.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
-				String inText = sameWindow.getCharacters().toString();
-				try {
-					setFileName(inText);
-					myAnimation.stop();
-					mySliderValue = mySlider.getValue();
-					init();
-				} catch (XMLFactoryException | XMLParserException e) {
-					myPlacer.showError(e.getMessage());
-				}
-			}
-		});
-		myPlacer.addText(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 1.5 * Y_OFFSET, FONT_SIZE,
+		myPlacer.addNewSimulationTextField(myScene.getWidth()-X_OFFSET, TEXTFIELD_Y+0.5*Y_OFFSET, myStage, this);
+		myPlacer.addBrowseButton(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 1.5 * Y_OFFSET, myStage, this);
+		myPlacer.addText(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 2.5 * Y_OFFSET, FONT_SIZE,
 				myResources.getString("NewWindow"), false);
-		TextField newWindow = myPlacer.addTextField(myResources.getString("TextFieldText"),
-				myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 2 * Y_OFFSET);
-		newWindow.setOnAction(new EventHandler<ActionEvent>() {
-			public void handle(ActionEvent event) {
-				String inText = newWindow.getCharacters().toString();
-				// if (myRuleList.contains(inText)){
-				try {
-					Playground playground = new Playground(new Stage(), inText);
-					playground.init();
-				} catch (XMLFactoryException | XMLParserException e) {
-					myPlacer.showError(e.getMessage());
-				}
-			}
-			// else {
-			// myPlacer.showError(myResources.getString("CouldNotLoadError") +
-			// inText);
-			// }
-		});
+		myPlacer.addNewSimulationTextField(myScene.getWidth()-X_OFFSET, TEXTFIELD_Y+3*Y_OFFSET, new Stage(), null);
+		myPlacer.addBrowseButton(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 4 * Y_OFFSET, new Stage(), null);
 	}
 
 	private void runSimulation() {
@@ -379,5 +342,17 @@ public class Playground {
 		myLineChart.setLegendSide(Side.RIGHT);
 		myLineChart.setLegendVisible(true);
 		myRoot.getChildren().add(myLineChart);
+	}
+	
+	public Timeline getAnimation(){
+		return myAnimation;
+	}
+	
+	public Slider getSlider(){
+		return mySlider;
+	}
+	
+	public void setSliderValue(double value){
+		mySliderValue = value;
 	}
 }

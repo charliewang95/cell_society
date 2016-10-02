@@ -1,8 +1,5 @@
 package user_interface;
 
-import java.io.FileNotFoundException;
-import java.util.Arrays;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -43,7 +40,6 @@ public class StartScreen {
 	private Stage myStage;
 	private ResourceBundle myResources;
 	private UIObjectPlacer myPlacer;
-	private List<String> myRuleList = Arrays.asList("FireRule", "LifeRule", "SchellingRule", "WatorRule");
 	
 	/**
 	 * Constructor for StartScreen that initializes the stage, the resource bundle, and the playground, calls init to
@@ -80,39 +76,12 @@ public class StartScreen {
 		myPlacer = new UIObjectPlacer(myRoot, myResources);
 		Scene scene = new Scene(myRoot, SIZE, SIZE, BACKGROUND_COLOR);
 		setUpTitle(scene);
-		setUpTextField(scene);
+		myPlacer.addNewSimulationTextField(scene.getWidth()/2-X_OFFSET,scene.getHeight()/2+Y_OFFSET, myStage, null);
+//		setUpTextField(scene);
 		myPlacer.addText(scene.getWidth()/2 - X_OFFSET, scene.getHeight()/2 + TEXT_Y_OFFSET, TEXT_SIZE, 
 						 myResources.getString("Or"), false);
-		myPlacer.addButton(scene.getWidth()/2 - X_OFFSET, scene.getHeight()/2 + BUTTON_Y_OFFSET, 
-						   myResources.getString("ChooseFile"), new EventHandler<ActionEvent>(){
-			public void handle(ActionEvent event){
-				
-			}
-		});
+		myPlacer.addBrowseButton(scene.getWidth()/2 - X_OFFSET, scene.getHeight()/2 + BUTTON_Y_OFFSET, myStage, null);
 		return scene;
-	}
-	
-	/**
-	 * adds the text field and sets up what to do when the user inputs something into it
-	 * 
-	 * @param scene - the scene that the text field should be added to
-	 */
-	private void setUpTextField(Scene scene) {
-		TextField textField = myPlacer.addTextField(myResources.getString("TextFieldText"), 
-													scene.getWidth()/2 - X_OFFSET, 
-													scene.getHeight()/2 + Y_OFFSET);
-		textField.setOnAction(new EventHandler<ActionEvent>(){
-			public void handle(ActionEvent event){
-				String inText = textField.getCharacters().toString();
-					try {
-						Playground playground = new Playground(myStage, inText);
-						playground.init();
-					} catch (XMLFactoryException | XMLParserException e){
-						myPlacer.showError(e.getMessage());
-					}
-				
-			}
-		});
 	}
 
 	/**

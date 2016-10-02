@@ -6,6 +6,7 @@
     <cellLength>10</cellLength>
     <xSize>30</xSize>
     <ySize>20</ySize>
+    <toroidal>true</toroidal>
     
     <percentWater>.98</percentWater>
     <percentFish>.95</percentFish>

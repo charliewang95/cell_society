@@ -1,12 +1,13 @@
 package xml.factory;
 
-import layout.Cell;
 import layout.Rule;
 
 import org.w3c.dom.Element;
+
+import javafx.scene.paint.Color;
+
 import java.util.Objects;
 import java.util.ResourceBundle;
-
 
 /**
  * An XMLFactory that gives back a Rule object.
@@ -14,156 +15,69 @@ import java.util.ResourceBundle;
  * @author Joy Kim
  */
 public abstract class RuleXMLFactory extends XMLFactory {
-    private String myRuleType;
-    private String myRuleProperty;
-//    protected double cellLength;
-//    protected int myRow;
-//    protected int myColumn;
-//    protected Cell[][] myGrid;
-    
+	public static final String XML_RESOURCE_PACKAGE = "xml.properties/Rule";
 
-    
-    /**
-     * Create a factory for making Rule objects.  
-     */
-    protected RuleXMLFactory (String ruleType, String ruleProperty) {
-        myRuleType = ruleType;
-        myRuleProperty = ruleProperty;
-    }
+	private String myRuleType;
+	protected ResourceBundle myXMLResources;
 
-    /**
-     * @return the type of rule this file represents
-     */
-    public String getRuleType () {
-        return myRuleType;
-    }
-    
-    /**
-     * @return the property file used for creating Rule object
-     */
-    public String getRuleProperty() {
-    	return myRuleProperty;
-    }
-    
-//    /**
-//     * Initialize the grid of the Rule object
-//     */
-//    public abstract void initGrid();
-//    
-//    /**
-//     * Initialize the states of the grid for the first time
-//     */
-//    public abstract void initState(Cell[][] grid, int[][] updatedGrid);
-//    
-//    
-//    /**
-//	 * Initialize the neighbor cells of the selected cell
-//	 * number of cell (4) 
-//	 */
-//	/**
-//	 * Initialize the neighbor cells of the selected cell
-//	 * number of cell (4) 
-//	 */
-//	public void initNeighbor4(){
-//		for (int i = 0; i < myRow; i++) {
-//			for (int j = 0; j < myColumn; j++) {
-//				initNeighborUp(i, j);
-//				initNeighborLeft(i, j);
-//				initNeighborRight(i, j);
-//				initNeighborDown(i, j);
-//			}
-//		}
-//	}
-//	
-//	/**
-//	 * Initialize the neighbor cells of the selected cell
-//	 * number of cell (4) 
-//	 */
-//	public void initNeighbor8() {
-//		for (int i = 0; i < myRow; i++) {
-//			for (int j = 0; j < myColumn; j++) {
-//				initNeighborTopLeft(i, j);
-//				initNeighborUp(i, j);
-//				initNeighborTopRight(i, j);
-//				initNeighborLeft(i, j);
-//				initNeighborRight(i, j);
-//				initNeighborBottomLeft(i, j);
-//				initNeighborDown(i, j);
-//				initNeighborBottomRight(i, j);
-//			}
-//		}
-//	}
-//	
-//	/**
-//	 * generate the neighbor on the top
-//	 */
-//	public void initNeighborUp(int i, int j) {
-//		if (i != 0) {
-//			myGrid[i][j].addNeighbor(myGrid[i - 1][j]);
-//		}
-//	}
-//
-//	/**
-//	 * generate the neighbor on the left
-//	 */
-//	public void initNeighborLeft(int i, int j) {
-//		if (j != 0) {
-//			myGrid[i][j].addNeighbor(myGrid[i][j - 1]);
-//		}
-//	}
-//
-//	/**
-//	 * generate the neighbor on the right
-//	 */
-//	public void initNeighborRight(int i, int j) {
-//		if (j != myColumn - 1) {
-//			myGrid[i][j].addNeighbor(myGrid[i][j + 1]);
-//		}
-//	}
-//
-//	/**
-//	 * generate the neighbor below
-//	 */
-//	public void initNeighborDown(int i, int j) {
-//		if (i != myRow - 1) {
-//			myGrid[i][j].addNeighbor(myGrid[i + 1][j]);
-//		}
-//	}
-//	
-//	public void initNeighborBottomRight(int i, int j) {
-//		if (i != myRow - 1 && j != myColumn - 1) {
-//			myGrid[i][j].addNeighbor(myGrid[i + 1][j + 1]);
-//		}
-//	}
-//
-//	public void initNeighborBottomLeft(int i, int j) {
-//		if (i != myRow - 1 && j != 0) {
-//			myGrid[i][j].addNeighbor(myGrid[i + 1][j - 1]);
-//		}
-//	}
-//
-//	public void initNeighborTopRight(int i, int j) {
-//		if (i != 0 && j != myColumn - 1) {
-//			myGrid[i][j].addNeighbor(myGrid[i - 1][j + 1]);
-//		}
-//	}
-//
-//	public void initNeighborTopLeft(int i, int j) {
-//		if (i != 0 && j != 0) {
-//			myGrid[i][j].addNeighbor(myGrid[i - 1][j - 1]);
-//		}
-//	}
+	// protected double cellLength;
+	// protected int myRow;
+	// protected int myColumn;
+	// protected Cell[][] myGrid;
 
-    /**
-     * Get the actual rule contained in this XML File.
-     */
-    public abstract Rule getRule (Element root) throws XMLFactoryException;
+	/**
+	 * Create a factory for making Rule objects.
+	 */
+	protected RuleXMLFactory(String ruleType) {
+		myXMLResources = ResourceBundle.getBundle(XML_RESOURCE_PACKAGE);
+		myRuleType = ruleType;
+	}
 
-    /**
-     * @see XMLFactory#isValidFile()
-     */
-    @Override
-    protected boolean isValidFile (Element root) {
-        return Objects.equals(getAttribute(root, "RuleType"), getRuleType());
-    }
+	public double parseXMLDouble(Element root, String tag) {
+		return Double.parseDouble(getTextValue(root, myXMLResources.getString(tag)));
+
+	}
+
+	public int parseXMLInteger(Element root, String tag) {
+		return Integer.parseInt(getTextValue(root, myXMLResources.getString(tag)));
+	}
+
+	public boolean parseXMLBoolean(Element root, String tag) {
+		return Boolean.parseBoolean(getTextValue(root, myXMLResources.getString(tag)));
+	}
+
+	public Color parseXMLColor(Element root, String tag) {
+		return Color.valueOf(getTextValue(root, myXMLResources.getString(tag)).toUpperCase());
+	}
+
+	public String parseXMLString(Element root, String tag) {
+		return getTextValue(root, myXMLResources.getString(tag));
+	}
+
+	public void checkRule(Element root, String ruleTag) throws XMLFactoryException {
+		if (!parseXMLString(root, "RuleName").equals(ruleTag)) {
+			throw new XMLFactoryException("XML file does not represent the %s", getRuleType());
+		}
+	}
+
+	/**
+	 * @return the type of rule this file represents
+	 */
+	public String getRuleType() {
+		return myRuleType;
+	}
+
+
+	/**
+	 * Get the actual rule contained in this XML File.
+	 */
+	public abstract Rule getRule(Element root) throws XMLFactoryException;
+
+	/**
+	 * @see XMLFactory#isValidFile()
+	 */
+	@Override
+	protected boolean isValidFile(Element root) {
+		return Objects.equals(getAttribute(root, "RuleType"), getRuleType());
+	}
 }

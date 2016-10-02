@@ -33,10 +33,10 @@ public class WatorRule extends Rule {
 
 	private TempGrid[][] myUpdatedGrid;
 
-	public WatorRule(double cellLength, int sizeX, int sizeY, int neighbor, Color water, Color fish, Color shark, double fishBirth, double sharkBirth, double sharkDeath, double percentWater, double percentFish) {
+	public WatorRule(double cellLength, int sizeX, int sizeY, int neighbor, Color water, Color fish, Color shark, double fishBirth, double sharkBirth, double sharkDeath, double percentWater, double percentFish, boolean toro) {
 		super(cellLength, sizeX, sizeY);
 		myColors = new Color[] { water, fish, shark };
-		myToroidal = true; //new
+		myToroidal = toro;
 		myFishReproduceRate = new Parameter(fishBirth, myResources.getString("FishReproductionSlider"), LIFEMIN, LIFEMAX);
 		mySharkReproduceRate = new Parameter(sharkBirth, myResources.getString("SharkReproductionSlider"), LIFEMIN, LIFEMAX);
 		mySharkDeathRate = new Parameter(sharkDeath, myResources.getString("SharkDeathSlider"), LIFEMIN, LIFEMAX);

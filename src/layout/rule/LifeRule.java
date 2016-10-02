@@ -17,11 +17,11 @@ public class LifeRule extends Rule {
 	private int myNumNeighbor;
 	private String myModel;
 
-	public LifeRule(double cellLength, int row, int column, int neighbor, Color empty, Color live, String model) {
+	public LifeRule(double cellLength, int row, int column, int neighbor, Color empty, Color live, String model, boolean toro) {
 		super(cellLength, row, column);
 		myColors = new Color[] { empty, live };
 		myModel = model;
-		myToroidal = false;
+		myToroidal = toro;
 		myNumNeighbor = neighbor;
 		myCounters = new int[1];
 		myLegend = new String[1];

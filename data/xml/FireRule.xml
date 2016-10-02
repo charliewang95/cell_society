@@ -6,11 +6,12 @@
     <cellLength>20</cellLength>
     <xSize>10</xSize>
     <ySize>10</ySize>
+	<toroidal>true</toroidal>
     
     <probcatch>.5</probcatch>
     <numNeighbor>4</numNeighbor>
     <emptyColor>YELLOW</emptyColor>
-    <treeColor>GREEN</treeColor>
+    <treeColor>green</treeColor>
     <burnColor>RED</burnColor>
 
 

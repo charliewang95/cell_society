@@ -31,13 +31,13 @@ public class SchellingRule extends Rule {
 	private int[] myEs;
 	private int[] myEsTMP;
 
-	public SchellingRule(double cellLength, int row, int column, int neighbor, double percentA, double percentEmpty, double satisfy, Color empty, Color aColor, Color bColor) {
+	public SchellingRule(double cellLength, int row, int column, int neighbor, double percentA, double percentEmpty, double satisfy, Color empty, Color aColor, Color bColor, boolean toro) {
 		super(cellLength, row, column);
 		myColors = new Color[] { empty, aColor, bColor };
 		myPercentageA = percentA;
 		myPercentageEmpty = percentEmpty;
 		myNumNeighbor = neighbor;
-		myToroidal = true;
+		myToroidal = toro;
 		mySatisfied = new Parameter(satisfy, myResources.getString("SchellingRuleSlider"), 0, 1);
 		parameters.add(mySatisfied);
 		myCounters = new int[0];

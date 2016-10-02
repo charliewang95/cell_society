@@ -7,6 +7,7 @@
     <cellLength>10</cellLength>
     <xSize>50</xSize>
     <ySize>50</ySize>
+    <toroidal>false</toroidal>
 
     
     <emptyColor>LIGHTGREY</emptyColor>

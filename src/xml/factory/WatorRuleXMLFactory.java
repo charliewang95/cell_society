@@ -1,7 +1,5 @@
 package xml.factory;
 
-import java.util.ResourceBundle;
-
 import org.w3c.dom.Element;
 
 import javafx.scene.paint.Color;
@@ -16,15 +14,12 @@ import layout.rule.WatorRule;
  */
 public class WatorRuleXMLFactory extends RuleXMLFactory {
     private static final String XML_TAG_NAME = "WatorRule";
-    public static final String DEFAULT_RESOURCE_PACKAGE = "xml.properties/";
-    private static final String RULE_PROPERTY = "Rule";
-    private ResourceBundle myXMLResources;
 
     /**
      * Factory for WatorRule
      */
     public WatorRuleXMLFactory () {
-        super(XML_TAG_NAME, RULE_PROPERTY);
+        super(XML_TAG_NAME);
     }
 
     /**
@@ -32,30 +27,28 @@ public class WatorRuleXMLFactory extends RuleXMLFactory {
      */
     @Override
     public Rule getRule (Element root) throws XMLFactoryException {
-        myXMLResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + getRuleProperty());
-        if (!getTextValue(root, myXMLResources.getString("RuleName")).equals("WatorRule")) {
-            throw new XMLFactoryException("XML file does not represent the %s", getRuleType());
-        }
-        //Integer length = Integer.parseInt(getTextValue(root, myResources.getString("Length")));
-        double cellLength = Double.parseDouble(getTextValue(root, myXMLResources.getString("CellLength")));
-        Integer row = Integer.parseInt(getTextValue(root, myXMLResources.getString("Row")));
-        Integer column = Integer.parseInt(getTextValue(root, myXMLResources.getString("Column")));
+        checkRule(root, XML_TAG_NAME);
+
+        double cellLength = parseXMLDouble(root, "CellLength");
+        int row = parseXMLInteger(root, "Row");
+        int column = parseXMLInteger(root, "Column");
+        boolean toro = parseXMLBoolean(root, "Toroidal");
+        int neighbor = parseXMLInteger(root, "Neighbor");
         
-        double pWater = Double.parseDouble(getTextValue(root, myXMLResources.getString("PercentWater")));
-        double pFish = Double.parseDouble(getTextValue(root, myXMLResources.getString("PercentFish")));
-        Integer fishRepro = Integer.parseInt(getTextValue(root, myXMLResources.getString("FishReproduce")));
-        Integer sharkRepro = Integer.parseInt(getTextValue(root, myXMLResources.getString("SharkReproduce")));
-        Integer sharkDeath = Integer.parseInt(getTextValue(root, myXMLResources.getString("SharkDeath")));
+        double pWater = parseXMLDouble(root, "PercentWater"); 
+        double pFish = parseXMLDouble(root, "PercentFish"); 
+        int fishRepro = parseXMLInteger(root, "FishReproduce");
+        int sharkRepro = parseXMLInteger(root, "SharkReproduce");
+        int sharkDeath = parseXMLInteger(root, "SharkDeath");
        
-		int neighbor = Integer.parseInt(getTextValue(root, myXMLResources.getString("Neighbor")));
-        Color waterColor = Color.valueOf(getTextValue(root, myXMLResources.getString("EmptyColor")));
-		Color fishColor = Color.valueOf(getTextValue(root, myXMLResources.getString("FishColor")));
-		Color sharkColor = Color.valueOf(getTextValue(root, myXMLResources.getString("SharkColor")));
+        Color waterColor = parseXMLColor(root, "EmptyColor");
+		Color fishColor = parseXMLColor(root, "FishColor");
+		Color sharkColor = parseXMLColor(root, "SharkColor");
         
         
-        String name = getTextValue(root, myXMLResources.getString("Title"));
+        String name = parseXMLString(root, "Title");
         
-        WatorRule myWator = new WatorRule(cellLength, row, column, neighbor, waterColor, fishColor, sharkColor, fishRepro, sharkRepro, sharkDeath, pWater, pFish);
+        WatorRule myWator = new WatorRule(cellLength, row, column, neighbor, waterColor, fishColor, sharkColor, fishRepro, sharkRepro, sharkDeath, pWater, pFish, toro);
         myWator.setName(name);
         
         return myWator;

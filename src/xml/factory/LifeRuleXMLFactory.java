@@ -1,7 +1,5 @@
 package xml.factory;
 
-import java.util.ResourceBundle;
-
 import org.w3c.dom.Element;
 
 import javafx.scene.paint.Color;
@@ -15,15 +13,12 @@ import layout.rule.LifeRule;
  */
 public class LifeRuleXMLFactory extends RuleXMLFactory {
 	private static final String XML_TAG_NAME = "LifeRule";
-	public static final String DEFAULT_RESOURCE_PACKAGE = "xml.properties/";
-	private static final String RULE_PROPERTY = "Rule";
-	private ResourceBundle myXMLResources;
 
 	/**
 	 * Factory for LifeRule
 	 */
 	public LifeRuleXMLFactory() {
-		super(XML_TAG_NAME, RULE_PROPERTY);
+		super(XML_TAG_NAME);
 	}
 
 	/**
@@ -31,26 +26,26 @@ public class LifeRuleXMLFactory extends RuleXMLFactory {
 	 */
 	@Override
 	public Rule getRule(Element root) throws XMLFactoryException {
-		myXMLResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + getRuleProperty());
-		if (!getTextValue(root, myXMLResources.getString("RuleName")).equals("LifeRule")) {
-			throw new XMLFactoryException("XML file does not represent the %s", getRuleType());
-		}
-		//Integer length = Integer.parseInt(getTextValue(root, myXMLResources.getString("Length")));
-		double cellLength = Double.parseDouble(getTextValue(root, myXMLResources.getString("CellLength")));
-		Integer row = Integer.parseInt(getTextValue(root, myXMLResources.getString("Row")));
-		Integer column = Integer.parseInt(getTextValue(root, myXMLResources.getString("Column")));
-		
-		Color emptyColor = Color.valueOf(getTextValue(root, myXMLResources.getString("EmptyColor")));
-		Color liveColor = Color.valueOf(getTextValue(root, myXMLResources.getString("LiveColor")));
+		checkRule(root, "XML_TAG_NAME");
 
-		int neighbor = Integer.parseInt(getTextValue(root, myXMLResources.getString("Neighbor")));
-		String typeLife = getTextValue(root, myXMLResources.getString("LifeType"));
+		double cellLength = parseXMLDouble(root, "CellLength");
+        int row = parseXMLInteger(root, "Row");
+        int column = parseXMLInteger(root, "Column");
+        boolean toro = parseXMLBoolean(root, "Toroidal");
+        int neighbor = parseXMLInteger(root, "Neighbor");
+
+		Color emptyColor = parseXMLColor(root, "EmptyColor");
+		Color liveColor = parseXMLColor(root, "LiveColor");
+
+		String typeLife = parseXMLString(root, "LifeType");
+		
 		if (typeLife.equals("Gosper") && (row < 30 || column < 50)) {
 			throw new XMLFactoryException("GOSPER SIZE");
 		}
-		String name = getTextValue(root, myXMLResources.getString("Title"));
+		
+		String name = parseXMLString(root, "Title");
 
-		LifeRule myLife = new LifeRule(cellLength, row, column, neighbor, emptyColor, liveColor, typeLife);
+		LifeRule myLife = new LifeRule(cellLength, row, column, neighbor, emptyColor, liveColor, typeLife, toro);
 		myLife.setName(name);
 
 		return myLife;

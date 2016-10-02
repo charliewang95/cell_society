@@ -1,7 +1,5 @@
 package xml.factory;
 
-import java.util.ResourceBundle;
-
 import org.w3c.dom.Element;
 
 import javafx.scene.paint.Color;
@@ -15,15 +13,12 @@ import layout.rule.SchellingRule;
  */
 public class SchellingRuleXMLFactory extends RuleXMLFactory {
 	private static final String XML_TAG_NAME = "SchellingRule";
-	public static final String DEFAULT_RESOURCE_PACKAGE = "xml.properties/";
-	private static final String RULE_PROPERTY = "Rule";
-	private ResourceBundle myXMLResources;
-
+	
 	/**
 	 * Factory for SchellingRule
 	 */
 	public SchellingRuleXMLFactory() {
-		super(XML_TAG_NAME, RULE_PROPERTY);
+		super(XML_TAG_NAME);
 	}
 
 	/**
@@ -31,31 +26,24 @@ public class SchellingRuleXMLFactory extends RuleXMLFactory {
 	 */
 	@Override
 	public Rule getRule(Element root) throws XMLFactoryException {
-		myXMLResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + getRuleProperty());
-		if (!getTextValue(root, myXMLResources.getString("RuleName")).equals("SchellingRule")) {
-			throw new XMLFactoryException("XML file does not represent the %s", getRuleType());
-		}
+		checkRule(root, XML_TAG_NAME);
 
-		// Integer length = Integer.parseInt(getTextValue(root,
-		// myResources.getString("Length")));
-		double cellLength = Double.parseDouble(getTextValue(root, myXMLResources.getString("CellLength")));
-		Integer row = Integer.parseInt(getTextValue(root, myXMLResources.getString("Row")));
-		Integer column = Integer.parseInt(getTextValue(root, myXMLResources.getString("Column")));
-		double percentageA = Double.parseDouble(getTextValue(root, myXMLResources.getString("PercentageA")));
-		double percentageEmpty = Double.parseDouble(getTextValue(root, myXMLResources.getString("PercentageEmpty")));
-		double satisfy = Double.parseDouble(getTextValue(root, myXMLResources.getString("Satisfy")));
-		Color emptyColor = Color.valueOf(getTextValue(root, myXMLResources.getString("EmptyColor")));
-		Color aaaColor = Color.valueOf(getTextValue(root, myXMLResources.getString("AaaColor")));
-		Color bbbColor = Color.valueOf(getTextValue(root, myXMLResources.getString("BbbColor")));
+		double cellLength = parseXMLDouble(root, "CellLength");
+        Integer row = parseXMLInteger(root, "Row");
+        Integer column = parseXMLInteger(root, "Column");
+        boolean toro = parseXMLBoolean(root, "Toroidal");
+        int neighbor = parseXMLInteger(root, "Neighbor");
 		
-		int neighbor = Integer.parseInt(getTextValue(root, myXMLResources.getString("Neighbor")));
+		double percentageA = parseXMLDouble(root, "PercentageA"); 
+		double percentageEmpty = parseXMLDouble(root, "PercentageEmpty"); 
+		double satisfy = parseXMLDouble(root, "Satisfy"); 
+		Color emptyColor = parseXMLColor(root, "EmptyColor");
+		Color aaaColor = parseXMLColor(root, "AaaColor");
+		Color bbbColor = parseXMLColor(root, "BbbColor");
 
-		String name = getTextValue(root, myXMLResources.getString("Title"));
+		String name = parseXMLString(root, "Title");
 
-		SchellingRule mySchelling = new SchellingRule(cellLength, row, column, neighbor, percentageA, percentageEmpty, satisfy, emptyColor, aaaColor, bbbColor);
-		//mySchelling.setSatisfied(satisfy);
-		//mySchelling.setPercentageA(percentageA);
-		//mySchelling.setPercentageEmpty(percentageEmpty);
+		SchellingRule mySchelling = new SchellingRule(cellLength, row, column, neighbor, percentageA, percentageEmpty, satisfy, emptyColor, aaaColor, bbbColor, toro);
 		mySchelling.setName(name);
 
 		return mySchelling;

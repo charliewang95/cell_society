@@ -19,11 +19,11 @@ public class FireRule extends Rule {
 	private final boolean myToroidal; //new
 	private Parameter myProbCatch;
 
-	public FireRule(double cellLength, int row, int column, Color empty, Color tree, Color burn, double probCatch, int neighbor) {
+	public FireRule(double cellLength, int row, int column, Color empty, Color tree, Color burn, double probCatch, int neighbor, boolean toro) {
 		super(cellLength, row, column);
 		myColors = new Color[] { empty, tree, burn };
 		myNumNeighbor = neighbor;
-		myToroidal = true;
+		myToroidal = toro;
 		myProbCatch = new Parameter(probCatch, myResources.getString("FireRuleSlider"), 0, 1);
 		parameters.add(myProbCatch);
 		myCounters = new int[2];

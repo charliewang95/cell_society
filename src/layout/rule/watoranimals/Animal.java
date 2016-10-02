@@ -2,6 +2,13 @@ package layout.rule.watoranimals;
 
 import layout.Cell;
 
+/**
+ * Used specifically for Wa-tor simulation.
+ * Contains reproduction rate and health data
+ * 
+ * @author Charlie Wang
+ *
+ */
 public class Animal extends Cell {
 
 	protected int myReproduce;

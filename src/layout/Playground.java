@@ -42,11 +42,10 @@ import xml.factory.XMLFactoryException;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-
 /**
- * Class that shows the simulation and takes the input from the start screen and sends it to be parsed
- * Is called in StartScreen
- * Can be called using the init method (e.g., playground.init(stage))
+ * Class that shows the simulation and takes the input from the start screen and
+ * sends it to be parsed Is called in StartScreen Can be called using the init
+ * method (e.g., playground.init(stage))
  * 
  * @author Noah Over
  *
@@ -63,11 +62,11 @@ public class Playground {
 	private static final int BUTTON_SPACE = 190;
 	private static final int PAUSE_Y = 0;
 	private static final int Y_OFFSET = 30;
-	private static final int STEP_Y = 2*Y_OFFSET;
-	private static final int RESET_Y = 3*Y_OFFSET;
-	private static final int SLIDER_Y = 4*Y_OFFSET;
-	private static final int TEXTFIELD_Y = 5*Y_OFFSET;
-	private static final int CUSTOM_SLIDER_Y = 8*Y_OFFSET;
+	private static final int STEP_Y = 2 * Y_OFFSET;
+	private static final int RESET_Y = 3 * Y_OFFSET;
+	private static final int SLIDER_Y = 4 * Y_OFFSET;
+	private static final int TEXTFIELD_Y = 5 * Y_OFFSET;
+	private static final int CUSTOM_SLIDER_Y = 8 * Y_OFFSET;
 	private static final int X_OFFSET = BUTTON_SPACE - 10;
 	private static final double MAX_SLIDER = 10;
 	private static final double MIN_SLIDER = 0.1;
@@ -75,7 +74,7 @@ public class Playground {
 	private static final int MILLISECOND_DELAY = 10000 / FRAMES_PER_SECOND;
 	private static final double SECOND_DELAY = 10.0 / FRAMES_PER_SECOND;
 	private static final int FONT_SIZE = 15;
-	
+
 	private Map<String, RuleXMLFactory> myFactoryMap = new HashMap<String, RuleXMLFactory>();
 	private Group myRoot;
 	private Rule myRule;
@@ -94,24 +93,40 @@ public class Playground {
 	private double mySliderValue = INITIAL_VALUE;
 	private List<String> myRuleList = Arrays.asList("FireRule", "LifeRule", "SchellingRule", "WatorRule");
 	private int mySteps;
+	private File myFile;
 
-	public void init(Stage s) throws XMLFactoryException, XMLParserException {
+	// public void init(Stage s) throws XMLFactoryException, {
+
+	public Playground(Stage s, String fileName) throws XMLFactoryException {
 		myStage = s;
+		setFileName(fileName);
+		init();
+	}
+
+	public Playground(Stage s, File file) throws XMLFactoryException {
+		myStage = s;
+		myFile = file;
+		setFileName(myFile.getName());
+		init();
+	}
+
+	public void init() throws XMLFactoryException, XMLParserException {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
 		myXMLResources = ResourceBundle.getBundle(XML_RESOURCE_PACKAGE + RULE_PROPERTY);
 		setUpRuleMap();
 		myRoot = new Group();
 		myPlacer = new UIObjectPlacer(myRoot, myResources);
 		try {
-			getParsedObject(myFileName);
+			getRuleFromFile(myFileName);
 		} catch (XMLFactoryException e) {
 			System.out.println("who");
 			throw e;
 		}
+
 		myRule.initGrid();
 		drawGrid();
 		NumberAxis xAxis = new NumberAxis();
-		NumberAxis yAxis = new NumberAxis(0,myRule.myRow*myRule.myColumn,1);
+		NumberAxis yAxis = new NumberAxis(0, myRule.myRow * myRule.myColumn, 1);
 		yAxis.setTickUnit(10);
 		myLineChart = new LineChart<Number, Number>(xAxis, yAxis);
 		double width;
@@ -120,13 +135,12 @@ public class Playground {
 			width = SIZE;
 		else
 			width = myRule.getWidth() + BUTTON_SPACE;
-		if (myRule.getCounters().length > 0){
+		if (myRule.getCounters().length > 0) {
 			if (myRule.getLength() + CHART_SPACE < SIZE)
 				length = SIZE;
 			else
 				length = myRule.getLength() + CHART_SPACE;
-		}
-		else{
+		} else {
 			if (myRule.getLength() < SIZE - CHART_SPACE)
 				length = SIZE - CHART_SPACE;
 			else
@@ -135,8 +149,8 @@ public class Playground {
 		myScene = new Scene(myRoot, width, length);
 		addLineChart();
 		setUpButtons();
-		mySlider = myPlacer.addSlider(myScene.getWidth() - X_OFFSET, SLIDER_Y, MIN_SLIDER, MAX_SLIDER, 
-									  mySliderValue, myResources.getString("SpeedSlider"));
+		mySlider = myPlacer.addSlider(myScene.getWidth() - X_OFFSET, SLIDER_Y, MIN_SLIDER, MAX_SLIDER, mySliderValue,
+				myResources.getString("SpeedSlider"));
 		setUpTextFields();
 		addCustomSliders();
 		myScene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
@@ -154,75 +168,75 @@ public class Playground {
 	}
 
 	private void setUpButtons() {
-		myPlacer.addButton(myScene.getWidth() - X_OFFSET, PAUSE_Y, myResources.getString("PauseButton"), 
-						   new EventHandler<ActionEvent>(){
-			public void handle(ActionEvent event){
-				pause();
-			}
-		});
-		myPlacer.addButton(myScene.getWidth() - X_OFFSET, Y_OFFSET, myResources.getString("ResumeButton"), 
-						   new EventHandler<ActionEvent>(){
-			public void handle(ActionEvent event){
-				resume();
-			}
-		});
-		myPlacer.addButton(myScene.getWidth() - X_OFFSET, STEP_Y, myResources.getString("TakeStepButton"), 
-						   new EventHandler<ActionEvent>(){
-			public void handle(ActionEvent event){
-				step(0);
-			}
-		});
+		myPlacer.addButton(myScene.getWidth() - X_OFFSET, PAUSE_Y, myResources.getString("PauseButton"),
+				new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent event) {
+						pause();
+					}
+				});
+		myPlacer.addButton(myScene.getWidth() - X_OFFSET, Y_OFFSET, myResources.getString("ResumeButton"),
+				new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent event) {
+						resume();
+					}
+				});
+		myPlacer.addButton(myScene.getWidth() - X_OFFSET, STEP_Y, myResources.getString("TakeStepButton"),
+				new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent event) {
+						step(0);
+					}
+				});
 		myPlacer.addButton(myScene.getWidth() - X_OFFSET, RESET_Y, myResources.getString("ResetButton"),
-						   new EventHandler<ActionEvent>(){
-			public void handle(ActionEvent event){
-				try {
-					reset();
-				} catch (XMLFactoryException | FileNotFoundException e) {
-					// TODO Auto-generated catch block
-					System.out.println("AT THE RESET UNDER SETUPBUTTONS METHOD");
-					e.printStackTrace();
-				}
-			}
-		});
+				new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent event) {
+						try {
+							reset();
+						} catch (XMLFactoryException | FileNotFoundException e) {
+							// TODO Auto-generated catch block
+							System.out.println("AT THE RESET UNDER SETUPBUTTONS METHOD");
+							e.printStackTrace();
+						}
+					}
+				});
 	}
 
 	private void setUpTextFields() {
-		myPlacer.addText(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y, FONT_SIZE, 
-						 myResources.getString("SameWindow"), false);
+		myPlacer.addText(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y, FONT_SIZE, myResources.getString("SameWindow"),
+				false);
 		TextField sameWindow = myPlacer.addTextField(myResources.getString("TextFieldText"),
-													 myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 0.5*Y_OFFSET);
-		sameWindow.setOnAction(new EventHandler<ActionEvent>(){
-			public void handle(ActionEvent event){
+				myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 0.5 * Y_OFFSET);
+		sameWindow.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
 				String inText = sameWindow.getCharacters().toString();
-				try{
+				try {
 					setFileName(inText);
 					myAnimation.stop();
 					mySliderValue = mySlider.getValue();
-					init(myStage);
+					init();
 				} catch (XMLFactoryException | XMLParserException e) {
 					myPlacer.showError(e.getMessage());
 				}
 			}
 		});
-		myPlacer.addText(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 1.5*Y_OFFSET, FONT_SIZE, 
-						 myResources.getString("NewWindow"), false);
-		TextField newWindow = myPlacer.addTextField(myResources.getString("TextFieldText"), 
-													myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 2*Y_OFFSET);
-		newWindow.setOnAction(new EventHandler<ActionEvent>(){
-			public void handle(ActionEvent event){
+		myPlacer.addText(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 1.5 * Y_OFFSET, FONT_SIZE,
+				myResources.getString("NewWindow"), false);
+		TextField newWindow = myPlacer.addTextField(myResources.getString("TextFieldText"),
+				myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 2 * Y_OFFSET);
+		newWindow.setOnAction(new EventHandler<ActionEvent>() {
+			public void handle(ActionEvent event) {
 				String inText = newWindow.getCharacters().toString();
-				//if (myRuleList.contains(inText)){
+				// if (myRuleList.contains(inText)){
 				try {
-					Playground playground = new Playground();
-					playground.setFileName(inText);
-					playground.init(new Stage());
-					} catch (XMLFactoryException | XMLParserException e) {
-						myPlacer.showError(e.getMessage());
-					}
+					Playground playground = new Playground(new Stage(), inText);
+					playground.init();
+				} catch (XMLFactoryException | XMLParserException e) {
+					myPlacer.showError(e.getMessage());
 				}
-//				else {
-//					myPlacer.showError(myResources.getString("CouldNotLoadError") + inText);
-//				}
+			}
+			// else {
+			// myPlacer.showError(myResources.getString("CouldNotLoadError") +
+			// inText);
+			// }
 		});
 	}
 
@@ -242,34 +256,35 @@ public class Playground {
 		myFileName = file;
 	}
 
-	private void getParsedObject(String fileName) throws XMLFactoryException, XMLParserException {
+	private void getRuleFromFile(String fileName) throws XMLFactoryException, XMLParserException {
 		try {
-			if (fileName.length() < 4) {
-				fileName = fileName + ".xml";
+			File f;
+			if (myFile == null) {
+				if (fileName.length() < 4) {
+					fileName = fileName + ".xml";
+				} else if (!(fileName.substring(fileName.length() - 4)).equals(".xml")) {
+					fileName = fileName + ".xml";
+				}
+				f = new File(XML_FILES_LOCATION + fileName);
+			} else {
+				f = myFile;
 			}
-			else if (!(fileName.substring(fileName.length()-4)).equals(".xml")) {
-				fileName = fileName + ".xml";
-			}
-			File f = new File(XML_FILES_LOCATION + fileName);
+
 			XMLParser parser = new XMLParser();
 			Element fileRoot = parser.getRootElement(f.getAbsolutePath());
 			NodeList nodeList = fileRoot.getElementsByTagName(myXMLResources.getString("RuleName"));
 			String chosenRule = nodeList.item(0).getTextContent();
 			if (!myFactoryMap.containsKey(chosenRule)) {
-				throw new XMLFactoryException(fileName + " XML file does not contain a valid rule, it contains '%s'", chosenRule);
+				throw new XMLFactoryException(fileName + " XML file does not contain a valid rule, it contains '%s'",
+						chosenRule);
 			}
 			RuleXMLFactory factory = myFactoryMap.get(chosenRule);
 			myRule = factory.getRule(fileRoot);
 		} catch (XMLParserException e) {
-				System.out.println("what");
-				throw new XMLParserException(e, "Could not parse file %s", fileName);
-				//myPlacer.showError(myResources.getString("ReadingFileError") + f.getPath());
-				//System.err.println(myResources.getString("ReadingFileError") + f.getPath());
-				//e.printStackTrace();
-				//need to retry, maybe return to the startscreen and pop up an error that says
-				//could not read file. 
-			}
+			System.out.println("what");
+			throw new XMLParserException(e, "Could not parse file %s", fileName);
 		}
+	}
 
 	public void drawGrid() {
 		for (int i = 0; i < myRule.myRow; i++) {
@@ -282,46 +297,45 @@ public class Playground {
 	public void step(double elapsedTime) {
 		mySteps++;
 		myAnimation.setRate(mySlider.getValue());
-		for (int i = 0; i < myParameters.length; i++){
+		for (int i = 0; i < myParameters.length; i++) {
 			myParameters[i].setValue(myCustomSliders[i].getValue());
 		}
 		myRule.changeState();
-		for (int j = 0; j < mySeries.size(); j++){
+		for (int j = 0; j < mySeries.size(); j++) {
 			mySeries.get(j).getData().add(new XYChart.Data<Number, Number>(mySteps, myRule.getCounters()[j]));
 		}
 	}
-	
-	private void pause(){
+
+	private void pause() {
 		myAnimation.pause();
 	}
-	
-	private void resume(){
+
+	private void resume() {
 		myAnimation.play();
 	}
-	
-	private void reset() throws XMLFactoryException, FileNotFoundException{
+
+	private void reset() throws XMLFactoryException, FileNotFoundException {
 		myAnimation.stop();
 		mySliderValue = mySlider.getValue();
 		try {
-			init(myStage);
+			init();
 		} catch (XMLFactoryException e) {
 			myPlacer.showError(myResources.getString("ReadingFileError") + myFileName);
 		}
 	}
-	
-	private void handleMouseInput(double x, double y){
+
+	private void handleMouseInput(double x, double y) {
 		Cell[][] grid = myRule.getGrid();
-		for (int i = 0; i < grid.length; i++){
-			for (int j = 0; j < grid[0].length; j++){
-				if (grid[i][j].getShape().contains(x, y)){
-					if (grid[i][j].getState() != 0 && myRule.getCounters().length > 0){
+		for (int i = 0; i < grid.length; i++) {
+			for (int j = 0; j < grid[0].length; j++) {
+				if (grid[i][j].getShape().contains(x, y)) {
+					if (grid[i][j].getState() != 0 && myRule.getCounters().length > 0) {
 						myRule.getCounters()[grid[i][j].getState() - 1]--;
 					}
 					int newState = grid[i][j].getState() + 1;
-					if (newState >= myRule.getColors().length){
+					if (newState >= myRule.getColors().length) {
 						newState = 0;
-					}
-					else if (myRule.getCounters().length > 0){
+					} else if (myRule.getCounters().length > 0) {
 						myRule.getCounters()[newState - 1]++;
 					}
 					grid[i][j].setState(newState);
@@ -331,30 +345,29 @@ public class Playground {
 			}
 		}
 	}
-	
-	private void addCustomSliders(){
+
+	private void addCustomSliders() {
 		List<Parameter> parameters = myRule.getParameters();
 		myParameters = new Parameter[parameters.size()];
 		myCustomSliders = new Slider[parameters.size()];
 		int i = 0;
-		for (Parameter parameter: parameters){
+		for (Parameter parameter : parameters) {
 			myParameters[i] = parameter;
-			Slider slider = myPlacer.addSlider(myScene.getWidth() - X_OFFSET, CUSTOM_SLIDER_Y + i*Y_OFFSET, 
-											   parameter.getMin(), parameter.getMax(), parameter.getValue(), 
-											   parameter.getMessage());
+			Slider slider = myPlacer.addSlider(myScene.getWidth() - X_OFFSET, CUSTOM_SLIDER_Y + i * Y_OFFSET,
+					parameter.getMin(), parameter.getMax(), parameter.getValue(), parameter.getMessage());
 			myCustomSliders[i] = slider;
 			i++;
 		}
 	}
-	
-	private void addLineChart(){
+
+	private void addLineChart() {
 		mySeries = new ArrayList<XYChart.Series<Number, Number>>();
-		if (myRule.getCounters().length == 0){
+		if (myRule.getCounters().length == 0) {
 			return;
 		}
 		myLineChart.setMaxHeight(100);
 		int i = 0;
-		for (int counter: myRule.getCounters()){
+		for (int counter : myRule.getCounters()) {
 			XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
 			series.getData().add(new XYChart.Data<Number, Number>(0, counter));
 			series.setName(myRule.getLegend()[i]);

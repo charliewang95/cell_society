@@ -3,6 +3,12 @@ package layout.rule.agents;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
+/**
+ * Object class used specifically for SugarRule
+ * 
+ * @author Charlie Wang
+ *
+ */
 public class Agent {
 	private Circle myCircle;
 	private int mySugar;

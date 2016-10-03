@@ -113,13 +113,17 @@ public class SugarRule extends Rule {
 	public void initAgent() {
 		ArrayList<Integer> list = makeRandomList(myRow * myColumn);
 		Random r = new Random();
-
+		
 		for (int k = 0; k < myRow * myColumn * myPercentageAgent; k++) {
 			int index = list.get(k);
 			int i = index / myColumn;
 			int j = index - i * myColumn;
 			createAgent(r, i, j);
 		}
+	}
+	
+	public void initAgent2() {
+		
 	}
 
 	public Agent createAgent(Random r, int i, int j) {

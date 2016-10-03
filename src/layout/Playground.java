@@ -24,6 +24,8 @@ import javafx.util.Duration;
 import layout.rule.Parameter;
 import layout.rule.SugarRule;
 import layout.rule.agents.Agent;
+import layout.rule.WatorRule;
+import layout.rule.watoranimals.Animal;
 import user_interface.UIObjectPlacer;
 import xml.XMLParser;
 import xml.XMLParserException;
@@ -106,7 +108,7 @@ public class Playground {
 	public void init() throws XMLFactoryException, XMLParserException {
 		myResources = ResourceBundle.getBundle(DEFAULT_RESOURCE_PACKAGE + "English");
 		myXMLResources = ResourceBundle.getBundle(XML_RESOURCE_PACKAGE + RULE_PROPERTY);
-		setUpRuleMap();
+		setUpFactoryMap();
 		myRoot = new Group();
 		myPlacer = new UIObjectPlacer(myRoot, myResources);
 		try {
@@ -125,13 +127,33 @@ public class Playground {
 		setUpButtons();
 		mySlider = myPlacer.addSlider(myScene.getWidth() - X_OFFSET, SLIDER_Y, MIN_SLIDER, MAX_SLIDER, mySliderValue,
 				myResources.getString("SpeedSlider"));
-		setUpTextFields();
+		setUpNewSimulationControls();
 		addCustomSliders();
 		myScene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
 		myStage.setScene(myScene);
 		myStage.setTitle(myRule.getName());
 		myStage.show();
 		runSimulation();
+	}
+
+	public String getFileName() {
+		return myFileName;
+	}
+
+	public void setFileName(String file) {
+		myFileName = file;
+	}
+
+	public Timeline getAnimation(){
+		return myAnimation;
+	}
+	
+	public Slider getSlider(){
+		return mySlider;
+	}
+	
+	public void setSliderValue(double value){
+		mySliderValue = value;
 	}
 
 	private void setWidthAndLength() {
@@ -152,7 +174,7 @@ public class Playground {
 		}
 	}
 
-	private void setUpRuleMap() {
+	private void setUpFactoryMap() {
 		myFactoryMap.put("FireRule", new FireRuleXMLFactory());
 		myFactoryMap.put("LifeRule", new LifeRuleXMLFactory());
 		myFactoryMap.put("WatorRule", new WatorRuleXMLFactory());
@@ -191,7 +213,7 @@ public class Playground {
 				});
 	}
 
-	private void setUpTextFields() {
+	private void setUpNewSimulationControls() {
 		myPlacer.addText(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y, FONT_SIZE, myResources.getString("SameWindow"),
 				false);
 		myPlacer.addNewSimulationTextField(myScene.getWidth()-X_OFFSET, TEXTFIELD_Y+0.5*Y_OFFSET, myStage, this);
@@ -210,14 +232,6 @@ public class Playground {
 		mySteps = 0;
 	}
 
-	public String getFileName() {
-		return myFileName;
-	}
-
-	public void setFileName(String file) {
-		myFileName = file;
-	}
-
 	private void getRuleFromFile(String fileName) throws XMLFactoryException, XMLParserException {
 		try {
 			File f;
@@ -231,7 +245,6 @@ public class Playground {
 			} else {
 				f = myFile;
 			}
-
 			XMLParser parser = new XMLParser();
 			Element fileRoot = parser.getRootElement(f.getAbsolutePath());
 			NodeList nodeList = fileRoot.getElementsByTagName(myXMLResources.getString("RuleName"));
@@ -247,7 +260,7 @@ public class Playground {
 		}
 	}
 
-	public void drawGrid() {
+	private void drawGrid() {
 		for (int i = 0; i < myRule.myRow; i++) {
 			for (int j = 0; j < myRule.myColumn; j++) {
 				myRoot.getChildren().add(myRule.getGrid()[i][j].getShape());
@@ -260,7 +273,7 @@ public class Playground {
 		}
 	}
 
-	public void step(double elapsedTime) {
+	private void step(double elapsedTime) {
 		mySteps++;
 		myAnimation.setRate(mySlider.getValue());
 		for (int i = 0; i < myParameters.length; i++) {
@@ -298,6 +311,17 @@ public class Playground {
 					}
 					grid[i][j].setState(newState, myRule.getColors()[newState]);
 					myRule.getUpdatedGrid()[i][j] = newState;
+					if (myRule instanceof WatorRule){
+						((WatorRule) myRule).getWatorUpdatedGrid()[i][j].setTempState(newState);
+						if (newState == 1){
+							((WatorRule) myRule).getWatorUpdatedGrid()[i][j]
+									.setTempReproduce((int) myCustomSliders[0].getValue());
+						}
+						else if (newState == 2){
+							((Animal) grid[i][j]).setReproduce((int) myCustomSliders[2].getValue());
+							((Animal) grid[i][j]).setHealth((int) myCustomSliders[1].getValue());
+						}
+					}
 				}
 			}
 		}
@@ -336,17 +360,5 @@ public class Playground {
 		myLineChart.setLegendSide(Side.RIGHT);
 		myLineChart.setLegendVisible(true);
 		myRoot.getChildren().add(myLineChart);
-	}
-	
-	public Timeline getAnimation(){
-		return myAnimation;
-	}
-	
-	public Slider getSlider(){
-		return mySlider;
-	}
-	
-	public void setSliderValue(double value){
-		mySliderValue = value;
 	}
 }

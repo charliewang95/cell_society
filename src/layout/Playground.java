@@ -114,8 +114,7 @@ public class Playground {
 		myRule.initGrid();
 		drawGrid();
 		NumberAxis xAxis = new NumberAxis();
-		NumberAxis yAxis = new NumberAxis(0, myRule.myRow * myRule.myColumn, 1);
-		yAxis.setTickUnit(10);
+		NumberAxis yAxis = new NumberAxis();
 		myLineChart = new LineChart<Number, Number>(xAxis, yAxis);
 		setWidthAndLength();
 		myScene = new Scene(myRoot, myWidth, myLength);

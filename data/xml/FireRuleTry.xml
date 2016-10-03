@@ -7,6 +7,7 @@
     <cellLength>20</cellLength>
     <xSize>20</xSize>
     <ySize>20</ySize>
+
     <numNeighbor>4</numNeighbor>
     <numSide>4</numSide>
 	<toroidal>true</toroidal>

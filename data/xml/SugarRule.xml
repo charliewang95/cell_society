@@ -11,6 +11,7 @@
     
 	<toroidal>false</toroidal>    
 	<numNeighbor>4</numNeighbor>
+	<numSide>4</numSide>
 
     <myPercentage0>.3</myPercentage0>
     <myPercentage1>0.25</myPercentage1>
@@ -30,6 +31,6 @@
     <minSugar>5</minSugar>
     <maxSugar>25</maxSugar>
     <sugarGrowBackRate>1</sugarGrowBackRate>
-    <sugarGrowBackInterval>2</sugarGrowBackInterval>
+    <preset>1</preset>
     
 </Rule>

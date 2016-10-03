@@ -26,6 +26,7 @@ public class SugarRule extends Rule {
 	private int myNumNeighbor = 4;
 	private Parameter vision;
 	private Parameter metabolism = new Parameter(3, myResources.getString("MetabolismSlider"), 1, 4);
+	private int mySide = 4;
 	private int minsugar = 5;
 	private int maxsugar = 25;
 	private Parameter sugarGrowBackRate = new Parameter(1, myResources.getString("SugarRateSlider"), 1, 4);
@@ -41,10 +42,11 @@ public class SugarRule extends Rule {
 	private double radius;
 	private int myCounter = 0;
 
-	public SugarRule(double cellLength, int row, int column, int neighbor, boolean toro, double[] percent,
+	public SugarRule(double cellLength, int row, int column, int neighbor, int side, boolean toro, double[] percent,
 			Color[] color, int[] misc) {
 		super(cellLength, row, column);
 		myNumNeighbor = neighbor;
+		mySide = side;
 		toroidal = toro;
 		myCounters = new int[1];
 		myLegend = new String[1];
@@ -87,7 +89,7 @@ public class SugarRule extends Rule {
 
 		myGrid = new Cell[myRow][myColumn];
 		myAgents = new ArrayList<Agent>();
-		initBoard(myNumNeighbor);
+		initBoard(mySide);
 		initState();
 		if (preset == 1) {
 			initAgent();

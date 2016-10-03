@@ -1,16 +1,8 @@
 package xml.factory;
 
 import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
-
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.w3c.dom.Node;
 import javafx.scene.paint.Color;
-import layout.Cell;
 import layout.Rule;
-import layout.rule.FireRule;
 import layout.rule.SugarRule;
 
 /**
@@ -63,8 +55,6 @@ public class SugarRuleXMLFactory extends RuleXMLFactory {
 		int preset = parseXMLInteger(root, "Preset");
 		int[] misc = {vision, metabolism, minSugar, maxSugar, sugarGrow, preset};
 
-		String title = parseXMLString(root, "Title");
-		
 		SugarRule mySugar = new SugarRule(cellLength, row, column, neighbor, side, toro, percent, color, misc);
 		mySugar.setName(XML_TAG_NAME);
 		

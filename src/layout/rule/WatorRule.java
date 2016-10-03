@@ -21,7 +21,6 @@ public class WatorRule extends Rule {
 	private static final double LIFEMIN = 1;
 	private static final double LIFEMAX = 20;
 
-
 	private Parameter myFishReproduceRate;
 	private Parameter mySharkReproduceRate;
 	private Parameter mySharkDeathRate;
@@ -257,7 +256,7 @@ public class WatorRule extends Rule {
 	private void changeStateFish(Cell cell) {
 		ArrayList<Cell> vacant = new ArrayList<Cell>();
 
-		for (Cell c : cell.getNeighbors()) { // add fish list and vacant list
+		for (Cell c : cell.getNeighbors()) { 
 			if (c.getState() == WATER) {
 				vacant.add(c);
 			}
@@ -274,17 +273,14 @@ public class WatorRule extends Rule {
 				myUpdatedGrid[toMove.getRow()][toMove.getCol()].tempReproduce = ((Animal) cell).getReproduce() - 1;
 			}
 		} else {
-			if (needReproduce(cell)) { // if it needs to reproduce, reset its
-				// reproduce rate
+			if (needReproduce(cell)) {
 				myUpdatedGrid[cell.getRow()][cell.getCol()].tempReproduce = (int) myFishReproduceRate.getValue();
-			} else { // if not, --1
+			} else { 
 				myUpdatedGrid[cell.getRow()][cell.getCol()].tempReproduce = ((Animal) cell).getReproduce() - 1;
 			}
 			return;
 		}
-		// if reproduce, leave a child
 		myUpdatedGrid[cell.getRow()][cell.getCol()].tempState = needReproduce(cell) ? FISH : WATER;
-		// if reproduce, reset reproduce rate
 		myUpdatedGrid[cell.getRow()][cell.getCol()].tempReproduce = needReproduce(cell)
 				? (int) myFishReproduceRate.getValue() : Integer.MAX_VALUE;
 	}

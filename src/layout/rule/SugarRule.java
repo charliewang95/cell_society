@@ -18,20 +18,18 @@ import layout.rule.agents.Agent;
 public class SugarRule extends Rule {
 	private static final double RADIUS = 3;
 	private static final int[] LEVEL = { 0, 1, 2, 3, 4 };
-	private double myPercentage0 = 0.4;
-	private double myPercentage1 = 0.25;
-	private double myPercentage2 = 0.20;
-	private double myPercentage3 = 0.10;
-	private double myPercentageAgent = 0.4;
-	private int myNumNeighbor = 4;
+	private double myPercentage0;
+	private double myPercentage1;
+	private double myPercentage2;
+	private double myPercentage3;
+	private double myPercentageAgent;
 	private Parameter vision;
 	private Parameter metabolism = new Parameter(3, myResources.getString("MetabolismSlider"), 1, 4);
-	private int mySide = 4;
 	private int minsugar = 5;
 	private int maxsugar = 25;
 	private Parameter sugarGrowBackRate = new Parameter(1, myResources.getString("SugarRateSlider"), 1, 4);
-	private int sugarGrowBackInterval = 1;
-	private int preset = 1;
+	private int sugarGrowBackInterval;
+	private int preset;
 	private int myNum0;
 	private int myNum1;
 	private int myNum2;
@@ -148,7 +146,7 @@ public class SugarRule extends Rule {
 			int index = list.get(k);
 			int i = index / myColumn;
 			int j = index - i * myColumn;
-			
+
 			if (i >= myRow * (2.0 / 5) && j <= myColumn * (3.0 / 5)) {
 				createAgent(r, i, j);
 				count++;
@@ -201,8 +199,10 @@ public class SugarRule extends Rule {
 			int max = tempcell.getState();
 			int maxrow = row;
 			int maxcol = col;
+			Collections.shuffle(tempcell.getNeighbors());
 			for (Cell c : tempcell.getNeighbors()) {
-				if (c.getState() > max) {
+				if (c.getState() > max || (c.getState() == max && Math.abs(c.getCol() - agent.getCol()) + Math.abs(c.getRow()
+						- agent.getRow()) > Math.abs(maxcol - agent.getCol()) + Math.abs(maxrow - agent.getRow()))) {
 					max = c.getState();
 					maxrow = c.getRow();
 					maxcol = c.getCol();

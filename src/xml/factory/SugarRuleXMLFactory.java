@@ -1,8 +1,14 @@
 package xml.factory;
 
+import java.util.Arrays;
+
 import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+
 import javafx.scene.paint.Color;
+import layout.Cell;
 import layout.Rule;
+import layout.rule.FireRule;
 import layout.rule.SugarRule;
 
 /**
@@ -58,9 +64,25 @@ public class SugarRuleXMLFactory extends RuleXMLFactory {
 		SugarRule mySugar = new SugarRule(cellLength, row, column, neighbor, side, toro, percent, color, misc);
 		mySugar.setName(XML_TAG_NAME);
 		
+		if (true) {
+			mySugar = (SugarRule) initSpecific(mySugar, root, row, column, neighbor, side, color, toro, 1);
+		}
+		
 		return mySugar;
 	}
 	
-	
+	protected Rule initSpecific(Rule rule, Element root, int row, int column, int neighbor, int side, Color[] color, boolean toro, int defaultState) throws XMLFactoryException {
+		Cell[][] temp = new Cell[row][column];
+		rule.setGrid(temp);
+		rule.initBoard(side);
+		int[][] tempUpdated = buildSpecific(root, row, column, defaultState);
+		for (int i=0; i<row; i++) {
+			for (int j=0; j<column; j++) {
+				rule.getGrid()[i][j].setState(tempUpdated[i][j], color[tempUpdated[i][j]]);
+			}
+		}
+		return rule;
+		
+	}
 	
 }

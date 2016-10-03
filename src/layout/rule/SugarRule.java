@@ -83,11 +83,7 @@ public class SugarRule extends Rule {
 		myNum2 = (int) (myRow * myColumn * myPercentage2);
 		myNum3 = (int) (myRow * myColumn * myPercentage3);
 		myNum4 = myRow * myColumn - myNum0 - myNum1 - myNum2 - myNum3;
-
-		myGrid = new Cell[myRow][myColumn];
 		myAgents = new ArrayList<Agent>();
-		initBoard(mySide);
-		initState();
 		if (preset == 1) {
 			initAgent();
 		} else if (preset == 2) {
@@ -95,6 +91,13 @@ public class SugarRule extends Rule {
 		} else {
 			initAgent(); // default
 		}
+		
+		if (myGrid==null) {
+			myGrid = new Cell[myRow][myColumn];
+			initBoard(mySide);
+			initState();
+		}
+		
 		initNeighbor(myNumNeighbor, myToroidal);
 	}
 

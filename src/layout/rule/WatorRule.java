@@ -166,12 +166,12 @@ public class WatorRule extends Rule {
 		myCounters[1] = 0;
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
-				myGrid[i][j].setState(myUpdatedGrid[i][j].tempState);
-				if (myUpdatedGrid[i][j].tempState == FISH)
+				int stateNum = myUpdatedGrid[i][j].tempState;
+				myGrid[i][j].setState(stateNum, myColors[stateNum]);
+				if (stateNum == FISH)
 					myCounters[0]++;
-				else if (myUpdatedGrid[i][j].tempState == SHARK)
+				else if (stateNum == SHARK)
 					myCounters[1]++;
-				myGrid[i][j].setColor(myColors[myUpdatedGrid[i][j].tempState]);
 				if (myGrid[i][j].getState() == FISH) {
 					((Animal) myGrid[i][j]).setReproduce(myUpdatedGrid[i][j].tempReproduce);
 				}

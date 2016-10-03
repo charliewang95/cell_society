@@ -7,13 +7,14 @@
     <cellLength>10</cellLength>
     <xSize>50</xSize>
     <ySize>50</ySize>
+	<numNeighbor>8</numNeighbor>
+	<numSide>4</numSide>
     <toroidal>false</toroidal>
 
     
     <emptyColor>LIGHTGREY</emptyColor>
     <liveColor>BLACK</liveColor>
     
-    <numNeighbor>8</numNeighbor>
     <typeLife>Gosper</typeLife>
 
 </Rule>

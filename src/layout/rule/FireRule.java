@@ -17,6 +17,7 @@ public class FireRule extends Rule {
 	private static final int BURN = 2;
 	private final int myNumNeighbor;
 	private final boolean myToroidal; //new
+	//private final boolean specifiedStates;
 	private Parameter myProbCatch;
 
 	public FireRule(double cellLength, int row, int column, Color empty, Color tree, Color burn, double probCatch, int neighbor, boolean toro) {
@@ -24,6 +25,7 @@ public class FireRule extends Rule {
 		myColors = new Color[] { empty, tree, burn };
 		myNumNeighbor = neighbor;
 		myToroidal = toro;
+		//specifiedStates = specify;
 		myProbCatch = new Parameter(probCatch, myResources.getString("FireRuleSlider"), 0, 1);
 		parameters.add(myProbCatch);
 		myCounters = new int[2];
@@ -36,10 +38,14 @@ public class FireRule extends Rule {
 	public void initGrid() {
 		//if myGrid is null, proceed. else, it was already created 
 		//through XML
-		myGrid = new Cell[myRow][myColumn];
-		initBoard(myNumNeighbor);
-		initState();
-		initNeighbor(myNumNeighbor, myToroidal);
+		System.out.println(myGrid);
+		if (myGrid == null){
+			myGrid = new Cell[myRow][myColumn];
+			initBoard(myNumNeighbor);
+			initState();
+			initNeighbor(myNumNeighbor, myToroidal);
+		}
+		
 	}
 
 	@Override
@@ -82,12 +88,12 @@ public class FireRule extends Rule {
 		myCounters[1] = 0;
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
-				myGrid[i][j].setState(myUpdatedGrid[i][j]);
-				if (myUpdatedGrid[i][j] == TREE)
+				int stateNum = myUpdatedGrid[i][j];
+				myGrid[i][j].setState(stateNum, myColors[stateNum]);
+				if (stateNum == TREE)
 					myCounters[0]++;
-				else if (myUpdatedGrid[i][j] == BURN)
+				else if (stateNum == BURN)
 					myCounters[1]++;
-				myGrid[i][j].setColor(myColors[myUpdatedGrid[i][j]]);
 			}
 		}
 	}

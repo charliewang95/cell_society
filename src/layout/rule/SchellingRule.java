@@ -133,8 +133,8 @@ public class SchellingRule extends Rule {
 		System.out.println();
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
-				myGrid[i][j].setState(myUpdatedGrid[i][j]);
-				myGrid[i][j].setColor(myColors[myUpdatedGrid[i][j]]);
+				int stateNum = myUpdatedGrid[i][j];
+				myGrid[i][j].setState(stateNum, myColors[stateNum]);
 			}
 		}
 		// testByPrintingEachState();

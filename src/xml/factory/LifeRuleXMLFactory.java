@@ -3,7 +3,6 @@ package xml.factory;
 import org.w3c.dom.Element;
 
 import javafx.scene.paint.Color;
-import layout.Cell;
 import layout.Rule;
 import layout.rule.LifeRule;
 
@@ -46,9 +45,6 @@ public class LifeRuleXMLFactory extends RuleXMLFactory {
 		if (typeLife.equals("Gosper") && (row < 30 || column < 50)) {
 			throw new XMLFactoryException("GOSPER SIZE");
 		}
-		
-		String name = parseXMLString(root, "Title");
-		
 		
 		LifeRule myLife = new LifeRule(cellLength, row, column, neighbor, side, emptyColor, liveColor, typeLife, toro);
 		myLife.setName(XML_TAG_NAME);

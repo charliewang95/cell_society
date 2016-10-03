@@ -40,8 +40,6 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
 		
 		boolean initialize = parseXMLBoolean(root, "Initialize");
 		
-		String title = parseXMLString(root, "Title");
-		
 		FireRule myFire = new FireRule(cellLength, row, column, emptyColor, treeColor, burnColor, probCatch, neighbor, side, toro);
 		myFire.setName(XML_TAG_NAME);
 		

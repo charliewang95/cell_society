@@ -2,16 +2,11 @@ package user_interface;
 
 import java.util.ResourceBundle;
 
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.TextField;
 import javafx.scene.paint.Paint;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import layout.Playground;
-import xml.XMLParserException;
 import xml.factory.XMLFactoryException;
 
 /**

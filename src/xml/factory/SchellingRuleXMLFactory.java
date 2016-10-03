@@ -3,7 +3,6 @@ package xml.factory;
 import org.w3c.dom.Element;
 
 import javafx.scene.paint.Color;
-import layout.Cell;
 import layout.Rule;
 import layout.rule.SchellingRule;
 
@@ -44,9 +43,6 @@ public class SchellingRuleXMLFactory extends RuleXMLFactory {
 		Color bbbColor = parseXMLColor(root, "BbbColor");
 
 		boolean initialize = parseXMLBoolean(root, "Initialize");
-
-		
-		String name = parseXMLString(root, "Title");
 
 		SchellingRule mySchelling = new SchellingRule(cellLength, row, column, neighbor, side, percentageA, percentageEmpty, satisfy, emptyColor, aaaColor, bbbColor, toro);
 		mySchelling.setName(XML_TAG_NAME);

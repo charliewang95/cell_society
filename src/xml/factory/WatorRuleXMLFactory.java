@@ -46,17 +46,8 @@ public class WatorRuleXMLFactory extends RuleXMLFactory {
 		Color fishColor = parseXMLColor(root, "FishColor");
 		Color sharkColor = parseXMLColor(root, "SharkColor");
         
-		//boolean initialize = parseXMLBoolean(root, "Initialize");
-
-		
-        String name = parseXMLString(root, "Title");
-        
         WatorRule myWator = new WatorRule(cellLength, row, column, neighbor, side, waterColor, fishColor, sharkColor, fishRepro, sharkRepro, sharkDeath, pWater, pFish, toro);
         myWator.setName(XML_TAG_NAME);
-        
-//        if (initialize) {
-//        	myWator = (WatorRule) initSpecific(myWator, root, row, column, neighbor, new Color[] {waterColor, fishColor, sharkColor}, toro, 0);
-//        }
         
         return myWator;
     

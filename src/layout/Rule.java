@@ -165,5 +165,12 @@ public abstract class Rule {
 		return list;
 	}
 
+	public int getRow() {
+		return myRow;
+	}
+	
+	public int getCol() {
+		return myColumn;
+	}
 
 }

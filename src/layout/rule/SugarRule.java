@@ -1,6 +1,7 @@
 package layout.rule;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 import javafx.scene.paint.Color;
@@ -48,6 +49,12 @@ public class SugarRule extends Rule {
 		myPercentage2 = percent[2];
 		myPercentage3 = percent[3];
 		myPercentageAgent = percent[4];
+		vision = misc[0];
+		metabolism = misc[1];
+		minsugar = misc[2];
+		maxsugar = misc[3];
+		sugarGrowBackRate = misc[4];
+		sugarGrowBackInterval = misc[5];
 		myColors = new Color[] { color[0], color[1], color[2], color[3], color[4] };
 		radius = Math.min(RADIUS, cellLength / 4);
 	}
@@ -113,7 +120,7 @@ public class SugarRule extends Rule {
 
 	@Override
 	public void changeState() {
-		//moveAgents();
+		// moveAgents();
 		incrementGround();
 	}
 
@@ -121,8 +128,8 @@ public class SugarRule extends Rule {
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				int newState = myGrid[i][j].getState() + sugarGrowBackRate;
-				if (newState > LEVEL[4]) {
-					newState = LEVEL[4];
+				if (newState > LEVEL[LEVEL.length - 1]) {
+					newState = LEVEL[LEVEL.length - 1];
 				}
 				myGrid[i][j].setState(newState);
 				myGrid[i][j].setColor(myColors[newState]);
@@ -131,19 +138,24 @@ public class SugarRule extends Rule {
 	}
 
 	private void moveAgents() {
+		Collections.shuffle(myAgents);
 		for (Agent agent : myAgents) {
 			int row = agent.getRow();
 			int col = agent.getCol();
-			int 
+			Cell tempcell = myGrid()
 		}
 	}
 
 	public ArrayList<Agent> getAgent() {
 		return myAgents;
 	}
-	
+
 	public int getVision() {
 		return vision;
+	}
+
+	public boolean getToroidal() {
+		return toroidal;
 	}
 
 }

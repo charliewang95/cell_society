@@ -77,14 +77,12 @@ public abstract class RuleXMLFactory extends XMLFactory {
 			for (int j=0; j < column; j++) {
 				int current = tempUpdated[i][j];
 				temp2[i][j].init(current, stateColor[current]);
-				//if (stateNum != 0)
-				//	myFire.getCounters()[stateNum-1]--;
-				//myCounters[1]++;
-				//need to update myCounters array somehow. 
-				
+				if (current != 0)
+					rule.getCounters()[current-1]++;
 			}
 			
 		}
+		System.out.println(rule.getCounters()[1]);
 		rule.setUpdatedGrid(tempUpdated);
 		rule.initNeighbor(neighbor, toro);
 		return rule;

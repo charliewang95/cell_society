@@ -1,6 +1,8 @@
 package layout.manager;
 
 import layout.Cell;
+import layout.Rule;
+import layout.rule.SugarRule;
 
 /**
  * 
@@ -15,16 +17,18 @@ public class NeighborManager {
 	private int myNumNeighbor;
 	private Cell[][] myGrid;
 	private boolean myToroidal;
+	private Rule myRule;
 
 	public NeighborManager(int row, int col) {
 		myRow = row;
 		myColumn = col;
 	}
 
-	public void init(int numNeighbor, Cell[][] grid, boolean toroidal) {
+	public void init(int numNeighbor, Cell[][] grid, boolean toroidal, Rule rule) {
 		myNumNeighbor = numNeighbor;
 		myGrid = grid;
 		myToroidal = toroidal;
+		myRule = rule;
 	}
 
 	public void setNeighborNumber(int numNeighbor) {
@@ -62,12 +66,54 @@ public class NeighborManager {
 	}
 
 	private void initNeighbor4() {
+		if (myRule instanceof SugarRule) {
+			initNeighbor4Sugar();
+			return;
+		}
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				initNeighborUp(i, j);
 				initNeighborLeft(i, j);
 				initNeighborRight(i, j);
 				initNeighborDown(i, j);
+			}
+		}
+	}
+
+	private void initNeighbor4Sugar() {
+		int vision = ((SugarRule) myRule).getVision();
+		for (int i = 0; i < myRow; i++) {
+			for (int j = 0; j < myColumn; j++) {
+				for (int k = 1; k <= vision; k++) {
+					
+					// add neighbors above
+					if (i - k >= 0) {
+						myGrid[i][j].addNeighbor(myGrid[i - k][j]);
+					} else if (myToroidal) {
+						myGrid[i][j].addNeighbor(myGrid[myRow - (k - i)][j]);
+					}
+
+					// add neighbors below
+					if (i + k < myRow) {
+						myGrid[i][j].addNeighbor(myGrid[i + k][j]);
+					} else if (myToroidal) {
+						myGrid[i][j].addNeighbor(myGrid[i + k - myRow][j]);
+					}
+
+					// add neighbors to the left
+					if (j - k >= 0) {
+						myGrid[i][j].addNeighbor(myGrid[i][j - k]);
+					} else if (myToroidal) {
+						myGrid[i][j].addNeighbor(myGrid[i][myColumn - (k - j)]);
+					}
+
+					// add neighbors to the right
+					if (j + k < myColumn) {
+						myGrid[i][j].addNeighbor(myGrid[i][j + k]);
+					} else if (myToroidal) {
+						myGrid[i][j].addNeighbor(myGrid[i][j + k - myColumn]);
+					}
+				}
 			}
 		}
 	}
@@ -240,7 +286,7 @@ public class NeighborManager {
 			myGrid[i][j].addNeighbor(myGrid[i - 1][0]);
 		}
 	}
-	
+
 	private void initNeighborBottomLeftT(int i, int j) {
 		if (i != myRow - 1 && j != 0) {
 			myGrid[i][j].addNeighbor(myGrid[i + 1][j - 1]);
@@ -252,7 +298,7 @@ public class NeighborManager {
 			myGrid[i][j].addNeighbor(myGrid[i + 1][myColumn - 1]);
 		}
 	}
-	
+
 	private void initNeighborBottomRightT(int i, int j) {
 		if (i != myRow - 1 && j != myColumn - 1) {
 			myGrid[i][j].addNeighbor(myGrid[i + 1][j + 1]);

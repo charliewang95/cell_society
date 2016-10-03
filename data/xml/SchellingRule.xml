@@ -6,9 +6,10 @@
     <cellLength>10</cellLength>
     <xSize>50</xSize>
     <ySize>30</ySize>
+	<numNeighbor>3</numNeighbor>
+	<numSide>6</numSide>
     <toroidal>true</toroidal>
-    
-    <numNeighbor>6</numNeighbor>
+
     
     <rateA>0.55</rateA>
     <rateEmpty>0.3</rateEmpty>

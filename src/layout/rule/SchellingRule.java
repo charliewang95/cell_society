@@ -53,10 +53,14 @@ public class SchellingRule extends Rule {
 		myBs = new int[myNumB];
 		myEs = new int[myNumE];
 		myEsTMP = new int[myNumE];
-		myGrid = new Cell[myRow][myColumn];
-		initBoard(myNumNeighbor);
-		initState();
-		initNeighbor(myNumNeighbor, myToroidal);
+		
+		if (myGrid==null) {
+			myGrid = new Cell[myRow][myColumn];
+			initBoard(myNumNeighbor);
+			initState();
+			initNeighbor(myNumNeighbor, myToroidal);
+		}
+		
 	}
 
 	@Override
@@ -69,29 +73,20 @@ public class SchellingRule extends Rule {
 			int j = index - i * myColumn;
 			
 			if (k < myNumA) {
-				myGrid[i][j].init(AAA, myColors[AAA], myNumNeighbor);
+				myGrid[i][j].init(AAA, myColors[AAA]);
 				myUpdatedGrid[i][j] = AAA;
 				myAs[k] = index;
 			} else if (k >= myNumA && k < myNumA + myNumB) {
-				myGrid[i][j].init(BBB, myColors[BBB], myNumNeighbor);
+				myGrid[i][j].init(BBB, myColors[BBB]);
 				myUpdatedGrid[i][j] = BBB;
 				myBs[k - myNumA] = index;
 			} else {
-				myGrid[i][j].init(EMPTY, myColors[EMPTY], myNumNeighbor);
+				myGrid[i][j].init(EMPTY, myColors[EMPTY]);
 				myUpdatedGrid[i][j] = EMPTY;
 				myEs[k - myNumA - myNumB] = index;
 				myEsTMP[k - myNumA - myNumB] = index;
 			}
 		}
-	}
-
-	private ArrayList<Integer> makeRandomList(int top) {
-		ArrayList<Integer> list = new ArrayList<>(top);
-		for (int i = 0; i < top; i++) {
-			list.add(i);
-		}
-		Collections.shuffle(list);
-		return list;
 	}
 
 	@Override
@@ -133,8 +128,8 @@ public class SchellingRule extends Rule {
 		System.out.println();
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
-				myGrid[i][j].setState(myUpdatedGrid[i][j]);
-				myGrid[i][j].setColor(myColors[myUpdatedGrid[i][j]]);
+				int stateNum = myUpdatedGrid[i][j];
+				myGrid[i][j].setState(stateNum, myColors[stateNum]);
 			}
 		}
 		// testByPrintingEachState();

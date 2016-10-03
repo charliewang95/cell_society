@@ -29,10 +29,13 @@ public class LifeRule extends Rule {
 	}
 
 	public void initGrid() {
-		myGrid = new Cell[myRow][myColumn];
-		initBoard(4);
-		initState();
-		initNeighbor(myNumNeighbor, myToroidal);
+		if (myGrid == null) {
+			myGrid = new Cell[myRow][myColumn];
+			initBoard(4);
+			initState();
+			initNeighbor(myNumNeighbor, myToroidal);
+		}
+		
 	}
 
 	@Override
@@ -70,11 +73,11 @@ public class LifeRule extends Rule {
 		myCounters[0] = 0;
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
-				myGrid[i][j].setState(myUpdatedGrid[i][j]);
-				if (myUpdatedGrid[i][j] == LIVE){
+				int stateNum = myUpdatedGrid[i][j];
+				myGrid[i][j].setState(stateNum, myColors[stateNum]);
+				if (stateNum == LIVE){
 					myCounters[0]++;
 				}
-				myGrid[i][j].setColor(myColors[myUpdatedGrid[i][j]]);
 			}
 		}
 	}
@@ -83,11 +86,11 @@ public class LifeRule extends Rule {
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				if (i == myRow / 2 && j < myColumn / 2 + 6 && j > myColumn / 2 - 5) {
-					myGrid[i][j].init(LIVE, myColors[LIVE], myNumNeighbor);
+					myGrid[i][j].init(LIVE, myColors[LIVE]);
 					myUpdatedGrid[i][j] = LIVE;
 					myCounters[0]++;
 				} else {
-					myGrid[i][j].init(EMPTY, myColors[EMPTY], myNumNeighbor);
+					myGrid[i][j].init(EMPTY, myColors[EMPTY]);
 					myUpdatedGrid[i][j] = EMPTY;
 				}
 			}
@@ -97,15 +100,15 @@ public class LifeRule extends Rule {
 	private void initExploder() {
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
-				myGrid[i][j].init(LIVE, myColors[LIVE], myNumNeighbor);
+				myGrid[i][j].init(LIVE, myColors[LIVE]);
 				if ((i >= myRow / 2 - 2 && i <= myRow / 2 + 2 && j == myColumn / 2 - 2)
 						|| (i >= myRow / 2 - 2 && i <= myRow / 2 + 2 && j == myColumn / 2 + 2)
 						|| (i == myRow / 2 - 2 && j == myColumn / 2) || (i == myRow / 2 + 2 && j == myColumn / 2)) {
-					myGrid[i][j].init(LIVE, myColors[LIVE], myNumNeighbor);
+					myGrid[i][j].init(LIVE, myColors[LIVE]);
 					myUpdatedGrid[i][j] = LIVE;
 					myCounters[0]++;
 				} else {
-					myGrid[i][j].init(EMPTY, myColors[EMPTY], myNumNeighbor);
+					myGrid[i][j].init(EMPTY, myColors[EMPTY]);
 					myUpdatedGrid[i][j] = EMPTY;
 				}
 			}
@@ -118,14 +121,14 @@ public class LifeRule extends Rule {
 		int[] yarray = { 33, 34, 44, 45, 32, 34, 44, 45, 10, 11, 19, 20, 32, 33, 10, 11, 18, 20, 18, 19, 26, 27, 26, 28,
 				26, 45, 46, 45, 47, 45, 34, 35, 36, 34, 35 };
 		for (int i = 0; i < xarray.length; i++) {
-			myGrid[xarray[i]][yarray[i]].init(LIVE, myColors[LIVE], myNumNeighbor);
+			myGrid[xarray[i]][yarray[i]].init(LIVE, myColors[LIVE]);
 			myUpdatedGrid[xarray[i]][yarray[i]] = LIVE;
 			myCounters[0]++;
 		}
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				if (myGrid[i][j].getState()==0) {
-					myGrid[i][j].init(EMPTY, myColors[EMPTY], myNumNeighbor);
+					myGrid[i][j].init(EMPTY, myColors[EMPTY]);
 					myUpdatedGrid[i][j] = EMPTY;
 				}
 			}

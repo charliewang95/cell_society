@@ -3,52 +3,49 @@
 	<nameRule>FireRule</nameRule>
 	<title>Catching Fire</title>
 	<author>Charlie</author>
-	<length>600</length>
-	<width>600</width>
-	<xSize>10</xSize>
-	<ySize>10</ySize>
-	<probcatch>.6</probcatch>
+
+    <cellLength>20</cellLength>
+    <xSize>30</xSize>
+    <ySize>30</ySize>
+    <numNeighbor>4</numNeighbor>
+    <numSide>4</numSide>
+	<toroidal>true</toroidal>
 	
-	<init>
-		<row id = "1">
-			<column>state</column>
-			<column>state</column>
-			<column>state</column>
-			<column>state</column>
-			<column>state</column>
-			<column>state</column>
-			<column>state</column>
-			<column>state</column>
-			<column>state</column>
-			<column>state</column>
-		</row>
-		<row id = "2">
-			<column>state</column>
-			<column>state</column>
-			<column>state</column>
-			<column>state</column>
-			<column>state</column>
-			<column>state</column>
-			<column>state</column>
-			<column>state</column>
-			<column>state</column>
-			<column>state</column>
-		</row>
-	</init>	
+	<probcatch>.5</probcatch>
+    <emptyColor>YELLOW</emptyColor>
+    <treeColor>green</treeColor>
+    <burnColor>RED</burnColor>
+    
+    <init>true</init>
+	
+	<rows id = "1">
+		<index>1</index>
+		<column>
+			<index>2</index>
+			<state>0</state>
+		</column>
+		<column>
+			<index>3</index>
+			<state>2</state>
+		</column>
+
+	</rows>
+	<rows id = "2">
+		<index>2</index>
+		<column>
+			<index>2</index>
+			<state>0</state>
+		</column>
+		<column>
+			<index>3</index>
+			<state>2</state>
+		</column>
+
+	</rows>
 		
 		
 		
-	<length>800</length>
-    <width>800</width>
-    <xSize>100</xSize>
-    <ySize>100</ySize>
-    <probcatch>.6</probcatch>
-    <color>
-    	<empty>YELLOW</empty>
-    	<tree>GREEN</tree>
-    	<burn>RED</burn>
-    </color>
-		
+
 	
 	
 </Rule>

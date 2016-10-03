@@ -21,9 +21,9 @@ public class WatorRule extends Rule {
 	private static final int SHARK = 2;
 	private static final double LIFEMIN = 1;
 	private static final double LIFEMAX = 20;
-	private final boolean myToroidal; //new
+	private final boolean myToroidal; // new
 	private int myNumNeighbor;
-	
+
 	private Parameter myFishReproduceRate;
 	private Parameter mySharkReproduceRate;
 	private Parameter mySharkDeathRate;
@@ -33,16 +33,20 @@ public class WatorRule extends Rule {
 
 	private TempGrid[][] myUpdatedGrid;
 
-	public WatorRule(double cellLength, int sizeX, int sizeY, int neighbor, Color water, Color fish, Color shark, double fishBirth, double sharkBirth, double sharkDeath, double percentWater, double percentFish, boolean toro) {
+	public WatorRule(double cellLength, int sizeX, int sizeY, int neighbor, Color water, Color fish, Color shark,
+			double fishBirth, double sharkBirth, double sharkDeath, double percentWater, double percentFish,
+			boolean toro) {
 		super(cellLength, sizeX, sizeY);
 		myColors = new Color[] { water, fish, shark };
 		myToroidal = toro;
-		myFishReproduceRate = new Parameter(fishBirth, myResources.getString("FishReproductionSlider"), LIFEMIN, LIFEMAX);
-		mySharkReproduceRate = new Parameter(sharkBirth, myResources.getString("SharkReproductionSlider"), LIFEMIN, LIFEMAX);
+		myFishReproduceRate = new Parameter(fishBirth, myResources.getString("FishReproductionSlider"), LIFEMIN,
+				LIFEMAX);
+		mySharkReproduceRate = new Parameter(sharkBirth, myResources.getString("SharkReproductionSlider"), LIFEMIN,
+				LIFEMAX);
 		mySharkDeathRate = new Parameter(sharkDeath, myResources.getString("SharkDeathSlider"), LIFEMIN, LIFEMAX);
-		
+
 		myNumNeighbor = neighbor;
-		
+
 		myPercentageWater = percentWater;
 		myPercentageFish = percentFish;
 		parameters.add(myFishReproduceRate);
@@ -77,7 +81,7 @@ public class WatorRule extends Rule {
 		myGrid = new Animal[myRow][myColumn];
 		initBoard(myNumNeighbor);
 		myUpdatedGrid = new TempGrid[myRow][myColumn];
-		
+
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				myUpdatedGrid[i][j] = new TempGrid();
@@ -92,20 +96,20 @@ public class WatorRule extends Rule {
 		ArrayList<Integer> list = makeRandomList(myRow * myColumn);
 		int initWater = (int) (myRow * myColumn * myPercentageWater);
 		int initFish = (int) ((myRow * myColumn - initWater) * myPercentageFish);
-		
+
 		for (int k = 0; k < myRow * myColumn; k++) {
 			int index = list.get(k);
 			int i = index / myColumn;
 			int j = index - i * myColumn;
-			
+
 			if (k < initWater) {
-				myGrid[i][j].init(WATER, myColors[WATER], myNumNeighbor);
+				myGrid[i][j].init(WATER, myColors[WATER]);
 				myUpdatedGrid[i][j].tempState = WATER;
 			} else if (k >= initWater && k < initWater + initFish) {
 				Random random = new Random();
 				int randomInt = random.nextInt((int) myFishReproduceRate.getValue());
-				
-				myGrid[i][j].init(FISH, myColors[FISH], myNumNeighbor);
+
+				myGrid[i][j].init(FISH, myColors[FISH]);
 				if (myGrid[i][j] instanceof Animal) {
 					((Animal) myGrid[i][j]).setReproduce(randomInt);
 				}
@@ -116,7 +120,7 @@ public class WatorRule extends Rule {
 				Random random = new Random();
 				int randomInt = random.nextInt((int) myFishReproduceRate.getValue());
 
-				myGrid[i][j].init(SHARK, myColors[SHARK], myNumNeighbor);
+				myGrid[i][j].init(SHARK, myColors[SHARK]);
 				if (myGrid[i][j] instanceof Animal) {
 					((Animal) myGrid[i][j]).setReproduce(randomInt);
 					((Animal) myGrid[i][j]).setHealth((int) mySharkDeathRate.getValue());
@@ -129,14 +133,6 @@ public class WatorRule extends Rule {
 		}
 	}
 
-	private ArrayList<Integer> makeRandomList(int top) {
-		ArrayList<Integer> list = new ArrayList<>(top);
-		for (int i = 0; i < top; i++) {
-			list.add(i);
-		}
-		Collections.shuffle(list);
-		return list;
-	}
 
 	@Override
 	public void changeState() {
@@ -166,12 +162,12 @@ public class WatorRule extends Rule {
 		myCounters[1] = 0;
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
-				myGrid[i][j].setState(myUpdatedGrid[i][j].tempState);
-				if (myUpdatedGrid[i][j].tempState == FISH)
+				int stateNum = myUpdatedGrid[i][j].tempState;
+				myGrid[i][j].setState(stateNum, myColors[stateNum]);
+				if (stateNum == FISH)
 					myCounters[0]++;
-				else if (myUpdatedGrid[i][j].tempState == SHARK)
+				else if (stateNum == SHARK)
 					myCounters[1]++;
-				myGrid[i][j].setColor(myColors[myUpdatedGrid[i][j].tempState]);
 				if (myGrid[i][j].getState() == FISH) {
 					((Animal) myGrid[i][j]).setReproduce(myUpdatedGrid[i][j].tempReproduce);
 				}
@@ -229,8 +225,8 @@ public class WatorRule extends Rule {
 		// if reproduce, leave a child
 		myUpdatedGrid[cell.getRow()][cell.getCol()].tempState = needReproduce(cell) ? SHARK : WATER;
 		// if reproduce, reset reproduce rate
-		myUpdatedGrid[cell.getRow()][cell.getCol()].tempReproduce = needReproduce(cell) ? (int) mySharkReproduceRate.getValue()
-				: Integer.MAX_VALUE;
+		myUpdatedGrid[cell.getRow()][cell.getCol()].tempReproduce = needReproduce(cell)
+				? (int) mySharkReproduceRate.getValue() : Integer.MAX_VALUE;
 		// if reproduce, reset health
 		myUpdatedGrid[cell.getRow()][cell.getCol()].tempHealth = needReproduce(cell) ? (int) mySharkDeathRate.getValue()
 				: Integer.MAX_VALUE;
@@ -239,7 +235,8 @@ public class WatorRule extends Rule {
 	private void updateReproduce(Cell celltocheck, Cell celltooperate) {
 		if (needReproduce(celltocheck)) { // if it needs to reproduce, reset its
 			// reproduce rate
-			myUpdatedGrid[celltooperate.getRow()][celltooperate.getCol()].tempReproduce = (int) mySharkReproduceRate.getValue();
+			myUpdatedGrid[celltooperate.getRow()][celltooperate.getCol()].tempReproduce = (int) mySharkReproduceRate
+					.getValue();
 		} else { // if not, --1
 			myUpdatedGrid[celltooperate.getRow()][celltooperate.getCol()].tempReproduce = ((Animal) celltocheck)
 					.getReproduce() - 1;
@@ -277,8 +274,8 @@ public class WatorRule extends Rule {
 		// if reproduce, leave a child
 		myUpdatedGrid[cell.getRow()][cell.getCol()].tempState = needReproduce(cell) ? FISH : WATER;
 		// if reproduce, reset reproduce rate
-		myUpdatedGrid[cell.getRow()][cell.getCol()].tempReproduce = needReproduce(cell) ? (int) myFishReproduceRate.getValue()
-				: Integer.MAX_VALUE;
+		myUpdatedGrid[cell.getRow()][cell.getCol()].tempReproduce = needReproduce(cell)
+				? (int) myFishReproduceRate.getValue() : Integer.MAX_VALUE;
 	}
 
 	private boolean needReproduce(Cell cell) {
@@ -308,6 +305,5 @@ public class WatorRule extends Rule {
 	public void setPercentageFish(double percentageFish) {
 		myPercentageFish = percentageFish;
 	}
-
 
 }

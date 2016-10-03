@@ -109,7 +109,6 @@ public class Playground {
 		try {
 			getRuleFromFile(myFileName);
 		} catch (XMLFactoryException e) {
-			System.out.println("who");
 			throw e;
 		}
 		myRule.initGrid();
@@ -241,7 +240,6 @@ public class Playground {
 			RuleXMLFactory factory = myFactoryMap.get(chosenRule);
 			myRule = factory.getRule(fileRoot);
 		} catch (XMLParserException e) {
-			System.out.println("what");
 			throw new XMLParserException(e, "Could not parse file %s", fileName);
 		}
 	}

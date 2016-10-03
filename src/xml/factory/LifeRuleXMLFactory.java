@@ -26,7 +26,7 @@ public class LifeRuleXMLFactory extends RuleXMLFactory {
 	 */
 	@Override
 	public Rule getRule(Element root) throws XMLFactoryException {
-		checkRule(root, "XML_TAG_NAME");
+		checkRule(root, XML_TAG_NAME);
 
 		double cellLength = parseXMLDouble(root, "CellLength");
         int row = parseXMLInteger(root, "Row");

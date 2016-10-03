@@ -16,16 +16,17 @@ public class FireRule extends Rule {
 	private static final int TREE = 1;
 	private static final int BURN = 2;
 	private final int myNumNeighbor;
+	private int mySide;
 	private final boolean myToroidal; //new
 	//private final boolean specifiedStates;
 	private Parameter myProbCatch;
 
-	public FireRule(double cellLength, int row, int column, Color empty, Color tree, Color burn, double probCatch, int neighbor, boolean toro) {
+	public FireRule(double cellLength, int row, int column, Color empty, Color tree, Color burn, double probCatch, int neighbor, int side, boolean toro) {
 		super(cellLength, row, column);
 		myColors = new Color[] { empty, tree, burn };
 		myNumNeighbor = neighbor;
+		mySide = side;
 		myToroidal = toro;
-		//specifiedStates = specify;
 		myProbCatch = new Parameter(probCatch, myResources.getString("FireRuleSlider"), 0, 1);
 		parameters.add(myProbCatch);
 		myCounters = new int[2];
@@ -40,7 +41,7 @@ public class FireRule extends Rule {
 		//through XML
 		if (myGrid == null){
 			myGrid = new Cell[myRow][myColumn];
-			initBoard(myNumNeighbor);
+			initBoard(mySide);
 			initState();
 			initNeighbor(myNumNeighbor, myToroidal);
 		}

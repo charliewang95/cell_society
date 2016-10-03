@@ -34,6 +34,7 @@ public class WatorRuleXMLFactory extends RuleXMLFactory {
         int column = parseXMLInteger(root, "Column");
         boolean toro = parseXMLBoolean(root, "Toroidal");
         int neighbor = parseXMLInteger(root, "Neighbor");
+        int side = parseXMLInteger(root, "Side");
         
         double pWater = parseXMLDouble(root, "PercentWater"); 
         double pFish = parseXMLDouble(root, "PercentFish"); 
@@ -50,7 +51,7 @@ public class WatorRuleXMLFactory extends RuleXMLFactory {
 		
         String name = parseXMLString(root, "Title");
         
-        WatorRule myWator = new WatorRule(cellLength, row, column, neighbor, waterColor, fishColor, sharkColor, fishRepro, sharkRepro, sharkDeath, pWater, pFish, toro);
+        WatorRule myWator = new WatorRule(cellLength, row, column, neighbor, side, waterColor, fishColor, sharkColor, fishRepro, sharkRepro, sharkDeath, pWater, pFish, toro);
         myWator.setName(name);
         
 //        if (initialize) {

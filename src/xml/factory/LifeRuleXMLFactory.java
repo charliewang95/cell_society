@@ -34,6 +34,7 @@ public class LifeRuleXMLFactory extends RuleXMLFactory {
         int column = parseXMLInteger(root, "Column");
         boolean toro = parseXMLBoolean(root, "Toroidal");
         int neighbor = parseXMLInteger(root, "Neighbor");
+        int side = parseXMLInteger(root, "Side");
 
 		Color emptyColor = parseXMLColor(root, "EmptyColor");
 		Color liveColor = parseXMLColor(root, "LiveColor");
@@ -49,12 +50,12 @@ public class LifeRuleXMLFactory extends RuleXMLFactory {
 		String name = parseXMLString(root, "Title");
 		
 		
-		LifeRule myLife = new LifeRule(cellLength, row, column, neighbor, emptyColor, liveColor, typeLife, toro);
+		LifeRule myLife = new LifeRule(cellLength, row, column, neighbor, side, emptyColor, liveColor, typeLife, toro);
 		myLife.setName(name);
 		
 		
 		if (initialize) {
-			myLife = (LifeRule) initSpecific(myLife, root, row, column, neighbor, new Color[]{emptyColor, liveColor}, toro, 0);
+			myLife = (LifeRule) initSpecific(myLife, root, row, column, neighbor, side, new Color[]{emptyColor, liveColor}, toro, 0);
 			
 		}
 

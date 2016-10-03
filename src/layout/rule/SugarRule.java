@@ -24,6 +24,7 @@ public class SugarRule extends Rule {
 	private double myPercentage3 = 0.10;
 	private double myPercentageAgent = 0.4;
 	private int myNumNeighbor = 4;
+	private int mySide = 4;
 	private int vision = 4;
 	private int metabolism = 3;
 	private int minsugar = 5;
@@ -40,10 +41,11 @@ public class SugarRule extends Rule {
 	private double radius;
 	private int myCounter = 0;
 
-	public SugarRule(double cellLength, int row, int column, int neighbor, boolean toro, double[] percent,
+	public SugarRule(double cellLength, int row, int column, int neighbor, int side, boolean toro, double[] percent,
 			Color[] color, int[] misc) {
 		super(cellLength, row, column);
 		myNumNeighbor = neighbor;
+		mySide = side;
 		toroidal = toro;
 		myCounters = new int[0];
 		myPercentage0 = percent[0];
@@ -71,7 +73,7 @@ public class SugarRule extends Rule {
 
 		myGrid = new Cell[myRow][myColumn];
 		myAgents = new ArrayList<Agent>();
-		initBoard(myNumNeighbor);
+		initBoard(mySide);
 		initState();
 		initAgent();
 		initNeighbor(myNumNeighbor, toroidal);

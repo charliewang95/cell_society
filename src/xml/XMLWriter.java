@@ -18,55 +18,84 @@ public class XMLWriter {
 	public static void main(String argv[]) {
 
 		try {
-
+			String rule = "FireRule";
 			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder docBuilder = docFactory.newDocumentBuilder();
 
 			// root elements
 			Document doc = docBuilder.newDocument();
-			Element rootElement = doc.createElement("company");
+			Element rootElement = doc.createElement("Rule");
 			doc.appendChild(rootElement);
+			
+			// set attribute to root element
+			Attr attrRule = doc.createAttribute("id");
+			attrRule.setValue(rule);
+			rootElement.setAttributeNode(attrRule);
+			
+			//rootElement.setAttribute("id", "FireRule");
 
-			// staff elements
-			Element staff = doc.createElement("Staff");
-			rootElement.appendChild(staff);
+			// child elements
+			Element ruleName = doc.createElement("nameRule");
+			ruleName.appendChild(doc.createTextNode(rule));
+			rootElement.appendChild(ruleName);
 
-			// set attribute to staff element
-			Attr attr = doc.createAttribute("id");
-			attr.setValue("1");
-			staff.setAttributeNode(attr);
-
-			// shorten way
-			// staff.setAttribute("id", "1");
-
-			// firstname elements
-			Element firstname = doc.createElement("firstname");
-			firstname.appendChild(doc.createTextNode("yong"));
-			staff.appendChild(firstname);
-
-			// lastname elements
-			Element lastname = doc.createElement("lastname");
-			lastname.appendChild(doc.createTextNode("mook kim"));
-			staff.appendChild(lastname);
-
-			// nickname elements
-			Element nickname = doc.createElement("nickname");
-			nickname.appendChild(doc.createTextNode("mkyong"));
-			staff.appendChild(nickname);
-
-			// salary elements
-			Element salary = doc.createElement("salary");
-			salary.appendChild(doc.createTextNode("100000"));
-			staff.appendChild(salary);
+			Element title = doc.createElement("title");
+			title.appendChild(doc.createTextNode("Forest Fire"));
+			rootElement.appendChild(title);
+			
+			Element author = doc.createElement("author");
+			author.appendChild(doc.createTextNode("Charlie"));
+			rootElement.appendChild(author);
+			
+			Element cellLength = doc.createElement("cellLength");
+			cellLength.appendChild(doc.createTextNode("20"));
+			rootElement.appendChild(cellLength);
+			
+			Element xSize = doc.createElement("xSize");
+			xSize.appendChild(doc.createTextNode("30"));
+			rootElement.appendChild(xSize);
+			
+			Element ySize = doc.createElement("ySize");
+			ySize.appendChild(doc.createTextNode("30"));
+			rootElement.appendChild(ySize);
+			
+			Element numNeighbor = doc.createElement("numNeighbor");
+			numNeighbor.appendChild(doc.createTextNode("4"));
+			rootElement.appendChild(numNeighbor);
+			
+			Element numSide = doc.createElement("numSide");
+			numSide.appendChild(doc.createTextNode("4"));
+			rootElement.appendChild(numSide);
+			
+			Element toroidal = doc.createElement("toroidal");
+			toroidal.appendChild(doc.createTextNode("true"));
+			rootElement.appendChild(toroidal);
+			
+			Element probCatch = doc.createElement("probcatch");
+			probCatch.appendChild(doc.createTextNode("0.5"));
+			rootElement.appendChild(probCatch);
+			
+			Element emptyColor = doc.createElement("emptyColor");
+			emptyColor.appendChild(doc.createTextNode("YELLOW"));
+			rootElement.appendChild(emptyColor);
+			
+			Element treeColor = doc.createElement("treeColor");
+			treeColor.appendChild(doc.createTextNode("green"));
+			rootElement.appendChild(treeColor);
+			
+			Element burnColor = doc.createElement("burnColor");
+			burnColor.appendChild(doc.createTextNode("blue"));
+			rootElement.appendChild(burnColor);
+			
 
 			// write the content into xml file
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File("C:\\file.xml"));
+			StreamResult result = new StreamResult(new File("data/xml/" + rule + "xmlwriter" + ".xml"));
 
 			// Output to console for testing
-			// StreamResult result = new StreamResult(System.out);
+			//StreamResult result = new StreamResult(System.out);
 
 			transformer.transform(source, result);
 

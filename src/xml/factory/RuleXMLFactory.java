@@ -63,12 +63,12 @@ public abstract class RuleXMLFactory extends XMLFactory {
 		}
 	}
 	
-	protected Rule initSpecific(Rule rule, Element root, int row, int column, int neighbor, Color[] color, boolean toro, int defaultState) {
+	protected Rule initSpecific(Rule rule, Element root, int row, int column, int neighbor, int side, Color[] color, boolean toro, int defaultState) {
 		Cell[][] temp = new Cell[row][column];
 		rule.setGrid(temp);
 		//need to have a grid already created in order to init the board. aghrielagjra
 		
-		rule.initBoard(neighbor);
+		rule.initBoard(side);
 		
 		Cell[][] temp2 = rule.getGrid();
 		int[][] tempUpdated = buildSpecific(root, row, column, defaultState);
@@ -76,7 +76,7 @@ public abstract class RuleXMLFactory extends XMLFactory {
 		for (int i = 0; i < row; i++) {
 			for (int j=0; j < column; j++) {
 				int current = tempUpdated[i][j];
-				temp2[i][j].init(current, stateColor[current], neighbor);
+				temp2[i][j].init(current, stateColor[current]);
 				//if (stateNum != 0)
 				//	myFire.getCounters()[stateNum-1]--;
 				//myCounters[1]++;

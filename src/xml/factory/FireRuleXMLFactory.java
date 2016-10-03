@@ -36,6 +36,7 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
         Integer column = parseXMLInteger(root, "Column");
         boolean toro = parseXMLBoolean(root, "Toroidal");
         int neighbor = parseXMLInteger(root, "Neighbor");
+        int side = parseXMLInteger(root, "Side");
 		
 		double probCatch = parseXMLDouble(root, "ProbCatch");
 		Color emptyColor = parseXMLColor(root, "EmptyColor");
@@ -46,11 +47,11 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
 		
 		String title = parseXMLString(root, "Title");
 		
-		FireRule myFire = new FireRule(cellLength, row, column, emptyColor, treeColor, burnColor, probCatch, neighbor, toro);
+		FireRule myFire = new FireRule(cellLength, row, column, emptyColor, treeColor, burnColor, probCatch, neighbor, side, toro);
 		myFire.setName(title);
 		
 		if (initialize) {
-			myFire = (FireRule) initSpecific(myFire, root, row, column, neighbor, new Color[]{emptyColor, treeColor, burnColor}, toro, 1);
+			myFire = (FireRule) initSpecific(myFire, root, row, column, neighbor, side, new Color[]{emptyColor, treeColor, burnColor}, toro, 1);
 		}
 		
 		return myFire;

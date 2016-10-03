@@ -75,7 +75,7 @@ public abstract class RuleXMLFactory extends XMLFactory {
 	protected Rule initSpecific(Rule rule, Element root, int row, int column, int neighbor, int side, Color[] color, boolean toro, int defaultState) throws XMLFactoryException {
 		Cell[][] temp = new Cell[row][column];
 		rule.setGrid(temp);
-		//need to have a grid already created in order to init the board. aghrielagjra
+		//need to have a grid already created in order to init the board.
 		
 		rule.initBoard(side);
 		
@@ -91,16 +91,8 @@ public abstract class RuleXMLFactory extends XMLFactory {
 				temp2[i][j].init(current, stateColor[current]);
 				if (current != 0 && !rule.getName().equals("SchellingRule"))
 					rule.getCounters()[current-1]++;
-//				
-				//if (stateNum != 0)
-				//	myFire.getCounters()[stateNum-1]--;
-				//myCounters[1]++;
-				//need to update myCounters array somehow. 
-				
 			}
-			
 		}
-		//System.out.println(rule.getCounters()[1]);
 		rule.setUpdatedGrid(tempUpdated);
 		rule.initNeighbor(neighbor, toro);
 		return rule;

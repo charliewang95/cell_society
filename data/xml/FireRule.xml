@@ -3,13 +3,13 @@
     <nameRule>FireRule</nameRule>
     <title>Catching Fire</title>
     <author>Charlie</author>
-    <cellLength>20</cellLength>
-    <xSize>10</xSize>
-    <ySize>10</ySize>
-	<toroidal>true</toroidal>
+    <cellLength>8</cellLength>
+    <xSize>40</xSize>
+    <ySize>40</ySize>
+	<toroidal>false</toroidal>
     
-    <probcatch>.5</probcatch>
-    <numNeighbor>4</numNeighbor>
+    <probcatch>.4</probcatch>
+    <numNeighbor>6</numNeighbor>
     <emptyColor>YELLOW</emptyColor>
     <treeColor>green</treeColor>
     <burnColor>RED</burnColor>

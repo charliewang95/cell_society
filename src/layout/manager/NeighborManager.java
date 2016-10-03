@@ -1,6 +1,8 @@
 package layout.manager;
 
 import layout.Cell;
+import layout.Rule;
+import layout.rule.SugarRule;
 
 /**
  * 
@@ -15,16 +17,18 @@ public class NeighborManager {
 	private int myNumNeighbor;
 	private Cell[][] myGrid;
 	private boolean myToroidal;
+	private Rule myRule;
 
 	public NeighborManager(int row, int col) {
 		myRow = row;
 		myColumn = col;
 	}
 
-	public void init(int numNeighbor, Cell[][] grid, boolean toroidal) {
+	public void init(int numNeighbor, Cell[][] grid, boolean toroidal, Rule rule) {
 		myNumNeighbor = numNeighbor;
 		myGrid = grid;
 		myToroidal = toroidal;
+		myRule = rule;
 	}
 
 	public void setNeighborNumber(int numNeighbor) {
@@ -62,6 +66,11 @@ public class NeighborManager {
 	}
 
 	private void initNeighbor4() {
+		if (myRule instanceof SugarRule) {
+			initNeighbor4Sugar();
+			return;
+			
+		}
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				initNeighborUp(i, j);
@@ -70,6 +79,10 @@ public class NeighborManager {
 				initNeighborDown(i, j);
 			}
 		}
+	}
+
+	private void initNeighbor4Sugar() {
+		int vision = myRule.
 	}
 
 	private void initNeighbor6() {

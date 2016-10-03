@@ -1,6 +1,7 @@
 package layout;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ResourceBundle;
 import javafx.scene.paint.Color;
 import layout.manager.NeighborManager;
@@ -10,8 +11,8 @@ import layout.rule.WatorRule;
 import layout.rule.watoranimals.Animal;
 
 /**
- * The parent class for all the subclass rules. Most common methods are defined in this
- * class.
+ * The parent class for all the subclass rules. Most common methods are defined
+ * in this class.
  * 
  * @author Charlie Wang
  *
@@ -76,17 +77,18 @@ public abstract class Rule {
 	 * Change each cell's state according to its neighbors
 	 */
 	public abstract void changeState();
-	
+
 	/**
 	 * initialize the board according to different shapes
 	 * 
-	 * @param numSide the shape of the cell (options: triangle, rectangle, hexagon)
+	 * @param numSide
+	 *            the shape of the cell (options: triangle, rectangle, hexagon)
 	 */
 	public void initBoard(int numSide) {
 		myUpdatedGrid = new int[myRow][myColumn];
 		myShapeManager.init(numSide, myGrid, this);
 		myShapeManager.chooseMethod();
-		myGrid=myShapeManager.getGrid();
+		myGrid = myShapeManager.getGrid();
 		myWidth = myShapeManager.getWidth();
 		myLength = myShapeManager.getLength();
 	}
@@ -104,7 +106,7 @@ public abstract class Rule {
 	}
 
 	public void initNeighbor(int numNeighbor, boolean toroidal) {
-		myNeighborManager.init(numNeighbor, myGrid, toroidal);
+		myNeighborManager.init(numNeighbor, myGrid, toroidal, this);
 		myNeighborManager.chooseMethod();
 		myGrid = myNeighborManager.getGrid();
 	}
@@ -140,7 +142,7 @@ public abstract class Rule {
 	public String[] getLegend() {
 		return myLegend;
 	}
-	
+
 	/**
 	 * A tester that prints each step's states in console as a grid
 	 */
@@ -153,5 +155,15 @@ public abstract class Rule {
 		}
 		System.out.println();
 	}
+
+	protected ArrayList<Integer> makeRandomList(int top) {
+		ArrayList<Integer> list = new ArrayList<>(top);
+		for (int i = 0; i < top; i++) {
+			list.add(i);
+		}
+		Collections.shuffle(list);
+		return list;
+	}
+
 
 }

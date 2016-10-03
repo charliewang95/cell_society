@@ -91,14 +91,12 @@ public class Playground {
 	public Playground(Stage s, String fileName) throws XMLFactoryException {
 		myStage = s;
 		setFileName(fileName);
-		init();
 	}
 
 	public Playground(Stage s, File file) throws XMLFactoryException {
 		myStage = s;
 		myFile = file;
 		setFileName(myFile.getName());
-		init();
 	}
 
 	public void init() throws XMLFactoryException, XMLParserException {
@@ -184,9 +182,7 @@ public class Playground {
 						try {
 							reset();
 						} catch (XMLFactoryException | FileNotFoundException e) {
-							// TODO Auto-generated catch block
-							System.out.println("AT THE RESET UNDER SETUPBUTTONS METHOD");
-							e.printStackTrace();
+							myPlacer.showError(e.getMessage());
 						}
 					}
 				});

@@ -35,6 +35,7 @@ public class SugarRule extends Rule {
 	private int myNum2;
 	private int myNum3;
 	private int myNum4;
+	private double oldvision;
 	private ArrayList<Agent> myAgents;
 	private double radius;
 	private int myCounter = 0;
@@ -65,6 +66,7 @@ public class SugarRule extends Rule {
 			vision = new Parameter(4, myResources.getString("VisionSlider"), 1, 6);
 		}
 		vision.setValue(misc[0]);
+		oldvision = misc[0];
 		metabolism.setValue(misc[1]);
 		minsugar = misc[2];
 		maxsugar = misc[3];
@@ -83,6 +85,13 @@ public class SugarRule extends Rule {
 		myNum2 = (int) (myRow * myColumn * myPercentage2);
 		myNum3 = (int) (myRow * myColumn * myPercentage3);
 		myNum4 = myRow * myColumn - myNum0 - myNum1 - myNum2 - myNum3;
+
+		if (myGrid == null) {
+			myGrid = new Cell[myRow][myColumn];
+			initBoard(mySide);
+			initState();
+		}
+
 		myAgents = new ArrayList<Agent>();
 		if (preset == 1) {
 			initAgent();
@@ -91,13 +100,6 @@ public class SugarRule extends Rule {
 		} else {
 			initAgent(); // default
 		}
-		
-		if (myGrid==null) {
-			myGrid = new Cell[myRow][myColumn];
-			initBoard(mySide);
-			initState();
-		}
-		
 		initNeighbor(myNumNeighbor, myToroidal);
 	}
 
@@ -155,7 +157,6 @@ public class SugarRule extends Rule {
 				count++;
 			}
 		}
-
 	}
 
 	public Agent createAgent(Random r, int i, int j) {
@@ -168,6 +169,11 @@ public class SugarRule extends Rule {
 
 	@Override
 	public void changeState() {
+		if (oldvision != vision.getValue()) {
+			clearNeighbor();
+			initNeighbor(myNumNeighbor, myToroidal);
+			oldvision = vision.getValue();
+		}
 		myCounter++;
 		moveAgents();
 		incrementGround();
@@ -204,8 +210,9 @@ public class SugarRule extends Rule {
 			int maxcol = col;
 			Collections.shuffle(tempcell.getNeighbors());
 			for (Cell c : tempcell.getNeighbors()) {
-				if (c.getState() > max || (c.getState() == max && Math.abs(c.getCol() - agent.getCol()) + Math.abs(c.getRow()
-						- agent.getRow()) > Math.abs(maxcol - agent.getCol()) + Math.abs(maxrow - agent.getRow()))) {
+				if (c.getState() > max || (c.getState() == max && Math.abs(c.getCol() - agent.getCol())
+						+ Math.abs(c.getRow() - agent.getRow()) > Math.abs(maxcol - agent.getCol())
+								+ Math.abs(maxrow - agent.getRow()))) {
 					max = c.getState();
 					maxrow = c.getRow();
 					maxcol = c.getCol();
@@ -280,5 +287,4 @@ public class SugarRule extends Rule {
 		return myPercentageAgent;
 	}
 
-	
 }

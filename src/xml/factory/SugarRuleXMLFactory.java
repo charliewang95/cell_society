@@ -64,9 +64,9 @@ public class SugarRuleXMLFactory extends RuleXMLFactory {
 		SugarRule mySugar = new SugarRule(cellLength, row, column, neighbor, side, toro, percent, color, misc);
 		mySugar.setName(XML_TAG_NAME);
 		
-		if (true) {
-			mySugar = (SugarRule) initSpecific(mySugar, root, row, column, neighbor, side, color, toro, 1);
-		}
+//		if (true) {
+//			mySugar = (SugarRule) initSpecific(mySugar, root, row, column, neighbor, side, color, toro, 1);
+//		}
 		
 		return mySugar;
 	}

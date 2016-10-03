@@ -112,6 +112,10 @@ public abstract class Rule {
 		myGrid = myNeighborManager.getGrid();
 	}
 
+	public void clearNeighbor() {
+		myNeighborManager.clear();
+	}
+	
 	public Cell[][] getGrid() {
 		return myGrid;
 	}

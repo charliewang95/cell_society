@@ -36,6 +36,14 @@ public class NeighborManager {
 		myRule = rule;
 	}
 
+	public void clear() {
+		for (int i=0; i<myRow; i++) {
+			for (int j=0; j<myColumn; j++) {
+				myGrid[i][j].getNeighbors().clear();
+			}
+		}
+	}
+	
 	public void setNeighborNumber(int numNeighbor) {
 		myNumNeighbor = numNeighbor;
 	}

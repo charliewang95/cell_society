@@ -21,7 +21,6 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Dialog;
 import javafx.scene.control.Slider;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -288,13 +287,13 @@ public class Playground {
 			NodeList nodeList = fileRoot.getElementsByTagName(myXMLResources.getString("RuleName"));
 			String chosenRule = nodeList.item(0).getTextContent();
 			if (!myFactoryMap.containsKey(chosenRule)) {
-				throw new XMLFactoryException(fileName + " XML file does not contain a valid rule, it contains '%s'",
+				throw new XMLFactoryException(fileName + " " + myResources.getString("XMLError")+ " '%s'",
 						chosenRule);
 			}
 			RuleXMLFactory factory = myFactoryMap.get(chosenRule);
 			myRule = factory.getRule(fileRoot);
 		} catch (XMLParserException e) {
-			throw new XMLParserException(e, "Could not parse file %s", fileName);
+			throw new XMLParserException(e, myResources.getString("ParseError")+" %s", fileName);
 		}
 	}
 

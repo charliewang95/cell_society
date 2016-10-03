@@ -7,8 +7,6 @@ import javafx.scene.paint.Color;
 import layout.manager.NeighborManager;
 import layout.manager.ShapeManager;
 import layout.rule.Parameter;
-import layout.rule.WatorRule;
-import layout.rule.watoranimals.Animal;
 
 /**
  * The parent class for all the subclass rules. Most common methods are defined

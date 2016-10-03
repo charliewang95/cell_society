@@ -13,6 +13,10 @@ import layout.rule.watoranimals.Animal;
  *
  */
 public class ShapeManager {
+	private static final int TRIANGLE_SIDES = 3;
+	private static final int RECTANGLE_SIDES = 4;
+	private static final int HEXAGON_SIDES = 6;
+	
 	private double myLength;
 	private double myWidth;
 	private double myCellLength;
@@ -39,11 +43,11 @@ public class ShapeManager {
 	}
 	
 	public void chooseMethod() {
-		if (mySide == 3) {
+		if (mySide == TRIANGLE_SIDES) {
 			initTri();
-		} else if (mySide == 4) {
+		} else if (mySide == RECTANGLE_SIDES) {
 			initRec();
-		} else if (mySide == 6) {
+		} else if (mySide == HEXAGON_SIDES) {
 			initHex();
 		}
 	}

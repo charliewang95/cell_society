@@ -58,34 +58,24 @@ public class XMLWriter {
 			docFactory = DocumentBuilderFactory.newInstance();
 			docBuilder = docFactory.newDocumentBuilder();
 
-			// root elements
 			doc = docBuilder.newDocument();
 			rootElement = doc.createElement(myXMLResources.getString("Root"));
 			doc.appendChild(rootElement);
 
-			// set attribute to root element
 			Attr attrRule = doc.createAttribute("id");
 			attrRule.setValue(desiredRule);
 			rootElement.setAttributeNode(attrRule);
 
-			// rootElement.setAttribute("id", "FireRule");
-
-			// child elements
 			generalElements();
 
-			// unique to FireRule...
 			specificElements();
 
 			addSpecificGrid(saveGrid);
 
-			// write the content into xml file
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			Transformer transformer = transformerFactory.newTransformer();
 			DOMSource source = new DOMSource(doc);
 			StreamResult result = new StreamResult(new File("data/xml/" + desiredRule + "Output" + ".xml"));
-
-			// Output to console for testing
-			// StreamResult result = new StreamResult(System.out);
 
 			transformer.transform(source, result);
 
@@ -114,10 +104,6 @@ public class XMLWriter {
 		if (desiredRule.equals("SchellingRule")) {
 			setSchelling();
 		}
-		
-//		if (desiredRule.equals("SugarRule")) {
-//			
-//		}
 		
 	}
 
@@ -197,47 +183,38 @@ public class XMLWriter {
 	 */
 	private void generalElements() {
 		Element ruleName = doc.createElement(myXMLResources.getString("RuleName"));
-		//Element ruleName = doc.createElement("nameRule");
 		ruleName.appendChild(doc.createTextNode(desiredRule));
 		rootElement.appendChild(ruleName);
 
 		Element title = doc.createElement(myXMLResources.getString("Title"));
-		//Element title = doc.createElement("title");
 		title.appendChild(doc.createTextNode(desiredRule));
 		rootElement.appendChild(title);
 
 		Element author = doc.createElement(myXMLResources.getString("Author"));
-		//Element author = doc.createElement("author");
 		author.appendChild(doc.createTextNode("Charlie"));
 		rootElement.appendChild(author);
 
 		Element cellLength = doc.createElement(myXMLResources.getString("CellLength"));
-		//Element cellLength = doc.createElement("cellLength");
 		cellLength.appendChild(doc.createTextNode(Double.toString(myRule.getCellLength())));
 		rootElement.appendChild(cellLength);
 
 		Element xSize = doc.createElement(myXMLResources.getString("Column"));
-		//Element xSize = doc.createElement("xSize");
 		xSize.appendChild(doc.createTextNode(Integer.toString(myRule.getCol())));
 		rootElement.appendChild(xSize);
 
 		Element ySize = doc.createElement(myXMLResources.getString("Row"));
-		//Element ySize = doc.createElement("ySize");
 		ySize.appendChild(doc.createTextNode(Integer.toString(myRule.getRow())));
 		rootElement.appendChild(ySize);
 
 		Element numNeighbor = doc.createElement(myXMLResources.getString("Neighbor"));
-		//Element numNeighbor = doc.createElement("numNeighbor");
 		numNeighbor.appendChild(doc.createTextNode(Integer.toString(myRule.getNumNeighbor())));
 		rootElement.appendChild(numNeighbor);
 
 		Element numSide = doc.createElement(myXMLResources.getString("Side"));
-		//Element numSide = doc.createElement("numSide");
 		numSide.appendChild(doc.createTextNode(Integer.toString(myRule.getSide())));
 		rootElement.appendChild(numSide);
 
 		Element toroidal = doc.createElement(myXMLResources.getString("Toroidal"));
-		//Element toroidal = doc.createElement("toroidal");
 		toroidal.appendChild(doc.createTextNode(Boolean.toString(myRule.getToroidal())));
 		rootElement.appendChild(toroidal);
 	}

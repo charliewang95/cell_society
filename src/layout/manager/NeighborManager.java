@@ -12,6 +12,11 @@ import layout.rule.SugarRule;
  *
  */
 public class NeighborManager {
+	private static final int THREE_NEIGHBORS = 3;
+	private static final int FOUR_NEIGHBORS = 4;
+	private static final int SIX_NEIGHBORS = 6;
+	private static final int EIGHT_NEIGHBORS = 8;
+	
 	private int myRow;
 	private int myColumn;
 	private int myNumNeighbor;
@@ -40,13 +45,13 @@ public class NeighborManager {
 	}
 
 	public void chooseMethod() {
-		if (myNumNeighbor == 3) {
+		if (myNumNeighbor == THREE_NEIGHBORS) {
 			initNeighbor3();
-		} else if (myNumNeighbor == 4) {
+		} else if (myNumNeighbor == FOUR_NEIGHBORS) {
 			initNeighbor4();
-		} else if (myNumNeighbor == 6) {
+		} else if (myNumNeighbor == SIX_NEIGHBORS) {
 			initNeighbor6();
-		} else if (myNumNeighbor == 8) {
+		} else if (myNumNeighbor == EIGHT_NEIGHBORS) {
 			initNeighbor8();
 		}
 	}

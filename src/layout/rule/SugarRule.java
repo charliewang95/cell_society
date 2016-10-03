@@ -207,6 +207,8 @@ public class SugarRule extends Rule {
 			agent.getCircle().setCenterX(myGrid[maxrow][maxcol].getCenterX());
 			agent.getCircle().setCenterY(myGrid[maxrow][maxcol].getCenterY());
 			agent.setSugar(agent.getSugar() + max - (int) metabolism.getValue());
+			agent.setRow(maxrow);
+			agent.setCol(maxcol);
 			myGrid[maxrow][maxcol].setState(LEVEL[0], myColors[LEVEL[0]]);
 			if (agent.getSugar() <= 0) {
 				toRemove.add(agent);

@@ -30,6 +30,7 @@ public class SugarRule extends Rule {
 	private int maxsugar = 25;
 	private Parameter sugarGrowBackRate = new Parameter(1, myResources.getString("SugarRateSlider"), 1, 4);
 	private int sugarGrowBackInterval = 1;
+	private int preset = 1;
 	private int myNum0;
 	private int myNum1;
 	private int myNum2;
@@ -58,10 +59,17 @@ public class SugarRule extends Rule {
 		minsugar = misc[2];
 		maxsugar = misc[3];
 		sugarGrowBackRate.setValue(misc[4]);
+		preset = misc[5];
 		parameters.add(vision);
 		parameters.add(metabolism);
 		parameters.add(sugarGrowBackRate);
-		sugarGrowBackInterval = misc[5];
+		if (preset == 1) {
+			sugarGrowBackInterval = 1;
+		} else if (preset == 2) {
+			sugarGrowBackInterval = 2;
+		} else { // default
+			sugarGrowBackInterval = 1;
+		}
 		myColors = new Color[] { color[0], color[1], color[2], color[3], color[4] };
 		radius = Math.min(RADIUS, cellLength / 4);
 	}
@@ -78,7 +86,13 @@ public class SugarRule extends Rule {
 		myAgents = new ArrayList<Agent>();
 		initBoard(myNumNeighbor);
 		initState();
-		initAgent();
+		if (preset == 1) {
+			initAgent();
+		} else if (preset == 2) {
+			initAgent2();
+		} else {
+			initAgent(); // default
+		}
 		initNeighbor(myNumNeighbor, toroidal);
 	}
 
@@ -113,7 +127,7 @@ public class SugarRule extends Rule {
 	public void initAgent() {
 		ArrayList<Integer> list = makeRandomList(myRow * myColumn);
 		Random r = new Random();
-		
+
 		for (int k = 0; k < myRow * myColumn * myPercentageAgent; k++) {
 			int index = list.get(k);
 			int i = index / myColumn;
@@ -121,9 +135,22 @@ public class SugarRule extends Rule {
 			createAgent(r, i, j);
 		}
 	}
-	
+
 	public void initAgent2() {
-		
+		ArrayList<Integer> list = makeRandomList(myRow * myColumn);
+		Random r = new Random();
+		int count = 0;
+		for (int k = 0; k < list.size() && count <= myRow * myColumn * myPercentageAgent; k++) {
+			int index = list.get(k);
+			int i = index / myColumn;
+			int j = index - i * myColumn;
+			
+			if (i >= myRow * (2.0 / 5) && j <= myColumn * (3.0 / 5)) {
+				createAgent(r, i, j);
+				count++;
+			}
+		}
+
 	}
 
 	public Agent createAgent(Random r, int i, int j) {
@@ -188,7 +215,6 @@ public class SugarRule extends Rule {
 		for (Agent agent : toRemove) {
 			removeAgent(agent);
 		}
-		System.out.println(myCounters[0]);
 	}
 
 	public void removeAgent(Agent agent) {

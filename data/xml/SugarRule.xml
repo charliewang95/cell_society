@@ -5,18 +5,18 @@
     <author>Charlie</author>
     
 
-    <cellLength>20</cellLength>
-    <xSize>45</xSize>
-    <ySize>45</ySize>
+    <cellLength>15</cellLength>
+    <xSize>40</xSize>
+    <ySize>40</ySize>
     
-	<toroidal>true</toroidal>    
+	<toroidal>false</toroidal>    
 	<numNeighbor>4</numNeighbor>
 
     <myPercentage0>.3</myPercentage0>
     <myPercentage1>0.25</myPercentage1>
     <myPercentage2>0.20</myPercentage2>
     <myPercentage3>0.15</myPercentage3>
-    <myPercentageAgent>0.3</myPercentageAgent> 
+    <myPercentageAgent>0.25</myPercentageAgent> 
 
     
     <color0>LIGHTGREY</color0>
@@ -30,6 +30,6 @@
     <minSugar>5</minSugar>
     <maxSugar>25</maxSugar>
     <sugarGrowBackRate>1</sugarGrowBackRate>
-    <sugarGrowBackInterval>1</sugarGrowBackInterval>
+    <sugarGrowBackInterval>2</sugarGrowBackInterval>
     
 </Rule>

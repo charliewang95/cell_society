@@ -14,7 +14,7 @@ import layout.rule.FireRule;
 import layout.rule.SugarRule;
 
 /**
- * Creates FireRule object from an XML file.
+ * Creates SugarRule object from an XML file.
  *
  * @author cellsociety_team14
  */
@@ -22,13 +22,13 @@ public class SugarRuleXMLFactory extends RuleXMLFactory {
 	private static final String XML_TAG_NAME = "SugarRule";
 
 	/**
-	 * Factory for FireRule
+	 * Factory for SugarRule
 	 */
 	public SugarRuleXMLFactory() {
 		super(XML_TAG_NAME);
 	}
 	/**
-	 * @return FireRule object
+	 * @return SugarRule object
 	 */
 	@Override
 	public Rule getRule(Element root) throws XMLFactoryException {
@@ -40,7 +40,6 @@ public class SugarRuleXMLFactory extends RuleXMLFactory {
         boolean toro = parseXMLBoolean(root, "Toroidal");
         int neighbor = parseXMLInteger(root, "Neighbor");
 		
-//		double probCatch = parseXMLDouble(root, "ProbCatch");
         double percent0 = parseXMLDouble(root, "Percent0");
         double percent1 = parseXMLDouble(root, "Percent1");
         double percent2 = parseXMLDouble(root, "Percent2");

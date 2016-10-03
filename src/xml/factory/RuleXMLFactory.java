@@ -36,40 +36,45 @@ public abstract class RuleXMLFactory extends XMLFactory {
 		myRuleType = ruleType;
 	}
 
-	public double parseXMLDouble(Element root, String tag) {
-		return Double.parseDouble(getTextValue(root, myXMLResources.getString(tag)));
+	public double parseXMLDouble(Element root, String tag, String defaultDouble) {
+		String check = getTextValue(root, myXMLResources.getString(tag));
+		return Double.parseDouble(getValueOrDefault(check, defaultDouble));
 
 	}
 
-	public Integer parseXMLInteger(Element root, String tag) {
-		return Integer.parseInt(getTextValue(root, myXMLResources.getString(tag)));
+	public Integer parseXMLInteger(Element root, String tag, String defaultInt) {
+		String check = getTextValue(root, myXMLResources.getString(tag));
+		return Integer.parseInt(getValueOrDefault(check, defaultInt));
 	}
 
-	public boolean parseXMLBoolean(Element root, String tag) {
-		return Boolean.parseBoolean(getTextValue(root, myXMLResources.getString(tag)));
+	public boolean parseXMLBoolean(Element root, String tag, String defaultBool) {
+		String check = getTextValue(root, myXMLResources.getString(tag));
+		return Boolean.parseBoolean((getValueOrDefault(check, defaultBool)));
 	}
 
-	public Color parseXMLColor(Element root, String tag) {
-		return Color.valueOf(getTextValue(root, myXMLResources.getString(tag)).toUpperCase());
+	public Color parseXMLColor(Element root, String tag, String defaultColor) {
+		String check = getTextValue(root, myXMLResources.getString(tag)).toUpperCase();
+		return Color.valueOf((getValueOrDefault(check, defaultColor)));
 	}
 
-	public String parseXMLString(Element root, String tag) {
-		return getTextValue(root, myXMLResources.getString(tag));
+	public String parseXMLString(Element root, String tag, String defaultString) {
+		String check = getTextValue(root, myXMLResources.getString(tag));
+		return getValueOrDefault(check, defaultString);
 	}
 
 	public void checkRule(Element root, String ruleTag) throws XMLFactoryException {
-		if (!parseXMLString(root, "RuleName").equals(ruleTag)) {
+		if (!parseXMLString(root, "RuleName", "").equals(ruleTag)) {
 			throw new XMLFactoryException("XML file does not represent the %s", getRuleType());
 		}
 	}
 	
 	
-	 private static boolean isNotNullOrEmpty(Object str){
-		    return (str != null);
+	 private static boolean isNotNullOrEmpty(String str){
+		    return (str != null && !str.isEmpty());
 		}
 	 
-	 public Object getValueOrDefault(Object value, Object defaultValue) {
-		    return isNotNullOrEmpty(value) ? value : (Object) defaultValue;
+	 public String getValueOrDefault(String value, String defaultValue) {
+		    return isNotNullOrEmpty(value) ? value : defaultValue;
 		}
 	
 	protected Rule initSpecific(Rule rule, Element root, int row, int column, int neighbor, int side, Color[] color, boolean toro, int defaultState) throws XMLFactoryException {

@@ -26,21 +26,20 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
 	public Rule getRule(Element root) throws XMLFactoryException {
 		checkRule(root, XML_TAG_NAME);
 
-		Double cellLength = parseXMLDouble(root, "CellLength");
-        Integer row = parseXMLInteger(root, "Row");
-        Integer column = parseXMLInteger(root, "Column");
-        boolean toro = parseXMLBoolean(root, "Toroidal");
-        int neighbor = parseXMLInteger(root, "Neighbor");
-        int side = parseXMLInteger(root, "Side");
+		Double cellLength = parseXMLDouble(root, "CellLength", "20");
+        Integer row = parseXMLInteger(root, "Row", "20");
+        Integer column = parseXMLInteger(root, "Column", "20");
+        boolean toro = parseXMLBoolean(root, "Toroidal", "false");
+        int neighbor = parseXMLInteger(root, "Neighbor", "4");
+        int side = parseXMLInteger(root, "Side", "4");
 		
-		double probCatch = parseXMLDouble(root, "ProbCatch");
-		Color emptyColor = parseXMLColor(root, "EmptyColor");
-		Color treeColor = parseXMLColor(root, "TreeColor");
-		Color burnColor = parseXMLColor(root, "BurnColor");
+		double probCatch = parseXMLDouble(root, "ProbCatch", "0.5");
+		Color emptyColor = parseXMLColor(root, "EmptyColor", "YELLOW");
+		Color treeColor = parseXMLColor(root, "TreeColor", "GREEN");
+		Color burnColor = parseXMLColor(root, "BurnColor", "RED");
 		
-		boolean initialize = parseXMLBoolean(root, "Initialize");
+		boolean initialize = parseXMLBoolean(root, "Initialize", "false");
 		
-		String title = parseXMLString(root, "Title");
 		
 		FireRule myFire = new FireRule(cellLength, row, column, emptyColor, treeColor, burnColor, probCatch, neighbor, side, toro);
 		myFire.setName(XML_TAG_NAME);

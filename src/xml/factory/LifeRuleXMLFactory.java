@@ -29,26 +29,24 @@ public class LifeRuleXMLFactory extends RuleXMLFactory {
 	public Rule getRule(Element root) throws XMLFactoryException {
 		checkRule(root, XML_TAG_NAME);
 
-		double cellLength = parseXMLDouble(root, "CellLength");
-        int row = parseXMLInteger(root, "Row");
-        int column = parseXMLInteger(root, "Column");
-        boolean toro = parseXMLBoolean(root, "Toroidal");
-        int neighbor = parseXMLInteger(root, "Neighbor");
-        int side = parseXMLInteger(root, "Side");
+		double cellLength = parseXMLDouble(root, "CellLength", "10");
+        int row = parseXMLInteger(root, "Row", "50");
+        int column = parseXMLInteger(root, "Column", "50");
+        boolean toro = parseXMLBoolean(root, "Toroidal", "false");
+        int neighbor = parseXMLInteger(root, "Neighbor", "8");
+        int side = parseXMLInteger(root, "Side", "4");
 
-		Color emptyColor = parseXMLColor(root, "EmptyColor");
-		Color liveColor = parseXMLColor(root, "LiveColor");
+		Color emptyColor = parseXMLColor(root, "EmptyColor", "LIGHTGREY");
+		Color liveColor = parseXMLColor(root, "LiveColor", "BLACK");
 		
-		boolean initialize = parseXMLBoolean(root, "Initialize");
+		boolean initialize = parseXMLBoolean(root, "Initialize", "false");
 		
-		String typeLife = parseXMLString(root, "LifeType");
+		String typeLife = parseXMLString(root, "LifeType", "10Cell");
 		
 		if (typeLife.equals("Gosper") && (row < 30 || column < 50)) {
 			throw new XMLFactoryException("GOSPER SIZE");
 		}
-		
-		String name = parseXMLString(root, "Title");
-		
+				
 		
 		LifeRule myLife = new LifeRule(cellLength, row, column, neighbor, side, emptyColor, liveColor, typeLife, toro);
 		myLife.setName(XML_TAG_NAME);

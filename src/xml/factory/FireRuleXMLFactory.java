@@ -8,7 +8,7 @@ import layout.rule.FireRule;
 /**
  * Creates FireRule object from an XML file.
  *
- * @author cellsociety_team14
+ * @author Joy Kim
  */
 public class FireRuleXMLFactory extends RuleXMLFactory {
 	private static final String XML_TAG_NAME = "FireRule";

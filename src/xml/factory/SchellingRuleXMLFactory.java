@@ -9,7 +9,7 @@ import layout.rule.SchellingRule;
 /**
  * Creates SchellingRule object from an XML file.
  *
- * @author cellsociety_team14
+ * @author Joy Kim
  */
 public class SchellingRuleXMLFactory extends RuleXMLFactory {
 	private static final String XML_TAG_NAME = "SchellingRule";

@@ -10,7 +10,7 @@ import layout.rule.WatorRule;
 /**
  * Creates FireRule object from an XML file.
  * 
- * @author cellsociety_team14
+ * @author Joy Kim
  */
 public class WatorRuleXMLFactory extends RuleXMLFactory {
     private static final String XML_TAG_NAME = "WatorRule";

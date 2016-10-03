@@ -8,7 +8,7 @@ import layout.rule.SugarRule;
 /**
  * Creates SugarRule object from an XML file.
  *
- * @author cellsociety_team14
+ * @author Joy Kim
  */
 public class SugarRuleXMLFactory extends RuleXMLFactory {
 	private static final String XML_TAG_NAME = "SugarRule";

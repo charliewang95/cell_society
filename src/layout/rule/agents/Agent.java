@@ -36,7 +36,15 @@ public class Agent {
 		return myRow;
 	}
 	
+	public void setRow(int row){
+		myRow = row;
+	}
+	
 	public int getCol() {
 		return myColumn;
+	}
+	
+	public void setCol(int col){
+		myColumn = col;
 	}
 }

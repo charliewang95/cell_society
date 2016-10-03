@@ -54,8 +54,8 @@ public class WatorRule extends Rule {
 		parameters.add(mySharkReproduceRate);
 		myCounters = new int[2];
 		myLegend = new String[2];
-		myLegend[0] = "Fish";
-		myLegend[1] = "Shark";
+		myLegend[0] = myResources.getString("WatorLegendFish");
+		myLegend[1] = myResources.getString("WatorLegendShark");
 	}
 
 	public class TempGrid {

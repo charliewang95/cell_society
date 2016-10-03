@@ -24,11 +24,11 @@ public class SugarRule extends Rule {
 	private double myPercentage3 = 0.10;
 	private double myPercentageAgent = 0.4;
 	private int myNumNeighbor = 4;
-	private int vision = 4;
-	private int metabolism = 3;
+	private Parameter vision = new Parameter(4, myResources.getString("VisionSlider"), 1, 6);
+	private Parameter metabolism = new Parameter(3, myResources.getString("MetabolismSlider"), 1, 4);
 	private int minsugar = 5;
 	private int maxsugar = 25;
-	private int sugarGrowBackRate = 1;
+	private Parameter sugarGrowBackRate = new Parameter(1, myResources.getString("SugarRateSlider"), 1, 4);
 	private int sugarGrowBackInterval = 1;
 	private int myNum0;
 	private int myNum1;
@@ -45,17 +45,22 @@ public class SugarRule extends Rule {
 		super(cellLength, row, column);
 		myNumNeighbor = neighbor;
 		toroidal = toro;
-		myCounters = new int[0];
+		myCounters = new int[1];
+		myLegend = new String[1];
+		myLegend[0] = myResources.getString("SugarLegendAgent");
 		myPercentage0 = percent[0];
 		myPercentage1 = percent[1];
 		myPercentage2 = percent[2];
 		myPercentage3 = percent[3];
 		myPercentageAgent = percent[4];
-		vision = misc[0];
-		metabolism = misc[1];
+		vision.setValue(misc[0]);
+		metabolism.setValue(misc[1]);
 		minsugar = misc[2];
 		maxsugar = misc[3];
-		sugarGrowBackRate = misc[4];
+		sugarGrowBackRate.setValue(misc[4]);
+		parameters.add(vision);
+		parameters.add(metabolism);
+		parameters.add(sugarGrowBackRate);
 		sugarGrowBackInterval = misc[5];
 		myColors = new Color[] { color[0], color[1], color[2], color[3], color[4] };
 		radius = Math.min(RADIUS, cellLength / 4);
@@ -116,6 +121,7 @@ public class SugarRule extends Rule {
 			Agent newAgent = new Agent(myGrid[i][j].getCenterX(), myGrid[i][j].getCenterY(), radius, i, j);
 			newAgent.setSugar(r.nextInt(maxsugar - minsugar) + minsugar);
 			myAgents.add(newAgent);
+			myCounters[0]++;
 		}
 	}
 
@@ -130,7 +136,7 @@ public class SugarRule extends Rule {
 		if (myCounter >= sugarGrowBackInterval) {
 			for (int i = 0; i < myRow; i++) {
 				for (int j = 0; j < myColumn; j++) {
-					int newState = myGrid[i][j].getState() + sugarGrowBackRate;
+					int newState = myGrid[i][j].getState() + (int) sugarGrowBackRate.getValue();
 					if (newState > LEVEL[LEVEL.length - 1]) {
 						newState = LEVEL[LEVEL.length - 1];
 					}
@@ -142,11 +148,13 @@ public class SugarRule extends Rule {
 	}
 
 	private void moveAgents() {
+		myCounters[0] = 0;
 		Collections.shuffle(myAgents);
 		ArrayList<Agent> toRemove = new ArrayList<Agent>();
 		if (myAgents.isEmpty())
 			return;
 		for (Agent agent : myAgents) {
+			myCounters[0]++;
 			int row = agent.getRow();
 			int col = agent.getCol();
 			Cell tempcell = myGrid[row][col];
@@ -162,13 +170,14 @@ public class SugarRule extends Rule {
 			}
 			agent.getCircle().setCenterX(myGrid[maxrow][maxcol].getCenterX());
 			agent.getCircle().setCenterY(myGrid[maxrow][maxcol].getCenterY());
-			agent.setSugar(agent.getSugar() + max - metabolism);
+			agent.setSugar(agent.getSugar() + max - (int) metabolism.getValue());
 			myGrid[maxrow][maxcol].setState(LEVEL[0], myColors[LEVEL[0]]);
 			if (agent.getSugar() <= 0) {
 				toRemove.add(agent);
 			}
 		}
 		for (Agent agent : toRemove) {
+			myCounters[0]--;
 			myAgents.remove(agent);
 			agent.getCircle().setVisible(false);
 		}
@@ -179,7 +188,7 @@ public class SugarRule extends Rule {
 	}
 
 	public int getVision() {
-		return vision;
+		return (int) vision.getValue();
 	}
 
 	public boolean getToroidal() {

@@ -30,8 +30,8 @@ public class FireRule extends Rule {
 		parameters.add(myProbCatch);
 		myCounters = new int[2];
 		myLegend = new String[2];
-		myLegend[0] = "Tree";
-		myLegend[1] = "Fire";
+		myLegend[0] = myResources.getString("FireLegendTree");
+		myLegend[1] = myResources.getString("FireLegendFire");
 	}
 
 	@Override

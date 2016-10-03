@@ -25,7 +25,7 @@ public class LifeRule extends Rule {
 		myNumNeighbor = neighbor;
 		myCounters = new int[1];
 		myLegend = new String[1];
-		myLegend[0] = "Live";
+		myLegend[0] = myResources.getString("LifeLegendLive");
 	}
 
 	public void initGrid() {

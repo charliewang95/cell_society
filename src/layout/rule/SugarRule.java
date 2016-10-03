@@ -113,8 +113,7 @@ public class SugarRule extends Rule {
 			int index = list.get(k);
 			int i = index / myColumn;
 			int j = index - i * myColumn;
-			Agent newAgent = new Agent(myGrid[i][j].getCenterX(), myGrid[i][j].getCenterY(), radius, i, j, metabolism,
-					vision, true);
+			Agent newAgent = new Agent(myGrid[i][j].getCenterX(), myGrid[i][j].getCenterY(), radius, i, j);
 			newAgent.setSugar(r.nextInt(maxsugar - minsugar) + minsugar);
 			myAgents.add(newAgent);
 		}

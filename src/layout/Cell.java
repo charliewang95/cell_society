@@ -91,17 +91,6 @@ public class Cell {
 		myShape.setFill(newColor);
 	}
 
-//	/**
-//	 * Set the cell's new color
-//	 * 
-//	 * @param newState
-//	 *            the cell's new color
-//	 */
-//	public void setColor(Color newcolor) {
-//		myColor = newcolor;
-//		myShape.setFill(newcolor);
-//	}
-
 	/**
 	 * @return the cell's color
 	 */

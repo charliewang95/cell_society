@@ -4,9 +4,9 @@
     <title>SugarLand</title>
     <author>Charlie</author>
     
-    <cellLength>20</cellLength>
-    <xSize>30</xSize>
-    <ySize>30</ySize>
+    <cellLength>10</cellLength>
+    <xSize>51</xSize>
+    <ySize>51</ySize>
     
 	<toroidal>false</toroidal>    
 	<numNeighbor>4</numNeighbor>
@@ -25,7 +25,7 @@
     <color4>MAROON</color4>
         
     <vision>4</vision>
-    <metabolism>2</metabolism>
+    <metabolism>3</metabolism>
     <minSugar>5</minSugar>
     <maxSugar>25</maxSugar>
     <sugarGrowBackRate>1</sugarGrowBackRate>

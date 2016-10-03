@@ -9,7 +9,7 @@ import layout.rule.LifeRule;
 /**
  * Creates LifeRule object from an XML file.
  * 
- * @author cellsociety_team14
+ * @author Joy Kim
  */
 public class LifeRuleXMLFactory extends RuleXMLFactory {
 	private static final String XML_TAG_NAME = "LifeRule";

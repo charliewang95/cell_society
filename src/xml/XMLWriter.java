@@ -21,6 +21,7 @@ import layout.Rule;
 import layout.rule.FireRule;
 import layout.rule.LifeRule;
 import layout.rule.SchellingRule;
+import layout.rule.SugarRule;
 
 
 /**
@@ -104,7 +105,80 @@ public class XMLWriter {
 		if (desiredRule.equals("SchellingRule")) {
 			setSchelling();
 		}
+
+		if (desiredRule.equals("SugarRule")) {
+			setSugar();
+			
+			
+			
+		}
 		
+	}
+
+	private void setSugar() {
+		SugarRule mySugarRule = (SugarRule) myRule;
+		
+		Element percent0 = doc.createElement(myXMLResources.getString("Percent0"));
+		percent0.appendChild(doc.createTextNode(Double.toString(mySugarRule.getPercent0())));
+		rootElement.appendChild(percent0);
+		Element percent1 = doc.createElement(myXMLResources.getString("Percent1"));
+		percent1.appendChild(doc.createTextNode(Double.toString(mySugarRule.getPercent1())));
+		rootElement.appendChild(percent1);
+		Element percent2 = doc.createElement(myXMLResources.getString("Percent2"));
+		percent2.appendChild(doc.createTextNode(Double.toString(mySugarRule.getPercent2())));
+		rootElement.appendChild(percent2);
+		Element percent3 = doc.createElement(myXMLResources.getString("Percent3"));
+		percent3.appendChild(doc.createTextNode(Double.toString(mySugarRule.getPercent3())));
+		rootElement.appendChild(percent3);
+		Element percentA = doc.createElement(myXMLResources.getString("PercentA"));
+		percentA.appendChild(doc.createTextNode(Double.toString(mySugarRule.getPercentAgent())));
+		rootElement.appendChild(percentA);
+		
+		Color[] color = mySugarRule.getColors();
+		
+		Element color0 = doc.createElement(myXMLResources.getString("Color0"));
+		color0.appendChild(doc.createTextNode(color[0].toString()));
+		rootElement.appendChild(color0);
+		
+		Element color1 = doc.createElement(myXMLResources.getString("Color1"));
+		color1.appendChild(doc.createTextNode(color[1].toString()));
+		rootElement.appendChild(color1);
+		
+		Element color2 = doc.createElement(myXMLResources.getString("Color2"));
+		color2.appendChild(doc.createTextNode(color[2].toString()));
+		rootElement.appendChild(color2);
+		
+		Element color3 = doc.createElement(myXMLResources.getString("Color3"));
+		color3.appendChild(doc.createTextNode(color[3].toString()));
+		rootElement.appendChild(color3);
+		
+		Element color4 = doc.createElement(myXMLResources.getString("Color4"));
+		color4.appendChild(doc.createTextNode(color[4].toString()));
+		rootElement.appendChild(color4);
+		
+		Element vision = doc.createElement(myXMLResources.getString("Vision"));
+		vision.appendChild(doc.createTextNode(Integer.toString(mySugarRule.getVision())));
+		rootElement.appendChild(vision);
+		
+		Element metabolism = doc.createElement(myXMLResources.getString("Metabolism"));
+		metabolism.appendChild(doc.createTextNode(Integer.toString(mySugarRule.getMetabolism())));
+		rootElement.appendChild(metabolism);
+		
+		Element minSugar = doc.createElement(myXMLResources.getString("MinSugar"));
+		minSugar.appendChild(doc.createTextNode(Integer.toString(mySugarRule.getMinSugar())));
+		rootElement.appendChild(minSugar);
+		
+		Element maxSugar = doc.createElement(myXMLResources.getString("MaxSugar"));
+		maxSugar.appendChild(doc.createTextNode(Integer.toString(mySugarRule.getMaxSugar())));
+		rootElement.appendChild(maxSugar);
+		
+		Element sugarGrow = doc.createElement(myXMLResources.getString("SugarGrow"));
+		sugarGrow.appendChild(doc.createTextNode(Integer.toString(mySugarRule.getSugarGrow())));
+		rootElement.appendChild(sugarGrow);
+		
+		Element preset = doc.createElement(myXMLResources.getString("Preset"));
+		preset.appendChild(doc.createTextNode(Integer.toString(mySugarRule.getPreset())));
+		rootElement.appendChild(preset);
 	}
 
 	private void setSchelling() {

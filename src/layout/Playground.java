@@ -287,8 +287,7 @@ public class Playground {
 					} else if (myRule.getCounters().length > 0) {
 						myRule.getCounters()[newState - 1]++;
 					}
-					grid[i][j].setState(newState);
-					grid[i][j].setColor(myRule.getColors()[newState]);
+					grid[i][j].setState(newState, myRule.getColors()[newState]);
 					myRule.getUpdatedGrid()[i][j] = newState;
 				}
 			}

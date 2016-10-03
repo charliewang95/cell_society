@@ -46,7 +46,7 @@ public abstract class XMLFactory {
         }
         else {
             // BUGBUG: return empty string or null, is it an error to not find the text value?
-            return "";
+            return null;
         }
     }
 }

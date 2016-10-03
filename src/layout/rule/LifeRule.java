@@ -70,11 +70,11 @@ public class LifeRule extends Rule {
 		myCounters[0] = 0;
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
-				myGrid[i][j].setState(myUpdatedGrid[i][j]);
-				if (myUpdatedGrid[i][j] == LIVE){
+				int stateNum = myUpdatedGrid[i][j];
+				myGrid[i][j].setState(stateNum, myColors[stateNum]);
+				if (stateNum == LIVE){
 					myCounters[0]++;
 				}
-				myGrid[i][j].setColor(myColors[myUpdatedGrid[i][j]]);
 			}
 		}
 	}

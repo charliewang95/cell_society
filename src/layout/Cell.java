@@ -75,20 +75,22 @@ public class Cell {
 	 * @param newState
 	 *            the cell's new state
 	 */
-	public void setState(int newState) {
+	public void setState(int newState, Color newColor) {
 		myState = newState;
+		myColor = newColor;
+		myShape.setFill(newColor);
 	}
 
-	/**
-	 * Set the cell's new color
-	 * 
-	 * @param newState
-	 *            the cell's new color
-	 */
-	public void setColor(Color newcolor) {
-		myColor = newcolor;
-		myShape.setFill(newcolor);
-	}
+//	/**
+//	 * Set the cell's new color
+//	 * 
+//	 * @param newState
+//	 *            the cell's new color
+//	 */
+//	public void setColor(Color newcolor) {
+//		myColor = newcolor;
+//		myShape.setFill(newcolor);
+//	}
 
 	/**
 	 * @return the cell's color

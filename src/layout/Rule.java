@@ -28,6 +28,9 @@ public abstract class Rule {
 	protected double myLength;
 	protected double myWidth;
 	protected String ruleName;
+	protected int myNumNeighbor;
+	protected int mySide;
+	protected boolean myToroidal;
 	private NeighborManager myNeighborManager;
 	private ShapeManager myShapeManager;
 
@@ -179,6 +182,18 @@ public abstract class Rule {
 	
 	public int getCol() {
 		return myColumn;
+	}
+	
+	public int getNumNeighbor() {
+		return myNumNeighbor;
+	}
+	
+	public int getSide() {
+		return mySide;
+	}
+	
+	public boolean getToroidal() {
+		return myToroidal;
 	}
 
 }

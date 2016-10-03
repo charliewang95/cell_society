@@ -27,6 +27,7 @@ import layout.rule.agents.Agent;
 import user_interface.UIObjectPlacer;
 import xml.XMLParser;
 import xml.XMLParserException;
+import xml.XMLWriter;
 import xml.factory.FireRuleXMLFactory;
 import xml.factory.LifeRuleXMLFactory;
 import xml.factory.RuleXMLFactory;
@@ -60,9 +61,10 @@ public class Playground {
 	private static final int Y_OFFSET = 30;
 	private static final int STEP_Y = 2 * Y_OFFSET;
 	private static final int RESET_Y = 3 * Y_OFFSET;
-	private static final int SLIDER_Y = 4 * Y_OFFSET;
-	private static final int TEXTFIELD_Y = 5 * Y_OFFSET;
-	private static final int CUSTOM_SLIDER_Y = 10 * Y_OFFSET;
+	private static final int OUTPUT_XML_Y = 4 * Y_OFFSET;
+	private static final int SLIDER_Y = 5 * Y_OFFSET;
+	private static final int TEXTFIELD_Y = 6 * Y_OFFSET;
+	private static final int CUSTOM_SLIDER_Y = 11 * Y_OFFSET;
 	private static final int X_OFFSET = BUTTON_SPACE - 10;
 	private static final double MAX_SLIDER = 10;
 	private static final double MIN_SLIDER = 0.1;
@@ -189,16 +191,29 @@ public class Playground {
 						}
 					}
 				});
+		myPlacer.addButton(myScene.getWidth() - X_OFFSET, OUTPUT_XML_Y, myResources.getString("XMLOutputButton"),
+				new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent event) {
+						try {
+							XMLWriter printer = new XMLWriter(myRule);
+							printer.saveXML();
+							myPlacer.showError("XML finished printing");
+						} catch (Exception e) {
+							throw e;
+						}
+					}
+				});
 	}
 
 	private void setUpTextFields() {
 		myPlacer.addText(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y, FONT_SIZE, myResources.getString("SameWindow"),
 				false);
-		myPlacer.addNewSimulationTextField(myScene.getWidth()-X_OFFSET, TEXTFIELD_Y+0.5*Y_OFFSET, myStage, this);
+		myPlacer.addNewSimulationTextField(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 0.5 * Y_OFFSET, myStage, this);
 		myPlacer.addBrowseButton(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 1.5 * Y_OFFSET, myStage, this);
 		myPlacer.addText(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 2.5 * Y_OFFSET, FONT_SIZE,
 				myResources.getString("NewWindow"), false);
-		myPlacer.addNewSimulationTextField(myScene.getWidth()-X_OFFSET, TEXTFIELD_Y+3*Y_OFFSET, new Stage(), null);
+		myPlacer.addNewSimulationTextField(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 3 * Y_OFFSET, new Stage(),
+				null);
 		myPlacer.addBrowseButton(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 4 * Y_OFFSET, new Stage(), null);
 	}
 
@@ -254,7 +269,7 @@ public class Playground {
 			}
 		}
 		if (myRule instanceof SugarRule) {
-			for (Agent a: ((SugarRule) myRule).getAgent()) {
+			for (Agent a : ((SugarRule) myRule).getAgent()) {
 				myRoot.getChildren().add(a.getCircle());
 			}
 		}
@@ -337,16 +352,16 @@ public class Playground {
 		myLineChart.setLegendVisible(true);
 		myRoot.getChildren().add(myLineChart);
 	}
-	
-	public Timeline getAnimation(){
+
+	public Timeline getAnimation() {
 		return myAnimation;
 	}
-	
-	public Slider getSlider(){
+
+	public Slider getSlider() {
 		return mySlider;
 	}
-	
-	public void setSliderValue(double value){
+
+	public void setSliderValue(double value) {
 		mySliderValue = value;
 	}
 }

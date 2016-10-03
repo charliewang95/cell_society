@@ -49,7 +49,7 @@ public class SchellingRuleXMLFactory extends RuleXMLFactory {
 		String name = parseXMLString(root, "Title");
 
 		SchellingRule mySchelling = new SchellingRule(cellLength, row, column, neighbor, side, percentageA, percentageEmpty, satisfy, emptyColor, aaaColor, bbbColor, toro);
-		mySchelling.setName(name);
+		mySchelling.setName(XML_TAG_NAME);
 
 		if (initialize) {
 			mySchelling = (SchellingRule) initSpecific(mySchelling, root, row, column, neighbor, side, new Color[]{emptyColor, aaaColor, bbbColor}, toro, 0);

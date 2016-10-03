@@ -10,6 +10,7 @@
     
 	<toroidal>false</toroidal>    
 	<numNeighbor>4</numNeighbor>
+	<numSide>4</numSide>
 
     <myPercentage0>.3</myPercentage0>
     <myPercentage1>0.25</myPercentage1>

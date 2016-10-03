@@ -52,7 +52,7 @@ public class WatorRuleXMLFactory extends RuleXMLFactory {
         String name = parseXMLString(root, "Title");
         
         WatorRule myWator = new WatorRule(cellLength, row, column, neighbor, side, waterColor, fishColor, sharkColor, fishRepro, sharkRepro, sharkDeath, pWater, pFish, toro);
-        myWator.setName(name);
+        myWator.setName(XML_TAG_NAME);
         
 //        if (initialize) {
 //        	myWator = (WatorRule) initSpecific(myWator, root, row, column, neighbor, new Color[] {waterColor, fishColor, sharkColor}, toro, 0);

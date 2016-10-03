@@ -18,8 +18,6 @@ public class SchellingRule extends Rule {
 	private static final int EMPTY = 0;
 	private static final int AAA = 1; // group A
 	private static final int BBB = 2; // group B
-	private int myNumNeighbor;
-	private int mySide;
 	private double myPercentageA; // parameter
 	private double myPercentageEmpty; // parameter
 	private Parameter mySatisfied; // parameter
@@ -141,12 +139,24 @@ public class SchellingRule extends Rule {
 		mySatisfied.setValue(satisfied);
 	}
 	
+	public double getSatisfied() {
+		return mySatisfied.getValue();
+	}
+	
 	public void setPercentageA(double percentageA) {
 		myPercentageA = percentageA;
 	}
 	
+	public double getPercentageA() {
+		return myPercentageA;
+	}
+	
 	public void setPercentageEmpty(double percentageEmpty) {
 		myPercentageEmpty = percentageEmpty;
+	}
+	
+	public double getPercentageEmpty() {
+		return myPercentageEmpty;
 	}
 
 }

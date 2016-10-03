@@ -51,7 +51,7 @@ public class LifeRuleXMLFactory extends RuleXMLFactory {
 		
 		
 		LifeRule myLife = new LifeRule(cellLength, row, column, neighbor, side, emptyColor, liveColor, typeLife, toro);
-		myLife.setName(name);
+		myLife.setName(XML_TAG_NAME);
 		
 		
 		if (initialize) {

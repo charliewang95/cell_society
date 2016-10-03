@@ -15,9 +15,6 @@ public class FireRule extends Rule {
 	private static final int EMPTY = 0;
 	private static final int TREE = 1;
 	private static final int BURN = 2;
-	private final int myNumNeighbor;
-	private int mySide;
-	private final boolean myToroidal; //new
 	//private final boolean specifiedStates;
 	private Parameter myProbCatch;
 
@@ -94,9 +91,13 @@ public class FireRule extends Rule {
 		}
 	}
 
+	public double getProbCatch() {
+		return myProbCatch.getValue();
+	}
 
 	public void setProbCatch(double probcatch) {
 		myProbCatch.setValue(probcatch);
 	}
+	
 
 }

@@ -14,8 +14,6 @@ public class LifeRule extends Rule {
 	private static final int EMPTY = 0;
 	private static final int LIVE = 1;
 	private boolean myToroidal;
-	private int myNumNeighbor;
-	private int mySide;
 	private String myModel;
 
 	public LifeRule(double cellLength, int row, int column, int neighbor, int side, Color empty, Color live, String model, boolean toro) {
@@ -141,8 +139,9 @@ public class LifeRule extends Rule {
 		myModel = model;
 	}
 	
-	public Color[] getColors(){
-		return myColors;
+	public String getModel() {
+		return myModel;
 	}
+
 
 }

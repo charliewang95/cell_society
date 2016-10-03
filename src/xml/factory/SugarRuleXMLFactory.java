@@ -66,7 +66,7 @@ public class SugarRuleXMLFactory extends RuleXMLFactory {
 		String title = parseXMLString(root, "Title");
 		
 		SugarRule mySugar = new SugarRule(cellLength, row, column, neighbor, side, toro, percent, color, misc);
-		mySugar.setName(title);
+		mySugar.setName(XML_TAG_NAME);
 		
 		return mySugar;
 	}

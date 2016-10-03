@@ -50,9 +50,7 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
 		myFire.setName(title);
 		
 		if (initialize) {
-<<<<<<< HEAD
 			myFire = (FireRule) initSpecific(myFire, root, row, column, neighbor, new Color[]{emptyColor, treeColor, burnColor}, toro, 1);
-=======
 			Cell[][] temp = new Cell[row][column];
 			myFire.setGrid(temp);
 			//need to have a grid already created in order to init the board. aghrielagjra
@@ -71,16 +69,12 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
 			}
 			myFire.setUpdatedGrid(tempUpdated);
 			myFire.initNeighbor(neighbor, toro);
-			
->>>>>>> df54dc9ba10ba15a1ca1b577f2e693f88f19bcf5
+			myFire = (FireRule) initSpecific(myFire, root, row, column, neighbor, new Color[]{emptyColor, treeColor, burnColor}, toro, 1);
 		}
 		
 		return myFire;
 	}
 	
-<<<<<<< HEAD
-	
-=======
 	private int[][] buildSpecific(Element root, int row, int column) {
 		NodeList rowStates = root.getElementsByTagName(myXMLResources.getString("RowState"));
 		int[][] locations = new int[row][column];
@@ -103,7 +97,6 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
 		return locations;
 		
 	}
->>>>>>> df54dc9ba10ba15a1ca1b577f2e693f88f19bcf5
 	
 	
 }

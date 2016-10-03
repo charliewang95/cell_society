@@ -76,7 +76,7 @@ public abstract class RuleXMLFactory extends XMLFactory {
 		for (int i = 0; i < row; i++) {
 			for (int j=0; j < column; j++) {
 				int current = tempUpdated[i][j];
-				temp2[i][j].init(current, stateColor[current], neighbor);
+				temp2[i][j].init(current, stateColor[current]);
 				//if (stateNum != 0)
 				//	myFire.getCounters()[stateNum-1]--;
 				//myCounters[1]++;

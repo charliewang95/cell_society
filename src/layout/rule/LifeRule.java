@@ -29,10 +29,13 @@ public class LifeRule extends Rule {
 	}
 
 	public void initGrid() {
-		myGrid = new Cell[myRow][myColumn];
-		initBoard(4);
-		initState();
-		initNeighbor(myNumNeighbor, myToroidal);
+		if (myGrid == null) {
+			myGrid = new Cell[myRow][myColumn];
+			initBoard(4);
+			initState();
+			initNeighbor(myNumNeighbor, myToroidal);
+		}
+		
 	}
 
 	@Override

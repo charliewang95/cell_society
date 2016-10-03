@@ -53,10 +53,14 @@ public class SchellingRule extends Rule {
 		myBs = new int[myNumB];
 		myEs = new int[myNumE];
 		myEsTMP = new int[myNumE];
-		myGrid = new Cell[myRow][myColumn];
-		initBoard(myNumNeighbor);
-		initState();
-		initNeighbor(myNumNeighbor, myToroidal);
+		
+		if (myGrid==null) {
+			myGrid = new Cell[myRow][myColumn];
+			initBoard(myNumNeighbor);
+			initState();
+			initNeighbor(myNumNeighbor, myToroidal);
+		}
+		
 	}
 
 	@Override

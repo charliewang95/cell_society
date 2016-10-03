@@ -38,7 +38,6 @@ public class FireRule extends Rule {
 	public void initGrid() {
 		//if myGrid is null, proceed. else, it was already created 
 		//through XML
-		System.out.println(myGrid);
 		if (myGrid == null){
 			myGrid = new Cell[myRow][myColumn];
 			initBoard(myNumNeighbor);

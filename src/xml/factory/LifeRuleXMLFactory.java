@@ -3,6 +3,7 @@ package xml.factory;
 import org.w3c.dom.Element;
 
 import javafx.scene.paint.Color;
+import layout.Cell;
 import layout.Rule;
 import layout.rule.LifeRule;
 
@@ -36,7 +37,9 @@ public class LifeRuleXMLFactory extends RuleXMLFactory {
 
 		Color emptyColor = parseXMLColor(root, "EmptyColor");
 		Color liveColor = parseXMLColor(root, "LiveColor");
-
+		
+		boolean initialize = parseXMLBoolean(root, "Initialize");
+		
 		String typeLife = parseXMLString(root, "LifeType");
 		
 		if (typeLife.equals("Gosper") && (row < 30 || column < 50)) {
@@ -44,9 +47,17 @@ public class LifeRuleXMLFactory extends RuleXMLFactory {
 		}
 		
 		String name = parseXMLString(root, "Title");
+		
+		
 
 		LifeRule myLife = new LifeRule(cellLength, row, column, neighbor, emptyColor, liveColor, typeLife, toro);
 		myLife.setName(name);
+		
+		
+		if (initialize) {
+			myLife = (LifeRule) initSpecific(myLife, root, row, column, neighbor, new Color[]{emptyColor, liveColor}, toro, 0);
+			
+		}
 
 		return myLife;
 

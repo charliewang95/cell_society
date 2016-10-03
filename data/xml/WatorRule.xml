@@ -4,9 +4,9 @@
     <title>Wa-Tor</title>
     <author>Charlie</author>
     
-    <cellLength>10</cellLength>
-    <xSize>30</xSize>
-    <ySize>20</ySize>
+    <cellLength>20</cellLength>
+    <xSize>50</xSize>
+    <ySize>30</ySize>
 	<numNeighbor>3</numNeighbor>
 	<numSide>3</numSide>
     <toroidal>true</toroidal>

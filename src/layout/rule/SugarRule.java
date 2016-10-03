@@ -267,10 +267,6 @@ public class SugarRule extends Rule {
 		return preset;
 	}
 	
-	public boolean getToroidal() {
-		return myToroidal;
-	}
-	
 	public double getPercent0() {
 		return myPercentage0;
 	}

@@ -71,18 +71,17 @@ public class SugarRuleXMLFactory extends RuleXMLFactory {
 		return mySugar;
 	}
 	
-	protected Rule initSpecific(Rule rule, Element root, int row, int column, int neighbor, int side, Color[] color, boolean toro, int defaultState) throws XMLFactoryException {
-		Cell[][] temp = new Cell[row][column];
-		rule.setGrid(temp);
-		rule.initBoard(side);
-		int[][] tempUpdated = buildSpecific(root, row, column, defaultState);
-		for (int i=0; i<row; i++) {
-			for (int j=0; j<column; j++) {
-				rule.getGrid()[i][j].setState(tempUpdated[i][j], color[tempUpdated[i][j]]);
-			}
-		}
-		return rule;
-		
-	}
+//	protected Rule initSpecific(Rule rule, Element root, int row, int column, int neighbor, int side, Color[] color, boolean toro, int defaultState) throws XMLFactoryException {
+//		Cell[][] temp = new Cell[row][column];
+//		rule.setGrid(temp);
+//		rule.initBoard(side);
+//		int[][] tempUpdated = buildSpecific(root, row, column, defaultState);
+//		for (int i=0; i<row; i++) {
+//			for (int j=0; j<column; j++) {
+//				rule.getGrid()[i][j].setState(tempUpdated[i][j], color[tempUpdated[i][j]]);
+//			}
+//		}
+//		return rule;
+//	}
 	
 }

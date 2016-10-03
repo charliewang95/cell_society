@@ -24,8 +24,11 @@ import javafx.util.Duration;
 import layout.rule.Parameter;
 import layout.rule.SugarRule;
 import layout.rule.agents.Agent;
+<<<<<<< HEAD
 import layout.rule.WatorRule;
 import layout.rule.watoranimals.Animal;
+=======
+>>>>>>> df54dc9ba10ba15a1ca1b577f2e693f88f19bcf5
 import user_interface.UIObjectPlacer;
 import xml.XMLParser;
 import xml.XMLParserException;

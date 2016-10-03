@@ -90,6 +90,7 @@ public class Cell {
 		myColor = newColor;
 		myShape.setFill(newColor);
 	}
+<<<<<<< HEAD
 
 //	/**
 //	 * Set the cell's new color
@@ -101,6 +102,8 @@ public class Cell {
 //		myColor = newcolor;
 //		myShape.setFill(newcolor);
 //	}
+=======
+>>>>>>> df54dc9ba10ba15a1ca1b577f2e693f88f19bcf5
 
 	/**
 	 * @return the cell's color

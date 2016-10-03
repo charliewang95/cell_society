@@ -50,13 +50,60 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
 		myFire.setName(title);
 		
 		if (initialize) {
+<<<<<<< HEAD
 			myFire = (FireRule) initSpecific(myFire, root, row, column, neighbor, new Color[]{emptyColor, treeColor, burnColor}, toro, 1);
+=======
+			Cell[][] temp = new Cell[row][column];
+			myFire.setGrid(temp);
+			//need to have a grid already created in order to init the board. aghrielagjra
+			
+			myFire.initBoard(neighbor);
+			
+			Cell[][] temp2 = myFire.getGrid();
+			int[][] tempUpdated = buildSpecific(root, row, column);
+			Color[] stateColor = {emptyColor, treeColor, burnColor};
+			for (int i = 0; i < row; i++) {
+				for (int j=0; j < column; j++) {
+					int current = tempUpdated[i][j];
+					temp2[i][j].init(current, stateColor[current]);
+				}
+				
+			}
+			myFire.setUpdatedGrid(tempUpdated);
+			myFire.initNeighbor(neighbor, toro);
+			
+>>>>>>> df54dc9ba10ba15a1ca1b577f2e693f88f19bcf5
 		}
 		
 		return myFire;
 	}
 	
+<<<<<<< HEAD
 	
+=======
+	private int[][] buildSpecific(Element root, int row, int column) {
+		NodeList rowStates = root.getElementsByTagName(myXMLResources.getString("RowState"));
+		int[][] locations = new int[row][column];
+		
+		for (int[] toFill : locations) {
+			Arrays.fill(toFill, 1);
+		}
+
+		for (int i=0; i < rowStates.getLength(); i++) {
+			Element rowNode = (Element) rowStates.item(i);
+			int rowIndex = Integer.parseInt(rowNode.getElementsByTagName(myXMLResources.getString("Index")).item(0).getTextContent());
+			NodeList columnStates = rowNode.getElementsByTagName(myXMLResources.getString("ColumnState"));
+			for (int j=0; j<columnStates.getLength();j++) {
+				Element columnNode = (Element) columnStates.item(j);
+				int columnIndex = Integer.parseInt(columnNode.getElementsByTagName(myXMLResources.getString("Index")).item(0).getTextContent());
+				int state = Integer.parseInt(columnNode.getElementsByTagName(myXMLResources.getString("State")).item(0).getTextContent());
+				locations[rowIndex][columnIndex] = state;
+			}
+		}
+		return locations;
+		
+	}
+>>>>>>> df54dc9ba10ba15a1ca1b577f2e693f88f19bcf5
 	
 	
 }

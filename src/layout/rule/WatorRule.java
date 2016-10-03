@@ -317,9 +317,12 @@ public class WatorRule extends Rule {
 	public void setPercentageFish(double percentageFish) {
 		myPercentageFish = percentageFish;
 	}
+<<<<<<< HEAD
 	
 	public TempGrid[][] getWatorUpdatedGrid(){
 		return myUpdatedGrid;
 	}
+=======
+>>>>>>> df54dc9ba10ba15a1ca1b577f2e693f88f19bcf5
 
 }

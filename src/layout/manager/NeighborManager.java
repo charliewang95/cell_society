@@ -119,6 +119,10 @@ public class NeighborManager {
 	}
 
 	private void initNeighbor6() {
+		if (myRule instanceof SugarRule) {
+			initNeighbor6Sugar();
+			return;
+		}
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				if (j % 2 == 0) {
@@ -132,6 +136,17 @@ public class NeighborManager {
 				initNeighborLeft(i, j);
 				initNeighborRight(i, j);
 				initNeighborDown(i, j);
+			}
+		}
+	}
+
+	private void initNeighbor6Sugar() {
+		int vision = ((SugarRule) myRule).getVision();
+		for (int i = 0; i < myRow; i++) {
+			for (int j = 0; j < myColumn; j++) {
+				for (int k = 1; k <= vision; k++) {
+					
+				}
 			}
 		}
 	}
@@ -231,6 +246,9 @@ public class NeighborManager {
 		}
 	}
 
+	/*
+	 * methods below are for toroidal neighbor set-up
+	 */
 	private void initNeighborUpT(int i, int j) {
 		if (i != 0) {
 			myGrid[i][j].addNeighbor(myGrid[i - 1][j]);

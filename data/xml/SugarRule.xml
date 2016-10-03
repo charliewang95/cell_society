@@ -30,6 +30,6 @@
     <minSugar>5</minSugar>
     <maxSugar>25</maxSugar>
     <sugarGrowBackRate>1</sugarGrowBackRate>
-    <sugarGrowBackInterval>1</sugarGrowBackInterval>
+    <preset>1</preset>
     
 </Rule>

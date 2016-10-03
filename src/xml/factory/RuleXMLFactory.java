@@ -41,7 +41,7 @@ public abstract class RuleXMLFactory extends XMLFactory {
 
 	}
 
-	public int parseXMLInteger(Element root, String tag) {
+	public Integer parseXMLInteger(Element root, String tag) {
 		return Integer.parseInt(getTextValue(root, myXMLResources.getString(tag)));
 	}
 
@@ -63,7 +63,16 @@ public abstract class RuleXMLFactory extends XMLFactory {
 		}
 	}
 	
-	protected Rule initSpecific(Rule rule, Element root, int row, int column, int neighbor, int side, Color[] color, boolean toro, int defaultState) {
+	
+	 private static boolean isNotNullOrEmpty(Object str){
+		    return (str != null);
+		}
+	 
+	 public Object getValueOrDefault(Object value, Object defaultValue) {
+		    return isNotNullOrEmpty(value) ? value : (Object) defaultValue;
+		}
+	
+	protected Rule initSpecific(Rule rule, Element root, int row, int column, int neighbor, int side, Color[] color, boolean toro, int defaultState) throws XMLFactoryException {
 		Cell[][] temp = new Cell[row][column];
 		rule.setGrid(temp);
 		//need to have a grid already created in order to init the board. aghrielagjra
@@ -76,6 +85,9 @@ public abstract class RuleXMLFactory extends XMLFactory {
 		for (int i = 0; i < row; i++) {
 			for (int j=0; j < column; j++) {
 				int current = tempUpdated[i][j];
+				if (current >= stateColor.length) {
+					throw new XMLFactoryException("Invalid state given at row " + i + ", column " + j);
+				}
 				temp2[i][j].init(current, stateColor[current]);
 				//if (stateNum != 0)
 				//	myFire.getCounters()[stateNum-1]--;
@@ -90,7 +102,7 @@ public abstract class RuleXMLFactory extends XMLFactory {
 		return rule;
 	}
 
-	protected int[][] buildSpecific(Element root, int row, int column, int defaultState) {
+	protected int[][] buildSpecific(Element root, int row, int column, int defaultState) throws XMLFactoryException {
 		NodeList rowStates = root.getElementsByTagName(myXMLResources.getString("RowState"));
 		int[][] locations = new int[row][column];
 		
@@ -101,10 +113,16 @@ public abstract class RuleXMLFactory extends XMLFactory {
 		for (int i=0; i < rowStates.getLength(); i++) {
 			Element rowNode = (Element) rowStates.item(i);
 			int rowIndex = Integer.parseInt(rowNode.getElementsByTagName(myXMLResources.getString("Index")).item(0).getTextContent());
+			if (rowIndex >= row) {
+				throw new XMLFactoryException("Row index " + rowIndex + " is not valid for the given size of board.");
+			}
 			NodeList columnStates = rowNode.getElementsByTagName(myXMLResources.getString("ColumnState"));
 			for (int j=0; j<columnStates.getLength();j++) {
 				Element columnNode = (Element) columnStates.item(j);
 				int columnIndex = Integer.parseInt(columnNode.getElementsByTagName(myXMLResources.getString("Index")).item(0).getTextContent());
+				if (columnIndex >= column) {
+					throw new XMLFactoryException("Column index " + columnIndex + " is not valid for the given size of board.");
+				}
 				int state = Integer.parseInt(columnNode.getElementsByTagName(myXMLResources.getString("State")).item(0).getTextContent());
 				locations[rowIndex][columnIndex] = state;
 			}

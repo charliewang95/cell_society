@@ -60,8 +60,8 @@ public class SugarRuleXMLFactory extends RuleXMLFactory {
 		int minSugar = parseXMLInteger(root, "MinSugar");
 		int maxSugar = parseXMLInteger(root, "MaxSugar");
 		int sugarGrow = parseXMLInteger(root, "SugarGrow");
-		int sugarInterval = parseXMLInteger(root, "SugarInterval");
-		int[] misc = {vision, metabolism, minSugar, maxSugar, sugarGrow, sugarInterval};
+		int preset = parseXMLInteger(root, "Preset");
+		int[] misc = {vision, metabolism, minSugar, maxSugar, sugarGrow, preset};
 
 		String title = parseXMLString(root, "Title");
 		

@@ -31,7 +31,7 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
 	public Rule getRule(Element root) throws XMLFactoryException {
 		checkRule(root, XML_TAG_NAME);
 
-		double cellLength = parseXMLDouble(root, "CellLength");
+		Double cellLength = parseXMLDouble(root, "CellLength");
         Integer row = parseXMLInteger(root, "Row");
         Integer column = parseXMLInteger(root, "Column");
         boolean toro = parseXMLBoolean(root, "Toroidal");

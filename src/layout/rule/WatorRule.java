@@ -58,7 +58,7 @@ public class WatorRule extends Rule {
 		myLegend[1] = "Shark";
 	}
 
-	private class TempGrid {
+	public class TempGrid {
 		int tempState;
 		int tempReproduce;
 		int tempHealth;
@@ -72,6 +72,18 @@ public class WatorRule extends Rule {
 		private TempGrid(int state, int reproduce, int health) {
 			tempState = state;
 			tempReproduce = reproduce;
+			tempHealth = health;
+		}
+		
+		public void setTempState(int state){
+			tempState = state;
+		}
+		
+		public void setTempReproduce(int reproduce){
+			tempReproduce = reproduce;
+		}
+		
+		public void setTempHealth(int health){
 			tempHealth = health;
 		}
 	}
@@ -304,6 +316,10 @@ public class WatorRule extends Rule {
 
 	public void setPercentageFish(double percentageFish) {
 		myPercentageFish = percentageFish;
+	}
+	
+	public TempGrid[][] getWatorUpdatedGrid(){
+		return myUpdatedGrid;
 	}
 
 }

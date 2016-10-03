@@ -118,11 +118,16 @@ public class SugarRule extends Rule {
 			int index = list.get(k);
 			int i = index / myColumn;
 			int j = index - i * myColumn;
-			Agent newAgent = new Agent(myGrid[i][j].getCenterX(), myGrid[i][j].getCenterY(), radius, i, j);
-			newAgent.setSugar(r.nextInt(maxsugar - minsugar) + minsugar);
-			myAgents.add(newAgent);
-			myCounters[0]++;
+			createAgent(r, i, j);
 		}
+	}
+
+	public Agent createAgent(Random r, int i, int j) {
+		Agent newAgent = new Agent(myGrid[i][j].getCenterX(), myGrid[i][j].getCenterY(), radius, i, j);
+		newAgent.setSugar(r.nextInt(maxsugar - minsugar) + minsugar);
+		myAgents.add(newAgent);
+		myCounters[0]++;
+		return newAgent;
 	}
 
 	@Override
@@ -177,10 +182,15 @@ public class SugarRule extends Rule {
 			}
 		}
 		for (Agent agent : toRemove) {
-			myCounters[0]--;
-			myAgents.remove(agent);
-			agent.getCircle().setVisible(false);
+			removeAgent(agent);
 		}
+		System.out.println(myCounters[0]);
+	}
+
+	public void removeAgent(Agent agent) {
+		myCounters[0]--;
+		myAgents.remove(agent);
+		agent.getCircle().setVisible(false);
 	}
 
 	public ArrayList<Agent> getAgent() {

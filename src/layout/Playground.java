@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -65,6 +66,7 @@ public class Playground {
 	private static final int SLIDER_Y = 4 * Y_OFFSET;
 	private static final int TEXTFIELD_Y = 5 * Y_OFFSET;
 	private static final int CUSTOM_SLIDER_Y = 10 * Y_OFFSET;
+	private static final int SUGAR_BUTTON_Y = 14 * Y_OFFSET;
 	private static final int X_OFFSET = BUTTON_SPACE - 10;
 	private static final double MAX_SLIDER = 10;
 	private static final double MIN_SLIDER = 0.1;
@@ -93,6 +95,7 @@ public class Playground {
 	private File myFile;
 	private double myWidth;
 	private double myLength;
+	private boolean mySugarButtonBool;
 
 	public Playground(Stage s, String fileName) throws XMLFactoryException {
 		myStage = s;
@@ -211,6 +214,18 @@ public class Playground {
 						}
 					}
 				});
+		if (myRule instanceof SugarRule){
+			mySugarButtonBool = false;
+			myPlacer.addButton(myScene.getWidth() - X_OFFSET, SUGAR_BUTTON_Y, myResources.getString("SugarButton"), 
+					new EventHandler<ActionEvent>(){
+				public void handle(ActionEvent event){
+					if (mySugarButtonBool)
+						mySugarButtonBool = false;
+					else
+						mySugarButtonBool = true;
+				}
+			});
+		}
 	}
 
 	private void setUpNewSimulationControls() {
@@ -300,26 +315,46 @@ public class Playground {
 		for (int i = 0; i < grid.length; i++) {
 			for (int j = 0; j < grid[0].length; j++) {
 				if (grid[i][j].getShape().contains(x, y)) {
-					if (grid[i][j].getState() != 0 && myRule.getCounters().length > 0) {
-						myRule.getCounters()[grid[i][j].getState() - 1]--;
-					}
-					int newState = grid[i][j].getState() + 1;
-					if (newState >= myRule.getColors().length) {
-						newState = 0;
-					} else if (myRule.getCounters().length > 0) {
-						myRule.getCounters()[newState - 1]++;
-					}
-					grid[i][j].setState(newState, myRule.getColors()[newState]);
-					myRule.getUpdatedGrid()[i][j] = newState;
-					if (myRule instanceof WatorRule){
-						((WatorRule) myRule).getWatorUpdatedGrid()[i][j].setTempState(newState);
-						if (newState == 1){
-							((WatorRule) myRule).getWatorUpdatedGrid()[i][j]
-									.setTempReproduce((int) myCustomSliders[0].getValue());
+					if (!mySugarButtonBool){
+						if (grid[i][j].getState() != 0 && 
+							myRule.getCounters().length > 0 &&
+							!(myRule instanceof SugarRule)) {
+							myRule.getCounters()[grid[i][j].getState() - 1]--;
 						}
-						else if (newState == 2){
-							((Animal) grid[i][j]).setReproduce((int) myCustomSliders[2].getValue());
-							((Animal) grid[i][j]).setHealth((int) myCustomSliders[1].getValue());
+						int newState = grid[i][j].getState() + 1;
+						if (newState >= myRule.getColors().length) {
+							newState = 0;
+						} else if (myRule.getCounters().length > 0 &&
+								!(myRule instanceof SugarRule)) {
+							myRule.getCounters()[newState - 1]++;
+						}
+						grid[i][j].setState(newState, myRule.getColors()[newState]);
+						myRule.getUpdatedGrid()[i][j] = newState;
+						if (myRule instanceof WatorRule){
+							((WatorRule) myRule).getWatorUpdatedGrid()[i][j].setTempState(newState);
+							if (newState == 1){
+								((WatorRule) myRule).getWatorUpdatedGrid()[i][j]
+										.setTempReproduce((int) myCustomSliders[0].getValue());
+							}
+							else if (newState == 2){
+								((Animal) grid[i][j]).setReproduce((int) myCustomSliders[2].getValue());
+								((Animal) grid[i][j]).setHealth((int) myCustomSliders[1].getValue());
+							}
+						}
+					}
+					else {
+						boolean agentChecker = false;
+						for (Agent agent: ((SugarRule) myRule).getAgent()){
+							if (agent.getRow() == i && agent.getCol() == j){
+								agentChecker = true;
+								((SugarRule) myRule).removeAgent(agent);
+								break;
+							}
+						}
+						if (!agentChecker){
+							Random r = new Random();
+							Agent newAgent = ((SugarRule) myRule).createAgent(r, i, j);
+							myRoot.getChildren().add(newAgent.getCircle());
 						}
 					}
 				}

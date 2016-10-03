@@ -14,6 +14,10 @@ import javafx.scene.shape.Shape;
  *
  */
 public class Cell {
+	private static final int TRIANGLE_SIDES = 3;
+	private static final int RECTANGLE_SIDES = 4;
+	private static final int HEXAGON_SIDES = 6;
+	
 	protected Polygon myShape;
 	protected int myState;
 	protected Color myColor;
@@ -29,15 +33,15 @@ public class Cell {
 		for (int i = 0; i < x.length; i++) {
 			myShape.getPoints().addAll(x[i], y[i]);
 		}
-		if (x.length == 3) {
+		if (x.length == TRIANGLE_SIDES) {
 			myCenterX = Math.max(x[0], x[2]);
 			myCenterY = ((y[0] + y[2]) / 2);
 		}
-		if (x.length == 4) {
+		if (x.length == RECTANGLE_SIDES) {
 			myCenterX = ((x[0] + x[1]) / 2);
 			myCenterY = ((y[0] + y[3]) / 2);
 		}
-		if (x.length == 6) {
+		if (x.length == HEXAGON_SIDES) {
 			myCenterX = ((x[0] + x[1]) / 2);
 			myCenterY = (y[5]);
 		}

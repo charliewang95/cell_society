@@ -236,9 +236,46 @@ public class SugarRule extends Rule {
 	public int getVision() {
 		return (int) vision.getValue();
 	}
+	
+	public int getMetabolism() {
+		return (int) metabolism.getValue();
+	}
 
+	public int getMinSugar() {
+		return minsugar;
+	}
+	
+	public int getMaxSugar() {
+		return maxsugar;
+	}
+	
+	public int getSugarGrow() {
+		return (int) sugarGrowBackRate.getValue();
+	}
+	
+	public int getPreset() {
+		return preset;
+	}
+	
 	public boolean getToroidal() {
 		return myToroidal;
 	}
+	
+	public double getPercent0() {
+		return myPercentage0;
+	}
+	public double getPercent1() {
+		return myPercentage1;
+	}
+	public double getPercent2() {
+		return myPercentage2;
+	}
+	public double getPercent3() {
+		return myPercentage3;
+	}
+	public double getPercentAgent() {
+		return myPercentageAgent;
+	}
 
+	
 }

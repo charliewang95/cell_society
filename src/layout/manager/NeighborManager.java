@@ -80,44 +80,6 @@ public class NeighborManager {
 		}
 	}
 
-	private void initNeighbor4Sugar() {
-		int vision = ((SugarRule) myRule).getVision();
-		for (int i = 0; i < myRow; i++) {
-			for (int j = 0; j < myColumn; j++) {
-				for (int k = 1; k <= vision; k++) {
-					
-					// add neighbors above
-					if (i - k >= 0) {
-						myGrid[i][j].addNeighbor(myGrid[i - k][j]);
-					} else if (myToroidal) {
-						myGrid[i][j].addNeighbor(myGrid[myRow - (k - i)][j]);
-					}
-
-					// add neighbors below
-					if (i + k < myRow) {
-						myGrid[i][j].addNeighbor(myGrid[i + k][j]);
-					} else if (myToroidal) {
-						myGrid[i][j].addNeighbor(myGrid[i + k - myRow][j]);
-					}
-
-					// add neighbors to the left
-					if (j - k >= 0) {
-						myGrid[i][j].addNeighbor(myGrid[i][j - k]);
-					} else if (myToroidal) {
-						myGrid[i][j].addNeighbor(myGrid[i][myColumn - (k - j)]);
-					}
-
-					// add neighbors to the right
-					if (j + k < myColumn) {
-						myGrid[i][j].addNeighbor(myGrid[i][j + k]);
-					} else if (myToroidal) {
-						myGrid[i][j].addNeighbor(myGrid[i][j + k - myColumn]);
-					}
-				}
-			}
-		}
-	}
-
 	private void initNeighbor6() {
 		if (myRule instanceof SugarRule) {
 			initNeighbor6Sugar();
@@ -140,17 +102,6 @@ public class NeighborManager {
 		}
 	}
 
-	private void initNeighbor6Sugar() {
-		int vision = ((SugarRule) myRule).getVision();
-		for (int i = 0; i < myRow; i++) {
-			for (int j = 0; j < myColumn; j++) {
-				for (int k = 1; k <= vision; k++) {
-					
-				}
-			}
-		}
-	}
-
 	private void initNeighbor8() {
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
@@ -166,6 +117,15 @@ public class NeighborManager {
 		}
 	}
 
+	/**
+	 * 
+	 * 
+	 * Specific helper methods to create a single neighbor
+	 * 
+	 * 
+	 * 
+	 */
+	
 	private void initNeighborUp(int i, int j) {
 		if (myToroidal) {
 			initNeighborUpT(i, j);
@@ -246,8 +206,12 @@ public class NeighborManager {
 		}
 	}
 
-	/*
+	/**
+	 * 
+	 * 
 	 * methods below are for toroidal neighbor set-up
+	 * 
+	 * 
 	 */
 	private void initNeighborUpT(int i, int j) {
 		if (i != 0) {
@@ -326,6 +290,84 @@ public class NeighborManager {
 			myGrid[i][j].addNeighbor(myGrid[0][j + 1]);
 		} else {
 			myGrid[i][j].addNeighbor(myGrid[i + 1][0]);
+		}
+	}
+	
+	/**
+	 * 
+	 * 
+	 * Specific neighbor set-up method for Sugar
+	 * 
+	 * 
+	 * 
+	 */
+	private void initNeighbor4Sugar() {
+		int vision = ((SugarRule) myRule).getVision();
+		for (int i = 0; i < myRow; i++) {
+			for (int j = 0; j < myColumn; j++) {
+				for (int k = 1; k <= vision; k++) {
+					
+					// add neighbors above
+					if (i - k >= 0) {
+						myGrid[i][j].addNeighbor(myGrid[i - k][j]);
+					} else if (myToroidal) {
+						myGrid[i][j].addNeighbor(myGrid[myRow - (k - i)][j]);
+					}
+
+					// add neighbors below
+					if (i + k < myRow) {
+						myGrid[i][j].addNeighbor(myGrid[i + k][j]);
+					} else if (myToroidal) {
+						myGrid[i][j].addNeighbor(myGrid[i + k - myRow][j]);
+					}
+
+					// add neighbors to the left
+					if (j - k >= 0) {
+						myGrid[i][j].addNeighbor(myGrid[i][j - k]);
+					} else if (myToroidal) {
+						myGrid[i][j].addNeighbor(myGrid[i][myColumn - (k - j)]);
+					}
+
+					// add neighbors to the right
+					if (j + k < myColumn) {
+						myGrid[i][j].addNeighbor(myGrid[i][j + k]);
+					} else if (myToroidal) {
+						myGrid[i][j].addNeighbor(myGrid[i][j + k - myColumn]);
+					}
+				}
+			}
+		}
+	}
+	
+	private void initNeighbor6Sugar() {
+		int vision = ((SugarRule) myRule).getVision();
+		for (int i = 0; i < myRow; i++) {
+			for (int j = 0; j < myColumn; j++) {
+				for (int k = 1; k <= vision; k++) {
+					// add neighbors above
+					if (i - k >= 0) {
+						myGrid[i][j].addNeighbor(myGrid[i - k][j]);
+					} else if (myToroidal) {
+						myGrid[i][j].addNeighbor(myGrid[myRow - (k - i)][j]);
+					}
+
+					// add neighbors below
+					if (i + k < myRow) {
+						myGrid[i][j].addNeighbor(myGrid[i + k][j]);
+					} else if (myToroidal) {
+						myGrid[i][j].addNeighbor(myGrid[i + k - myRow][j]);
+					}
+					
+					// add neighbor top left, top right, bottom left, bottom right
+					if (j%2==0) {
+						if (k%2==1) {
+							if ()
+						}
+					} else {
+						
+					}
+				}
+			}
 		}
 	}
 }

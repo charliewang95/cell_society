@@ -4,14 +4,16 @@
     <title>Catching Fire</title>
     <author>Charlie</author>
     <cellLength>20</cellLength>
-    <xSize>10</xSize>
-    <ySize>10</ySize>
+    <xSize>30</xSize>
+    <ySize>30</ySize>
+    <numNeighbor>4</numNeighbor>
+    <numSide>4</numSide>
 	<toroidal>true</toroidal>
     
     <probcatch>.5</probcatch>
-    <numNeighbor>4</numNeighbor>
+
     <emptyColor>YELLOW</emptyColor>
-    <treeColor>green</treeColor>
+    <treeColor>GREEN</treeColor>
     <burnColor>RED</burnColor>
 
 

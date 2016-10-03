@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Rule id = "SugarRule">
+    <nameRule>SugarRule</nameRule>
+    <title>SugarLand</title>
+    <author>Charlie</author>
+    
+    <cellLength>20</cellLength>
+    <xSize>30</xSize>
+    <ySize>30</ySize>
+    
+	<toroidal>false</toroidal>    
+	<numNeighbor>4</numNeighbor>
+
+    <myPercentage0>.3</myPercentage0>
+    <myPercentage1>0.25</myPercentage1>
+    <myPercentage2>0.20</myPercentage2>
+    <myPercentage3>0.15</myPercentage3>
+    <myPercentageAgent>0.3</myPercentageAgent> 
+
+    
+    <color0>LIGHTGREY</color0>
+    <color1>MOCCASIN</color1>
+    <color2>LIGHTSALMON</color2>
+    <color3>INDIANRED</color3>
+    <color4>MAROON</color4>
+        
+    <vision>4</vision>
+    <metabolism>2</metabolism>
+    <minSugar>5</minSugar>
+    <maxSugar>25</maxSugar>
+    <sugarGrowBackRate>1</sugarGrowBackRate>
+    <sugarGrowBackInterval>1</sugarGrowBackInterval>
+    
+</Rule>

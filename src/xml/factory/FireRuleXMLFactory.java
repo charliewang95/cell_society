@@ -26,11 +26,12 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
 	public Rule getRule(Element root) throws XMLFactoryException {
 		checkRule(root, XML_TAG_NAME);
 
-		double cellLength = parseXMLDouble(root, "CellLength");
+		Double cellLength = parseXMLDouble(root, "CellLength");
         Integer row = parseXMLInteger(root, "Row");
         Integer column = parseXMLInteger(root, "Column");
         boolean toro = parseXMLBoolean(root, "Toroidal");
         int neighbor = parseXMLInteger(root, "Neighbor");
+        int side = parseXMLInteger(root, "Side");
 		
 		double probCatch = parseXMLDouble(root, "ProbCatch");
 		Color emptyColor = parseXMLColor(root, "EmptyColor");
@@ -41,11 +42,11 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
 		
 		String title = parseXMLString(root, "Title");
 		
-		FireRule myFire = new FireRule(cellLength, row, column, emptyColor, treeColor, burnColor, probCatch, neighbor, toro);
-		myFire.setName(title);
+		FireRule myFire = new FireRule(cellLength, row, column, emptyColor, treeColor, burnColor, probCatch, neighbor, side, toro);
+		myFire.setName(XML_TAG_NAME);
 		
 		if (initialize) {
-			myFire = (FireRule) initSpecific(myFire, root, row, column, neighbor, new Color[]{emptyColor, treeColor, burnColor}, toro, 1);
+			myFire = (FireRule) initSpecific(myFire, root, row, column, neighbor, side, new Color[]{emptyColor, treeColor, burnColor}, toro, 1);
 		}
 		
 		return myFire;

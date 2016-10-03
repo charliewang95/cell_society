@@ -24,8 +24,9 @@ public class SugarRule extends Rule {
 	private double myPercentage3 = 0.10;
 	private double myPercentageAgent = 0.4;
 	private int myNumNeighbor = 4;
-	private Parameter vision = new Parameter(4, myResources.getString("VisionSlider"), 1, 6);
+	private Parameter vision;
 	private Parameter metabolism = new Parameter(3, myResources.getString("MetabolismSlider"), 1, 4);
+	private int mySide = 4;
 	private int minsugar = 5;
 	private int maxsugar = 25;
 	private Parameter sugarGrowBackRate = new Parameter(1, myResources.getString("SugarRateSlider"), 1, 4);
@@ -41,10 +42,11 @@ public class SugarRule extends Rule {
 	private double radius;
 	private int myCounter = 0;
 
-	public SugarRule(double cellLength, int row, int column, int neighbor, boolean toro, double[] percent,
+	public SugarRule(double cellLength, int row, int column, int neighbor, int side, boolean toro, double[] percent,
 			Color[] color, int[] misc) {
 		super(cellLength, row, column);
 		myNumNeighbor = neighbor;
+		mySide = side;
 		toroidal = toro;
 		myCounters = new int[1];
 		myLegend = new String[1];
@@ -54,22 +56,25 @@ public class SugarRule extends Rule {
 		myPercentage2 = percent[2];
 		myPercentage3 = percent[3];
 		myPercentageAgent = percent[4];
+		preset = misc[5];
+		if (preset == 1) {
+			sugarGrowBackInterval = 1;
+			vision = new Parameter(4, myResources.getString("VisionSlider"), 1, 6);
+		} else if (preset == 2) {
+			sugarGrowBackInterval = 2;
+			vision = new Parameter(4, myResources.getString("VisionSlider"), 1, 10);
+		} else { // default
+			sugarGrowBackInterval = 1;
+			vision = new Parameter(4, myResources.getString("VisionSlider"), 1, 6);
+		}
 		vision.setValue(misc[0]);
 		metabolism.setValue(misc[1]);
 		minsugar = misc[2];
 		maxsugar = misc[3];
 		sugarGrowBackRate.setValue(misc[4]);
-		preset = misc[5];
 		parameters.add(vision);
 		parameters.add(metabolism);
 		parameters.add(sugarGrowBackRate);
-		if (preset == 1) {
-			sugarGrowBackInterval = 1;
-		} else if (preset == 2) {
-			sugarGrowBackInterval = 2;
-		} else { // default
-			sugarGrowBackInterval = 1;
-		}
 		myColors = new Color[] { color[0], color[1], color[2], color[3], color[4] };
 		radius = Math.min(RADIUS, cellLength / 4);
 	}
@@ -84,7 +89,7 @@ public class SugarRule extends Rule {
 
 		myGrid = new Cell[myRow][myColumn];
 		myAgents = new ArrayList<Agent>();
-		initBoard(myNumNeighbor);
+		initBoard(mySide);
 		initState();
 		if (preset == 1) {
 			initAgent();

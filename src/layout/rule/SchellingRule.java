@@ -18,7 +18,6 @@ public class SchellingRule extends Rule {
 	private static final int EMPTY = 0;
 	private static final int AAA = 1; // group A
 	private static final int BBB = 2; // group B
-	private int myNumNeighbor;
 	private double myPercentageA; // parameter
 	private double myPercentageEmpty; // parameter
 	private Parameter mySatisfied; // parameter
@@ -31,12 +30,13 @@ public class SchellingRule extends Rule {
 	private int[] myEs;
 	private int[] myEsTMP;
 
-	public SchellingRule(double cellLength, int row, int column, int neighbor, double percentA, double percentEmpty, double satisfy, Color empty, Color aColor, Color bColor, boolean toro) {
+	public SchellingRule(double cellLength, int row, int column, int neighbor, int side, double percentA, double percentEmpty, double satisfy, Color empty, Color aColor, Color bColor, boolean toro) {
 		super(cellLength, row, column);
 		myColors = new Color[] { empty, aColor, bColor };
 		myPercentageA = percentA;
 		myPercentageEmpty = percentEmpty;
 		myNumNeighbor = neighbor;
+		mySide = side;
 		myToroidal = toro;
 		mySatisfied = new Parameter(satisfy, myResources.getString("SchellingRuleSlider"), 0, 1);
 		parameters.add(mySatisfied);
@@ -56,7 +56,7 @@ public class SchellingRule extends Rule {
 		
 		if (myGrid==null) {
 			myGrid = new Cell[myRow][myColumn];
-			initBoard(myNumNeighbor);
+			initBoard(mySide);
 			initState();
 			initNeighbor(myNumNeighbor, myToroidal);
 		}
@@ -139,12 +139,24 @@ public class SchellingRule extends Rule {
 		mySatisfied.setValue(satisfied);
 	}
 	
+	public double getSatisfied() {
+		return mySatisfied.getValue();
+	}
+	
 	public void setPercentageA(double percentageA) {
 		myPercentageA = percentageA;
 	}
 	
+	public double getPercentageA() {
+		return myPercentageA;
+	}
+	
 	public void setPercentageEmpty(double percentageEmpty) {
 		myPercentageEmpty = percentageEmpty;
+	}
+	
+	public double getPercentageEmpty() {
+		return myPercentageEmpty;
 	}
 
 }

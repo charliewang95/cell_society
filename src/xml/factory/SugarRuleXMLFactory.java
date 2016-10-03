@@ -39,6 +39,7 @@ public class SugarRuleXMLFactory extends RuleXMLFactory {
         Integer column = parseXMLInteger(root, "Column");
         boolean toro = parseXMLBoolean(root, "Toroidal");
         int neighbor = parseXMLInteger(root, "Neighbor");
+        int side = parseXMLInteger(root, "Side");
 		
         double percent0 = parseXMLDouble(root, "Percent0");
         double percent1 = parseXMLDouble(root, "Percent1");
@@ -59,13 +60,13 @@ public class SugarRuleXMLFactory extends RuleXMLFactory {
 		int minSugar = parseXMLInteger(root, "MinSugar");
 		int maxSugar = parseXMLInteger(root, "MaxSugar");
 		int sugarGrow = parseXMLInteger(root, "SugarGrow");
-		int sugarInterval = parseXMLInteger(root, "SugarInterval");
-		int[] misc = {vision, metabolism, minSugar, maxSugar, sugarGrow, sugarInterval};
+		int preset = parseXMLInteger(root, "Preset");
+		int[] misc = {vision, metabolism, minSugar, maxSugar, sugarGrow, preset};
 
 		String title = parseXMLString(root, "Title");
 		
-		SugarRule mySugar = new SugarRule(cellLength, row, column, neighbor, toro, percent, color, misc);
-		mySugar.setName(title);
+		SugarRule mySugar = new SugarRule(cellLength, row, column, neighbor, side, toro, percent, color, misc);
+		mySugar.setName(XML_TAG_NAME);
 		
 		return mySugar;
 	}

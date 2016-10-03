@@ -14,15 +14,15 @@ public class LifeRule extends Rule {
 	private static final int EMPTY = 0;
 	private static final int LIVE = 1;
 	private boolean myToroidal;
-	private int myNumNeighbor;
 	private String myModel;
 
-	public LifeRule(double cellLength, int row, int column, int neighbor, Color empty, Color live, String model, boolean toro) {
+	public LifeRule(double cellLength, int row, int column, int neighbor, int side, Color empty, Color live, String model, boolean toro) {
 		super(cellLength, row, column);
 		myColors = new Color[] { empty, live };
 		myModel = model;
 		myToroidal = toro;
 		myNumNeighbor = neighbor;
+		mySide = side;
 		myCounters = new int[1];
 		myLegend = new String[1];
 		myLegend[0] = myResources.getString("LifeLegendLive");
@@ -31,7 +31,7 @@ public class LifeRule extends Rule {
 	public void initGrid() {
 		if (myGrid == null) {
 			myGrid = new Cell[myRow][myColumn];
-			initBoard(4);
+			initBoard(mySide);
 			initState();
 			initNeighbor(myNumNeighbor, myToroidal);
 		}
@@ -139,8 +139,9 @@ public class LifeRule extends Rule {
 		myModel = model;
 	}
 	
-	public Color[] getColors(){
-		return myColors;
+	public String getModel() {
+		return myModel;
 	}
+
 
 }

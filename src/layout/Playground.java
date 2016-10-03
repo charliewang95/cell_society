@@ -30,6 +30,7 @@ import layout.rule.watoranimals.Animal;
 import user_interface.UIObjectPlacer;
 import xml.XMLParser;
 import xml.XMLParserException;
+import xml.XMLWriter;
 import xml.factory.FireRuleXMLFactory;
 import xml.factory.LifeRuleXMLFactory;
 import xml.factory.RuleXMLFactory;
@@ -52,7 +53,7 @@ public class Playground {
 	private static final int CHART_HEIGHT = 100;
 	private static final int CHART_Y_OFFSET = 135;
 	private static final int CHART_SPACE = 140;
-	private static final int SIZE = 500;
+	private static final int SIZE = 600;
 	private static final int FRAMES_PER_SECOND = 60;
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private static final String XML_RESOURCE_PACKAGE = "xml.properties/";
@@ -63,9 +64,10 @@ public class Playground {
 	private static final int Y_OFFSET = 30;
 	private static final int STEP_Y = 2 * Y_OFFSET;
 	private static final int RESET_Y = 3 * Y_OFFSET;
-	private static final int SLIDER_Y = 4 * Y_OFFSET;
-	private static final int TEXTFIELD_Y = 5 * Y_OFFSET;
-	private static final int CUSTOM_SLIDER_Y = 10 * Y_OFFSET;
+	private static final int OUTPUT_XML_Y = 4 * Y_OFFSET;
+	private static final int SLIDER_Y = 5 * Y_OFFSET;
+	private static final int TEXTFIELD_Y = 6 * Y_OFFSET;
+	private static final int CUSTOM_SLIDER_Y = 11 * Y_OFFSET;
 	private static final int SUGAR_BUTTON_Y = 14 * Y_OFFSET;
 	private static final int X_OFFSET = BUTTON_SPACE - 10;
 	private static final double MAX_SLIDER = 10;
@@ -226,16 +228,29 @@ public class Playground {
 				}
 			});
 		}
+		myPlacer.addButton(myScene.getWidth() - X_OFFSET, OUTPUT_XML_Y, myResources.getString("XMLOutputButton"),
+				new EventHandler<ActionEvent>() {
+					public void handle(ActionEvent event) {
+						try {
+							XMLWriter printer = new XMLWriter(myRule);
+							printer.saveXML();
+							myPlacer.showError("XML finished printing");
+						} catch (Exception e) {
+							throw e;
+						}
+					}
+				});
 	}
 
 	private void setUpNewSimulationControls() {
 		myPlacer.addText(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y, FONT_SIZE, myResources.getString("SameWindow"),
 				false);
-		myPlacer.addNewSimulationTextField(myScene.getWidth()-X_OFFSET, TEXTFIELD_Y+0.5*Y_OFFSET, myStage, this);
+		myPlacer.addNewSimulationTextField(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 0.5 * Y_OFFSET, myStage, this);
 		myPlacer.addBrowseButton(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 1.5 * Y_OFFSET, myStage, this);
 		myPlacer.addText(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 2.5 * Y_OFFSET, FONT_SIZE,
 				myResources.getString("NewWindow"), false);
-		myPlacer.addNewSimulationTextField(myScene.getWidth()-X_OFFSET, TEXTFIELD_Y+3*Y_OFFSET, new Stage(), null);
+		myPlacer.addNewSimulationTextField(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 3 * Y_OFFSET, new Stage(),
+				null);
 		myPlacer.addBrowseButton(myScene.getWidth() - X_OFFSET, TEXTFIELD_Y + 4 * Y_OFFSET, new Stage(), null);
 	}
 
@@ -282,7 +297,7 @@ public class Playground {
 			}
 		}
 		if (myRule instanceof SugarRule) {
-			for (Agent a: ((SugarRule) myRule).getAgent()) {
+			for (Agent a : ((SugarRule) myRule).getAgent()) {
 				myRoot.getChildren().add(a.getCircle());
 			}
 		}
@@ -316,50 +331,63 @@ public class Playground {
 			for (int j = 0; j < grid[0].length; j++) {
 				if (grid[i][j].getShape().contains(x, y)) {
 					if (!mySugarButtonBool){
-						if (grid[i][j].getState() != 0 && 
-							myRule.getCounters().length > 0 &&
-							!(myRule instanceof SugarRule)) {
-							myRule.getCounters()[grid[i][j].getState() - 1]--;
-						}
-						int newState = grid[i][j].getState() + 1;
-						if (newState >= myRule.getColors().length) {
-							newState = 0;
-						} else if (myRule.getCounters().length > 0 &&
-								!(myRule instanceof SugarRule)) {
-							myRule.getCounters()[newState - 1]++;
-						}
-						grid[i][j].setState(newState, myRule.getColors()[newState]);
-						myRule.getUpdatedGrid()[i][j] = newState;
+						int newState = handleNormalMouseInput(grid, i, j);
 						if (myRule instanceof WatorRule){
-							((WatorRule) myRule).getWatorUpdatedGrid()[i][j].setTempState(newState);
-							if (newState == 1){
-								((WatorRule) myRule).getWatorUpdatedGrid()[i][j]
-										.setTempReproduce((int) myCustomSliders[0].getValue());
-							}
-							else if (newState == 2){
-								((Animal) grid[i][j]).setReproduce((int) myCustomSliders[2].getValue());
-								((Animal) grid[i][j]).setHealth((int) myCustomSliders[1].getValue());
-							}
+							handleWatorMouseInput(grid, i, j, newState);
 						}
 					}
 					else {
-						boolean agentChecker = false;
-						for (Agent agent: ((SugarRule) myRule).getAgent()){
-							if (agent.getRow() == i && agent.getCol() == j){
-								agentChecker = true;
-								((SugarRule) myRule).removeAgent(agent);
-								break;
-							}
-						}
-						if (!agentChecker){
-							Random r = new Random();
-							Agent newAgent = ((SugarRule) myRule).createAgent(r, i, j);
-							myRoot.getChildren().add(newAgent.getCircle());
-						}
+						handleSugarMouseInput(i, j);
 					}
 				}
 			}
 		}
+	}
+
+	private void handleSugarMouseInput(int i, int j) {
+		boolean agentChecker = false;
+		for (Agent agent: ((SugarRule) myRule).getAgent()){
+			if (agent.getRow() == i && agent.getCol() == j){
+				agentChecker = true;
+				((SugarRule) myRule).removeAgent(agent);
+				break;
+			}
+		}
+		if (!agentChecker){
+			Random r = new Random();
+			Agent newAgent = ((SugarRule) myRule).createAgent(r, i, j);
+			myRoot.getChildren().add(newAgent.getCircle());
+		}
+	}
+
+	private void handleWatorMouseInput(Cell[][] grid, int i, int j, int newState) {
+		((WatorRule) myRule).getWatorUpdatedGrid()[i][j].setTempState(newState);
+		if (newState == 1){
+			((WatorRule) myRule).getWatorUpdatedGrid()[i][j]
+					.setTempReproduce((int) myCustomSliders[0].getValue());
+		}
+		else if (newState == 2){
+			((Animal) grid[i][j]).setReproduce((int) myCustomSliders[2].getValue());
+			((Animal) grid[i][j]).setHealth((int) myCustomSliders[1].getValue());
+		}
+	}
+
+	private int handleNormalMouseInput(Cell[][] grid, int i, int j) {
+		if (grid[i][j].getState() != 0 && 
+			myRule.getCounters().length > 0 &&
+			!(myRule instanceof SugarRule)) {
+			myRule.getCounters()[grid[i][j].getState() - 1]--;
+		}
+		int newState = grid[i][j].getState() + 1;
+		if (newState >= myRule.getColors().length) {
+			newState = 0;
+		} else if (myRule.getCounters().length > 0 &&
+				!(myRule instanceof SugarRule)) {
+			myRule.getCounters()[newState - 1]++;
+		}
+		grid[i][j].setState(newState, myRule.getColors()[newState]);
+		myRule.getUpdatedGrid()[i][j] = newState;
+		return newState;
 	}
 
 	private void addCustomSliders() {
@@ -396,4 +424,5 @@ public class Playground {
 		myLineChart.setLegendVisible(true);
 		myRoot.getChildren().add(myLineChart);
 	}
+
 }

@@ -34,6 +34,7 @@ public class SchellingRuleXMLFactory extends RuleXMLFactory {
         Integer column = parseXMLInteger(root, "Column");
         boolean toro = parseXMLBoolean(root, "Toroidal");
         int neighbor = parseXMLInteger(root, "Neighbor");
+        int side = parseXMLInteger(root, "Side");
 		
 		double percentageA = parseXMLDouble(root, "PercentageA"); 
 		double percentageEmpty = parseXMLDouble(root, "PercentageEmpty"); 
@@ -47,11 +48,11 @@ public class SchellingRuleXMLFactory extends RuleXMLFactory {
 		
 		String name = parseXMLString(root, "Title");
 
-		SchellingRule mySchelling = new SchellingRule(cellLength, row, column, neighbor, percentageA, percentageEmpty, satisfy, emptyColor, aaaColor, bbbColor, toro);
-		mySchelling.setName(name);
+		SchellingRule mySchelling = new SchellingRule(cellLength, row, column, neighbor, side, percentageA, percentageEmpty, satisfy, emptyColor, aaaColor, bbbColor, toro);
+		mySchelling.setName(XML_TAG_NAME);
 
 		if (initialize) {
-			mySchelling = (SchellingRule) initSpecific(mySchelling, root, row, column, neighbor, new Color[]{emptyColor, aaaColor, bbbColor}, toro, 0);
+			mySchelling = (SchellingRule) initSpecific(mySchelling, root, row, column, neighbor, side, new Color[]{emptyColor, aaaColor, bbbColor}, toro, 0);
 			
 		}
 		

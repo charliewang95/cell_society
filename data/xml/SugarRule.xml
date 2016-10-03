@@ -10,7 +10,7 @@
     <ySize>40</ySize>
     
 	<toroidal>false</toroidal>    
-	<numNeighbor>4</numNeighbor>
+	<numNeighbor>3</numNeighbor>
 
     <myPercentage0>.3</myPercentage0>
     <myPercentage1>0.25</myPercentage1>

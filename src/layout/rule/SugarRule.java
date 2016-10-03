@@ -144,7 +144,7 @@ public class SugarRule extends Rule {
 			int index = list.get(k);
 			int i = index / myColumn;
 			int j = index - i * myColumn;
-			
+
 			if (i >= myRow * (2.0 / 5) && j <= myColumn * (3.0 / 5)) {
 				createAgent(r, i, j);
 				count++;
@@ -197,8 +197,10 @@ public class SugarRule extends Rule {
 			int max = tempcell.getState();
 			int maxrow = row;
 			int maxcol = col;
+			Collections.shuffle(tempcell.getNeighbors());
 			for (Cell c : tempcell.getNeighbors()) {
-				if (c.getState() > max) {
+				if (c.getState() > max || (c.getState() == max && Math.abs(c.getCol() - agent.getCol()) + Math.abs(c.getRow()
+						- agent.getRow()) > Math.abs(maxcol - agent.getCol()) + Math.abs(maxrow - agent.getRow()))) {
 					max = c.getState();
 					maxrow = c.getRow();
 					maxcol = c.getCol();

@@ -52,7 +52,7 @@ public class Playground {
 	private static final int CHART_HEIGHT = 100;
 	private static final int CHART_Y_OFFSET = 135;
 	private static final int CHART_SPACE = 140;
-	private static final int SIZE = 500;
+	private static final int SIZE = 600;
 	private static final int FRAMES_PER_SECOND = 60;
 	private static final String DEFAULT_RESOURCE_PACKAGE = "resources/";
 	private static final String XML_RESOURCE_PACKAGE = "xml.properties/";
@@ -316,50 +316,63 @@ public class Playground {
 			for (int j = 0; j < grid[0].length; j++) {
 				if (grid[i][j].getShape().contains(x, y)) {
 					if (!mySugarButtonBool){
-						if (grid[i][j].getState() != 0 && 
-							myRule.getCounters().length > 0 &&
-							!(myRule instanceof SugarRule)) {
-							myRule.getCounters()[grid[i][j].getState() - 1]--;
-						}
-						int newState = grid[i][j].getState() + 1;
-						if (newState >= myRule.getColors().length) {
-							newState = 0;
-						} else if (myRule.getCounters().length > 0 &&
-								!(myRule instanceof SugarRule)) {
-							myRule.getCounters()[newState - 1]++;
-						}
-						grid[i][j].setState(newState, myRule.getColors()[newState]);
-						myRule.getUpdatedGrid()[i][j] = newState;
+						int newState = handleNormalMouseInput(grid, i, j);
 						if (myRule instanceof WatorRule){
-							((WatorRule) myRule).getWatorUpdatedGrid()[i][j].setTempState(newState);
-							if (newState == 1){
-								((WatorRule) myRule).getWatorUpdatedGrid()[i][j]
-										.setTempReproduce((int) myCustomSliders[0].getValue());
-							}
-							else if (newState == 2){
-								((Animal) grid[i][j]).setReproduce((int) myCustomSliders[2].getValue());
-								((Animal) grid[i][j]).setHealth((int) myCustomSliders[1].getValue());
-							}
+							handleWatorMouseInput(grid, i, j, newState);
 						}
 					}
 					else {
-						boolean agentChecker = false;
-						for (Agent agent: ((SugarRule) myRule).getAgent()){
-							if (agent.getRow() == i && agent.getCol() == j){
-								agentChecker = true;
-								((SugarRule) myRule).removeAgent(agent);
-								break;
-							}
-						}
-						if (!agentChecker){
-							Random r = new Random();
-							Agent newAgent = ((SugarRule) myRule).createAgent(r, i, j);
-							myRoot.getChildren().add(newAgent.getCircle());
-						}
+						handleSugarMouseInput(i, j);
 					}
 				}
 			}
 		}
+	}
+
+	private void handleSugarMouseInput(int i, int j) {
+		boolean agentChecker = false;
+		for (Agent agent: ((SugarRule) myRule).getAgent()){
+			if (agent.getRow() == i && agent.getCol() == j){
+				agentChecker = true;
+				((SugarRule) myRule).removeAgent(agent);
+				break;
+			}
+		}
+		if (!agentChecker){
+			Random r = new Random();
+			Agent newAgent = ((SugarRule) myRule).createAgent(r, i, j);
+			myRoot.getChildren().add(newAgent.getCircle());
+		}
+	}
+
+	private void handleWatorMouseInput(Cell[][] grid, int i, int j, int newState) {
+		((WatorRule) myRule).getWatorUpdatedGrid()[i][j].setTempState(newState);
+		if (newState == 1){
+			((WatorRule) myRule).getWatorUpdatedGrid()[i][j]
+					.setTempReproduce((int) myCustomSliders[0].getValue());
+		}
+		else if (newState == 2){
+			((Animal) grid[i][j]).setReproduce((int) myCustomSliders[2].getValue());
+			((Animal) grid[i][j]).setHealth((int) myCustomSliders[1].getValue());
+		}
+	}
+
+	private int handleNormalMouseInput(Cell[][] grid, int i, int j) {
+		if (grid[i][j].getState() != 0 && 
+			myRule.getCounters().length > 0 &&
+			!(myRule instanceof SugarRule)) {
+			myRule.getCounters()[grid[i][j].getState() - 1]--;
+		}
+		int newState = grid[i][j].getState() + 1;
+		if (newState >= myRule.getColors().length) {
+			newState = 0;
+		} else if (myRule.getCounters().length > 0 &&
+				!(myRule instanceof SugarRule)) {
+			myRule.getCounters()[newState - 1]++;
+		}
+		grid[i][j].setState(newState, myRule.getColors()[newState]);
+		myRule.getUpdatedGrid()[i][j] = newState;
+		return newState;
 	}
 
 	private void addCustomSliders() {

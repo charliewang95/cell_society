@@ -15,7 +15,6 @@ public class FireRule extends Rule {
 	private static final int EMPTY = 0;
 	private static final int TREE = 1;
 	private static final int BURN = 2;
-	//private final boolean specifiedStates;
 	private Parameter myProbCatch;
 
 	public FireRule(double cellLength, int row, int column, Color empty, Color tree, Color burn, double probCatch, int neighbor, int side, boolean toro) {
@@ -34,15 +33,12 @@ public class FireRule extends Rule {
 
 	@Override
 	public void initGrid() {
-		//if myGrid is null, proceed. else, it was already created 
-		//through XML
 		if (myGrid == null){
 			myGrid = new Cell[myRow][myColumn];
 			initBoard(mySide);
 			initState();
 			initNeighbor(myNumNeighbor, myToroidal);
 		}
-		
 	}
 
 	@Override

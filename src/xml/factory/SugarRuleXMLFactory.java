@@ -70,4 +70,7 @@ public class SugarRuleXMLFactory extends RuleXMLFactory {
 		
 		return mySugar;
 	}
+	
+	
+	
 }

@@ -1,7 +1,6 @@
 package layout.rule;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 import javafx.scene.paint.Color;
@@ -18,9 +17,9 @@ public class SchellingRule extends Rule {
 	private static final int EMPTY = 0;
 	private static final int AAA = 1; // group A
 	private static final int BBB = 2; // group B
-	private double myPercentageA; // parameter
-	private double myPercentageEmpty; // parameter
-	private Parameter mySatisfied; // parameter
+	private double myPercentageA;
+	private double myPercentageEmpty;
+	private Parameter mySatisfied; 
 	private boolean myToroidal;
 	private int myNumA;
 	private int myNumB;

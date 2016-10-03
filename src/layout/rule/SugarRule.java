@@ -37,7 +37,6 @@ public class SugarRule extends Rule {
 	private int myNum2;
 	private int myNum3;
 	private int myNum4;
-	private boolean toroidal = false;
 	private ArrayList<Agent> myAgents;
 	private double radius;
 	private int myCounter = 0;
@@ -47,7 +46,7 @@ public class SugarRule extends Rule {
 		super(cellLength, row, column);
 		myNumNeighbor = neighbor;
 		mySide = side;
-		toroidal = toro;
+		myToroidal = toro;
 		myCounters = new int[1];
 		myLegend = new String[1];
 		myLegend[0] = myResources.getString("SugarLegendAgent");
@@ -98,7 +97,7 @@ public class SugarRule extends Rule {
 		} else {
 			initAgent(); // default
 		}
-		initNeighbor(myNumNeighbor, toroidal);
+		initNeighbor(myNumNeighbor, myToroidal);
 	}
 
 	@Override
@@ -239,7 +238,7 @@ public class SugarRule extends Rule {
 	}
 
 	public boolean getToroidal() {
-		return toroidal;
+		return myToroidal;
 	}
 
 }

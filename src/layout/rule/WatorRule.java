@@ -1,7 +1,6 @@
 package layout.rule;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 import javafx.scene.paint.Color;
@@ -21,9 +20,7 @@ public class WatorRule extends Rule {
 	private static final int SHARK = 2;
 	private static final double LIFEMIN = 1;
 	private static final double LIFEMAX = 20;
-	private final boolean myToroidal; // new
-	private int myNumNeighbor;
-	private int mySide;
+
 
 	private Parameter myFishReproduceRate;
 	private Parameter mySharkReproduceRate;

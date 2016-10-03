@@ -88,10 +88,10 @@ public abstract class RuleXMLFactory extends XMLFactory {
 				if (current >= stateColor.length) {
 					throw new XMLFactoryException("Invalid state given at row " + i + ", column " + j);
 				}
-				if (current != 0)
-					rule.getCounters()[current-1]++;
-				
 				temp2[i][j].init(current, stateColor[current]);
+				if (current != 0 && !rule.getName().equals("SchellingRule"))
+					rule.getCounters()[current-1]++;
+//				
 				//if (stateNum != 0)
 				//	myFire.getCounters()[stateNum-1]--;
 				//myCounters[1]++;
@@ -100,7 +100,7 @@ public abstract class RuleXMLFactory extends XMLFactory {
 			}
 			
 		}
-		System.out.println(rule.getCounters()[1]);
+		//System.out.println(rule.getCounters()[1]);
 		rule.setUpdatedGrid(tempUpdated);
 		rule.initNeighbor(neighbor, toro);
 		return rule;

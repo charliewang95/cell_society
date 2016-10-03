@@ -19,7 +19,6 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Slider;
-import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import layout.rule.Parameter;
@@ -44,6 +43,8 @@ import org.w3c.dom.NodeList;
  *
  */
 public class Playground {
+	private static final int CHART_HEIGHT = 100;
+	private static final int CHART_Y_OFFSET = 135;
 	private static final int CHART_SPACE = 140;
 	private static final int SIZE = 500;
 	private static final int FRAMES_PER_SECOND = 60;
@@ -161,13 +162,13 @@ public class Playground {
 		myPlacer.addButton(myScene.getWidth() - X_OFFSET, PAUSE_Y, myResources.getString("PauseButton"),
 				new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent event) {
-						pause();
+						myAnimation.pause();
 					}
 				});
 		myPlacer.addButton(myScene.getWidth() - X_OFFSET, Y_OFFSET, myResources.getString("ResumeButton"),
 				new EventHandler<ActionEvent>() {
 					public void handle(ActionEvent event) {
-						resume();
+						myAnimation.play();
 					}
 				});
 		myPlacer.addButton(myScene.getWidth() - X_OFFSET, STEP_Y, myResources.getString("TakeStepButton"),
@@ -265,14 +266,6 @@ public class Playground {
 		}
 	}
 
-	private void pause() {
-		myAnimation.pause();
-	}
-
-	private void resume() {
-		myAnimation.play();
-	}
-
 	private void reset() throws XMLFactoryException, FileNotFoundException {
 		myAnimation.stop();
 		mySliderValue = mySlider.getValue();
@@ -324,7 +317,7 @@ public class Playground {
 		if (myRule.getCounters().length == 0) {
 			return;
 		}
-		myLineChart.setMaxHeight(100);
+		myLineChart.setMaxHeight(CHART_HEIGHT);
 		int i = 0;
 		for (int counter : myRule.getCounters()) {
 			XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
@@ -334,7 +327,7 @@ public class Playground {
 			myLineChart.getData().add(series);
 			i++;
 		}
-		myLineChart.relocate(0, myScene.getHeight() - 135);
+		myLineChart.relocate(0, myScene.getHeight() - CHART_Y_OFFSET);
 		myLineChart.setLegendSide(Side.RIGHT);
 		myLineChart.setLegendVisible(true);
 		myRoot.getChildren().add(myLineChart);

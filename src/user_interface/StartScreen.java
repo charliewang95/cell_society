@@ -61,7 +61,7 @@ public class StartScreen {
 	 * 
 	 * @return the title of the simulation
 	 */
-	public String getTitle(){
+	private String getTitle(){
 		return myResources.getString("Title");
 	}
 	
@@ -77,7 +77,6 @@ public class StartScreen {
 		Scene scene = new Scene(myRoot, SIZE, SIZE, BACKGROUND_COLOR);
 		setUpTitle(scene);
 		myPlacer.addNewSimulationTextField(scene.getWidth()/2-X_OFFSET,scene.getHeight()/2+Y_OFFSET, myStage, null);
-//		setUpTextField(scene);
 		myPlacer.addText(scene.getWidth()/2 - X_OFFSET, scene.getHeight()/2 + TEXT_Y_OFFSET, TEXT_SIZE, 
 						 myResources.getString("Or"), false);
 		myPlacer.addBrowseButton(scene.getWidth()/2 - X_OFFSET, scene.getHeight()/2 + BUTTON_Y_OFFSET, myStage, null);

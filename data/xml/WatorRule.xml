@@ -11,8 +11,8 @@
 	<numSide>6</numSide>
     <toroidal>true</toroidal>
     
-    <percentWater>.98</percentWater>
-    <percentFish>.95</percentFish>
+    <percentWater>.9</percentWater>
+    <percentFish>.9</percentFish>
     <fishReproduce>8</fishReproduce>
     <sharkReproduce>12</sharkReproduce>
     <sharkDeath>10</sharkDeath>

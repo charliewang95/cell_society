@@ -11,8 +11,9 @@
 	<toroidal>true</toroidal>
     
     <probcatch>.5</probcatch>
+
     <emptyColor>YELLOW</emptyColor>
-    <treeColor>green</treeColor>
+    <treeColor>GREEN</treeColor>
     <burnColor>RED</burnColor>
 
 

@@ -19,6 +19,9 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Dialog;
 import javafx.scene.control.Slider;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -228,18 +231,23 @@ public class Playground {
 				}
 			});
 		}
-		myPlacer.addButton(myScene.getWidth() - X_OFFSET, OUTPUT_XML_Y, myResources.getString("XMLOutputButton"),
-				new EventHandler<ActionEvent>() {
-					public void handle(ActionEvent event) {
-						try {
-							XMLWriter printer = new XMLWriter(myRule);
-							printer.saveXML();
-							myPlacer.showError("XML finished printing");
-						} catch (Exception e) {
-							throw e;
+		if (!(myRule instanceof SugarRule) && !(myRule instanceof WatorRule)){
+			myPlacer.addButton(myScene.getWidth() - X_OFFSET, OUTPUT_XML_Y, myResources.getString("XMLOutputButton"),
+					new EventHandler<ActionEvent>() {
+						public void handle(ActionEvent event) {
+							try {
+								XMLWriter printer = new XMLWriter(myRule);
+								printer.saveXML();
+								Alert alert = new Alert(AlertType.CONFIRMATION);
+								alert.setTitle(myResources.getString("XMLPrintedTitle"));
+								alert.setContentText(myResources.getString("XMLPrintedMessage"));
+								alert.showAndWait();
+							} catch (Exception e) {
+								throw e;
+							}
 						}
-					}
-				});
+					});
+		}
 	}
 
 	private void setUpNewSimulationControls() {

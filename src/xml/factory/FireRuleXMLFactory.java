@@ -63,11 +63,6 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
 				for (int j=0; j < column; j++) {
 					int current = tempUpdated[i][j];
 					temp2[i][j].init(current, stateColor[current]);
-					//if (stateNum != 0)
-					//	myFire.getCounters()[stateNum-1]--;
-					//myCounters[1]++;
-					//need to update myCounters array somehow. 
-					
 				}
 				
 			}

@@ -49,7 +49,6 @@ public class LifeRuleXMLFactory extends RuleXMLFactory {
 		String name = parseXMLString(root, "Title");
 		
 		
-
 		LifeRule myLife = new LifeRule(cellLength, row, column, neighbor, emptyColor, liveColor, typeLife, toro);
 		myLife.setName(name);
 		

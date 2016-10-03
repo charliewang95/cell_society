@@ -51,16 +51,12 @@ public class FireRule extends Rule {
 	public void initState() {
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
-//				if (i == 0 || i == myRow - 1 || j == 0 || j == myColumn - 1) {
-//					myGrid[i][j].init(EMPTY, myColors[EMPTY], myNumNeighbor);
-//					myUpdatedGrid[i][j] = EMPTY;
-//				} 
 				if (i == myRow / 2 && j == myColumn / 2) {
-					myGrid[i][j].init(BURN, myColors[BURN], myNumNeighbor);
+					myGrid[i][j].init(BURN, myColors[BURN]);
 					myUpdatedGrid[i][j] = BURN;
 					myCounters[1]++;
 				} else {
-					myGrid[i][j].init(TREE, myColors[TREE], myNumNeighbor);
+					myGrid[i][j].init(TREE, myColors[TREE]);
 					myUpdatedGrid[i][j] = TREE;
 					myCounters[0]++;
 				}

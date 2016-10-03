@@ -1,6 +1,7 @@
 package layout;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.ResourceBundle;
 import javafx.scene.paint.Color;
 import layout.manager.NeighborManager;
@@ -105,7 +106,7 @@ public abstract class Rule {
 	}
 
 	public void initNeighbor(int numNeighbor, boolean toroidal) {
-		myNeighborManager.init(numNeighbor, myGrid, toroidal);
+		myNeighborManager.init(numNeighbor, myGrid, toroidal, this);
 		myNeighborManager.chooseMethod();
 		myGrid = myNeighborManager.getGrid();
 	}
@@ -161,6 +162,23 @@ public abstract class Rule {
 			System.out.println();
 		}
 		System.out.println();
+	}
+
+	protected ArrayList<Integer> makeRandomList(int top) {
+		ArrayList<Integer> list = new ArrayList<>(top);
+		for (int i = 0; i < top; i++) {
+			list.add(i);
+		}
+		Collections.shuffle(list);
+		return list;
+	}
+
+	public int getRow() {
+		return myRow;
+	}
+	
+	public int getCol() {
+		return myColumn;
 	}
 
 }

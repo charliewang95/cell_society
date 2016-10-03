@@ -51,7 +51,6 @@ public class FireRuleXMLFactory extends RuleXMLFactory {
 		
 		if (initialize) {
 			myFire = (FireRule) initSpecific(myFire, root, row, column, neighbor, new Color[]{emptyColor, treeColor, burnColor}, toro, 1);
-			
 		}
 		
 		return myFire;

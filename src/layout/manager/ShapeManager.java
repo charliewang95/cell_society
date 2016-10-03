@@ -51,7 +51,7 @@ public class ShapeManager {
 	private void initRec() {
 		myWidth = myCellLength * myColumn;
 		myLength = myCellLength * myRow;
-		
+
 		for (int i = 0; i < myRow; i++) {
 			for (int j = 0; j < myColumn; j++) {
 				double x1 = myCellLength * j;
@@ -88,9 +88,9 @@ public class ShapeManager {
 				} else {
 					x1 = (myCellLength / 2) * (j + 1);
 					y1 = (myCellLength * Math.sqrt(3) / 2) * i;
-					x2 = (myCellLength / 2) * (j);
+					x2 = (myCellLength / 2) * (j + 2);
 					y2 = (myCellLength * Math.sqrt(3) / 2) * (i + 1);
-					x3 = (myCellLength / 2) * (j + 2);
+					x3 = (myCellLength / 2) * (j);
 					y3 = (myCellLength * Math.sqrt(3) / 2) * (i + 1);
 				}
 				if (myRule instanceof WatorRule) {

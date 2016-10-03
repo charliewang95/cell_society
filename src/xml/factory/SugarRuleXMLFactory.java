@@ -4,10 +4,15 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
 
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.w3c.dom.Node;
 import javafx.scene.paint.Color;
 import layout.Cell;
 import layout.Rule;
 import layout.rule.FireRule;
+import layout.rule.SugarRule;
+
 /**
  * Creates FireRule object from an XML file.
  *
@@ -58,10 +63,11 @@ public class SugarRuleXMLFactory extends RuleXMLFactory {
 		int sugarInterval = parseXMLInteger(root, "SugarInterval");
 		int[] misc = {vision, metabolism, minSugar, maxSugar, sugarGrow, sugarInterval};
 
-		
 		String title = parseXMLString(root, "Title");
 		
 		SugarRule mySugar = new SugarRule(cellLength, row, column, neighbor, toro, percent, color, misc);
 		mySugar.setName(title);
+		
+		return mySugar;
 	}
 }

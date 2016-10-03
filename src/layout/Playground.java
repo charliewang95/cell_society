@@ -22,6 +22,8 @@ import javafx.scene.control.Slider;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import layout.rule.Parameter;
+import layout.rule.SugarRule;
+import layout.rule.agents.Agent;
 import user_interface.UIObjectPlacer;
 import xml.XMLParser;
 import xml.XMLParserException;
@@ -29,6 +31,7 @@ import xml.factory.FireRuleXMLFactory;
 import xml.factory.LifeRuleXMLFactory;
 import xml.factory.RuleXMLFactory;
 import xml.factory.SchellingRuleXMLFactory;
+import xml.factory.SugarRuleXMLFactory;
 import xml.factory.WatorRuleXMLFactory;
 import xml.factory.XMLFactoryException;
 import org.w3c.dom.Element;
@@ -154,6 +157,7 @@ public class Playground {
 		myFactoryMap.put("LifeRule", new LifeRuleXMLFactory());
 		myFactoryMap.put("WatorRule", new WatorRuleXMLFactory());
 		myFactoryMap.put("SchellingRule", new SchellingRuleXMLFactory());
+		myFactoryMap.put("SugarRule", new SugarRuleXMLFactory());
 	}
 
 	private void setUpButtons() {
@@ -247,6 +251,11 @@ public class Playground {
 		for (int i = 0; i < myRule.myRow; i++) {
 			for (int j = 0; j < myRule.myColumn; j++) {
 				myRoot.getChildren().add(myRule.getGrid()[i][j].getShape());
+			}
+		}
+		if (myRule instanceof SugarRule) {
+			for (Agent a: ((SugarRule) myRule).getAgent()) {
+				myRoot.getChildren().add(a.getCircle());
 			}
 		}
 	}

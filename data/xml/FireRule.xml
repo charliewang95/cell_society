@@ -4,11 +4,11 @@
     <title>Catching Fire</title>
     <author>Charlie</author>
     <cellLength>10</cellLength>
-    <xSize>30</xSize>
+    <xSize>50</xSize>
     <ySize>30</ySize>
     <numNeighbor>6</numNeighbor>
     <numSide>6</numSide>
-	<toroidal>false</toroidal>
+	<toroidal>true</toroidal>
     
     <probcatch>.5</probcatch>
 

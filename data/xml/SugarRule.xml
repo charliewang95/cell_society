@@ -5,11 +5,11 @@
     <author>Charlie</author>
     
 
-    <cellLength>10</cellLength>
-    <xSize>51</xSize>
-    <ySize>51</ySize>
+    <cellLength>20</cellLength>
+    <xSize>45</xSize>
+    <ySize>45</ySize>
     
-	<toroidal>false</toroidal>    
+	<toroidal>true</toroidal>    
 	<numNeighbor>4</numNeighbor>
 
     <myPercentage0>.3</myPercentage0>

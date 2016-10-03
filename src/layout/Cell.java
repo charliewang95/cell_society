@@ -39,7 +39,7 @@ public class Cell {
 		}
 		if (x.length == 6) {
 			myCenterX = ((x[0] + x[1]) / 2);
-			myCenterY = (x[5]);
+			myCenterY = (y[5]);
 		}
 		myRow = row;
 		myCol = col;

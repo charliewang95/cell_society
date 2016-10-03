@@ -108,7 +108,7 @@ public class SugarRule extends Rule {
 	public void initAgent() {
 		ArrayList<Integer> list = makeRandomList(myRow * myColumn);
 		Random r = new Random();
-
+		
 		for (int k = 0; k < myRow * myColumn * myPercentageAgent; k++) {
 			int index = list.get(k);
 			int i = index / myColumn;
@@ -117,6 +117,10 @@ public class SugarRule extends Rule {
 			newAgent.setSugar(r.nextInt(maxsugar - minsugar) + minsugar);
 			myAgents.add(newAgent);
 		}
+	}
+	
+	public void initAgent2() {
+		
 	}
 
 	@Override

@@ -7,8 +7,8 @@
     <cellLength>10</cellLength>
     <xSize>30</xSize>
     <ySize>20</ySize>
-	<numNeighbor>6</numNeighbor>
-	<numSide>6</numSide>
+	<numNeighbor>3</numNeighbor>
+	<numSide>3</numSide>
     <toroidal>true</toroidal>
     
     <percentWater>.9</percentWater>

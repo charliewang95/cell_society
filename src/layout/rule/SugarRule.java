@@ -10,6 +10,8 @@ import layout.Rule;
 import layout.rule.agents.Agent;
 
 /**
+ * Back-end algorithm class for SugarScape CA
+ * 
  * @author Charlie Wang
  *
  */
@@ -23,7 +25,7 @@ public class SugarRule extends Rule {
 	private double myPercentageAgent = 0.4;
 	private int myNumNeighbor = 4;
 	private int vision = 4;
-	private int metabolism = 2;
+	private int metabolism = 3;
 	private int minsugar = 5;
 	private int maxsugar = 25;
 	private int sugarGrowBackRate = 1;
@@ -36,7 +38,7 @@ public class SugarRule extends Rule {
 	private boolean toroidal = false;
 	private ArrayList<Agent> myAgents;
 	private double radius;
-	private int myCounter;
+	private int myCounter = 0;
 
 	public SugarRule(double cellLength, int row, int column, int neighbor, boolean toro, double[] percent,
 			Color[] color, int[] misc) {
@@ -120,29 +122,58 @@ public class SugarRule extends Rule {
 
 	@Override
 	public void changeState() {
-		// moveAgents();
+		myCounter++;
+		moveAgents();
 		incrementGround();
 	}
 
 	private void incrementGround() {
-		for (int i = 0; i < myRow; i++) {
-			for (int j = 0; j < myColumn; j++) {
-				int newState = myGrid[i][j].getState() + sugarGrowBackRate;
-				if (newState > LEVEL[LEVEL.length - 1]) {
-					newState = LEVEL[LEVEL.length - 1];
+		if (myCounter >= sugarGrowBackInterval) {
+			for (int i = 0; i < myRow; i++) {
+				for (int j = 0; j < myColumn; j++) {
+					int newState = myGrid[i][j].getState() + sugarGrowBackRate;
+					if (newState > LEVEL[LEVEL.length - 1]) {
+						newState = LEVEL[LEVEL.length - 1];
+					}
+					myGrid[i][j].setState(newState);
+					myGrid[i][j].setColor(myColors[newState]);
 				}
-				myGrid[i][j].setState(newState);
-				myGrid[i][j].setColor(myColors[newState]);
 			}
+			myCounter = 0;
 		}
 	}
 
 	private void moveAgents() {
 		Collections.shuffle(myAgents);
+		ArrayList<Agent> toRemove = new ArrayList<Agent>();
+		if (myAgents.isEmpty())
+			return;
 		for (Agent agent : myAgents) {
 			int row = agent.getRow();
 			int col = agent.getCol();
-			Cell tempcell = myGrid()
+			Cell tempcell = myGrid[row][col];
+			int max = tempcell.getState();
+			int maxrow = row;
+			int maxcol = col;
+			for (Cell c : tempcell.getNeighbors()) {
+				if (c.getState() > max) {
+					max = c.getState();
+					maxrow = c.getRow();
+					maxcol = c.getCol();
+				}
+			}
+			agent.getCircle().setCenterX(myGrid[maxrow][maxcol].getCenterX());
+			agent.getCircle().setCenterY(myGrid[maxrow][maxcol].getCenterY());
+			agent.setSugar(agent.getSugar() + max - metabolism);
+			myGrid[maxrow][maxcol].setState(LEVEL[0]);
+			myGrid[maxrow][maxcol].setColor(myColors[LEVEL[0]]);
+			if (agent.getSugar() <= 0) {
+				toRemove.add(agent);
+			}
+		}
+		for (Agent agent : toRemove) {
+			myAgents.remove(agent);
+			agent.getCircle().setVisible(false);
 		}
 	}
 

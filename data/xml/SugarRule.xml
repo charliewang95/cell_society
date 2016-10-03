@@ -8,27 +8,27 @@
     <xSize>30</xSize>
     <ySize>30</ySize>
     
-	<toroidal>true</toroidal>    
+	<toroidal>false</toroidal>    
 	<numNeighbor>4</numNeighbor>
 	
 	
-    <myPercentage0>.4</myPercentage0>
+    <myPercentage0>0.3</myPercentage0>
     <myPercentage1>0.25</myPercentage1>
     <myPercentage2>0.20</myPercentage2>
-    <myPercentage3>0.10</myPercentage3>
-    <myPercentageAgent>0.4</myPercentageAgent> 
+    <myPercentage3>0.15</myPercentage3>
+    <myPercentageAgent>0.3</myPercentageAgent> 
     
     <color0>LIGHTGREY</color0>
-    <color1>OLDLACE</color1>
-    <color2>MOCCASIN</color2>
-    <color3>LIGHTSALMON</color3>
-    <color4>LIGHTCORAL</color4>
+    <color1>MOCCASIN</color1>
+    <color2>LIGHTSALMON</color2>
+    <color3>INDIANRED</color3>
+    <color4>MAROON</color4>
         
-    <vision>4</vision>
-    <metabolism>2</metabolism>
+    <vision>3</vision>
+    <metabolism>5</metabolism>
     <minSugar>5</minSugar>
     <maxSugar>25</maxSugar>
     <sugarGrowBackRate>1</sugarGrowBackRate>
-    <sugarGrowBackInterval>1</sugarGrowBackInterval>
+    <sugarGrowBackInterval>3</sugarGrowBackInterval>
     
 </Rule>

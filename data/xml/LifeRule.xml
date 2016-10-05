@@ -7,8 +7,8 @@
     <cellLength>10</cellLength>
     <xSize>50</xSize>
     <ySize>50</ySize>
-	<numNeighbor>8</numNeighbor>
-	<numSide>4</numSide>
+	<numNeighbor>6</numNeighbor>
+	<numSide>6</numSide>
     <toroidal>false</toroidal>
 
     

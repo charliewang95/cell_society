@@ -9,17 +9,17 @@ September 15 - October 2
  * Joy Kim - XML and configuration
  * Noah Over - UI
 
-###Resources Used
+### Resources Used
 
 * http://www.w3schools.com/xml/ for XML
 * https://docs.oracle.com/javase/tutorial/jaxp/dom/index.html
 * Javadocs on LineChart, Slider, TextField, NumberAxis, etc.
 
-###File Used to Start Program
+### File Used to Start Program
 
 * SocietyMain.java
 
-###Files Used to Test Project
+### Files Used to Test Project
 
 Within the data/xml folder:
 * FireRule.xml
@@ -32,12 +32,12 @@ Within the data/xml folder:
 * SugarRule.xml
 * WatorRule.xml
 
-###Data/Resource Files Required by the Program
+### Data/Resource Files Required by the Program
 
 * resources/English.properties (package is resources, properties file is English.properties)
 * xml.properties/Rule.properties (package is xml.properties, properties file is Rule.properties)
 
-###Information About Using the Program
+### Information About Using the Program
 
 * Directly after running the program, the StartScreen will pop up. In it, there will be a text box that asks for the name of the file you wish to run. The “.xml” extension is optional, it will add it for you if it is not detected. There is also the choice of using the file browser to find your own file by clicking the “Browse” button. 
 * When the simulation initially pops up, it will be paused so you have to hit the play button to start it.
@@ -136,12 +136,12 @@ NOTE: Items with "*" at the front can be changed using sliders after the simulat
 * *sugarGrowBackRate (int): number of sugar each cell gains at the end of each step (default: 1)
 * preset (int): the preset number; each preset has slightly different rules and/or landscape set-up (restriction: [1,2])
 
-###Any Known Bugs, Crashes, or Problems with Functionality
+### Any Known Bugs, Crashes, or Problems with Functionality
 
 * We did not get the Output XML File Button to work in Wator Rule or Sugar Rule.
 * We did not get triangles or hexagons to work for LifeRule because they do not really make sense for that simulation.
 * Whenever you create an XML file from a simulation for a rule using the button, it overwrites any previous xml files for that rule you may have created because it does not create a new name for the new one.
 
-###Impressions of the Assignment
+### Impressions of the Assignment
 
 * The assignment was pretty straightforward and that was good because it made it clear what was expected from us. 

@@ -1,71 +1,47 @@
-Design
+DESIGN
 ======
 
-### Names
+### High Level Design Goals
 
-> Charlie Wang (qw42)  
-Noah Over (nko2)  
-Joy Kim (jmk77)  
+* Our highest level goal is to use Cellular Automata to simulate the movement of cells under certain rules. Rules are represented in different classes that all extends the same super class _Rule_. Each rule will have its own algorithm to initialize states and change states. The parameters necessary for running the simulations are imported by reading XML files. Certain XML factory classes and parser classes are used to pick out the parameters from the XML file and pass them into the _Rule_ object. To show the users how the cell moves, a great visualization and UI must be created. Besides the grid representing all the cells, sliders, buttons, input boxes are also added into the UI screen to enhance user experience and the flexibility of the simulations.
 
-### Introduction 
+### Details on How To Add New Features to the Project
 
-* The problem our team is trying to solve by writing this program is to be able to animate any two-dimensional grid cellular automata, CA, simulation.  
+* To add anything new to the UI, you just need to call the method in _UIObjectPlacer_ that would add that thing, whether it is a Button, TextField, Slider, etc., to the screen in either _StartScreen_ or _Playground_, depending on where you want the new feature to show up, in that class’s init method or one of the methods called by init that would be appropriate, like _setUpButtons_ in Playground for example. For example, if you wanted to add a new Button that controls some new feature, you would write _myPlacer.addButton(double x, double y, String message, EventHandler<ActionEvent>);_ except you would replace the parameters I wrote above with the values that you want.
 
-* The primary design goals of the project will be to make code that is easy to add new features to and work with a wide variety of different CA simulations. The primary architecture of the design will have some open and some closed architecture.  
+* To add new simulations:
 
-* The open architecture will be mainly the classes dealing with different features that our simulation offers with an easy way to add a new feature as well as the code that implements the different type of neighbor rules to add more unique rules to the simulation that may not have been originally thought of.   
+ * First add your new Rule java class under the package “layout.rule”. Due to the nature of the interface, the rule constructor must include setting up the use of super constructor with parameters _cellLength_, _row_, and _column_. _myColors_, _myNumNeighbor_, _mySide_, _myToroidal_ must be initialized and a _myCounters_, _myLegend_ arrays declared. The new rule will also have to have the required methods listed under the abstract class _Rule.java_. The class should have a method to default initialize the grid and grid states. This is to be in the case where the XML does not provide specific states. 
 
-### Overview 
+ * Then, the XML for the rule to be created for the Rule. The parameters of element names would be found under the properties file xml.properties/Rule.properties, the right hand side being the key and the left hand side being the values that are found within the XML. All parameter elements are children of the root. To specify certain states that are to be set by the XML, use element nodes called <rows> under the root. The children of the <rows> will be the <index> node and all the <column> nodes that would be in the same row. 
 
-* The default package will contain the main class, _SocietyMain_. The main method will be in the _SocietyMain_. The layout package will contain the _Playground_ class and _Rule_ interface. The layout.rules package will contain the subclass files for the different simulations that extend the _Rule_ class.  
+ * If you wish to use the XMLWriter.java to save XML versions of the current simulation, you must add your desired Rule into the specificElements() method, calling another method that will contain the specifics of your rule. Each element would have to be added one-by-one but the general parameters should already be taken care of by _generalElements()_ method. 
 
-* The main class will have a start() method that calls the _Playground_ Class, which has an _init()_ method that will set up all the visual scenes needed for the program such as start screen, buttons to choose the simulation and user input boxes to take in the player’s choice of size of grid. The _Playground_ class will create a 2-D array of _Cell_ objects that will represent the cells containing states represented by squares with color. The _Playground_ class will be in charge of maintaining the states by calling a _Rule_ object.  
+ * Next, the RuleXMLFactory.java for the new Rule is to be created. The factory should include a static variable XML_TAG_NAME that will contain the string of the name of the simulation. Constructor for this class is using the super class constructor with the XML_TAG_NAME as its parameter. The main necessary method is the _getRule()_ method. Use the RuleXMLFactory.java methods _parseXMLDouble_, _parseXMLInteger_, _parseXMLBoolean_, parseXMLString_, _parseXMLColor_ for ease of parsing by putting in the parameters of the root element, the string to be used in the resource file (do not need to call myResource.getString() because that is included in the RuleXMLFactory abstract class), and the default value in String form you wish to set for that parameter in case it wasn’t added in the XML file already. Use the _initialize_ boolean to check if there are specific states stated in the XML file. If they are, the Rule.java class initializer will take care of that as long as the desired paramters for _initSpecific()_ are properly taken care of. These parameters are the current rule being created in the factory, root element, row int, column int, neighbor int, side int, color array, boolean of toroidal, and the integer that indicates the desired default state (in WatorRule, the default empty board is 0 - water. In FireRule, the default desired state is a board of all trees of state 1). 
 
-* The _Rule_ interface is used to keep track of the rules that each cell is to contain for each different simulation. So, each simulation will be able to extend Rule and create their own classes for the rules of their simulation. The _Rule_ class will determine the state of the current cells and determine the states of the next generation. The _Cell_ class will contain the visual object (square) and the cell's state.  
+ * Add additional required parameter and their string representations inside the xml.properties/Rule.properties file. 
 
-![Component Map](images/ComponentMap.jpg)
+ * Go into Playground.java, located in the layout package. Go to the method _setUpFactoryMap()_ in line 184 and add the line
+```java
+	myFactoryMap.put(“NameOfRule”, new NewRuleXMLFactory());
+```
 
-### User Interface
+ * If there are any additional buttons that need to be added to the window of the specific simulation, add another portion under the method _setUpButtons()_ in line 192 using the if statement
+	If (myRule instanceof YourRule) 
 
-* The user interface will use JavaFx's Stage and Scene classes to create an interface for the user to enter their desired size and set of rules into. It will appear with the title of the interface at the top. Something like "Cell Society: A Cellular Automata Simulation" will work. It will also have two TextFields. One will be used for the user to enter the size they would like their simulation to be and the other will be for the user to enter the file name for the XML file that contains the rules they would like to use for their simulation. For the TextFields, the user will just have to type in their input and hit enter to submit. Also any errors with their input will be pointed out to them by text at the bottom of the screen. As the project goes, we will add new features to the program, so we might have to update our user interface correspondingly.  
+### Justifying Major Design Choices
 
-* Here is a really rough sketch of what the user interface could look like:
+* Justification of Playground: Our playground class became the main hub of the activity for the separate classes. Here, the JavaFX portions of stage and scene were set up and animated through TimeLine. The initialization of the stage and scene occurred by reaching into a desired _Rule_ class and factory and grabbing the entire rule object instead of merely a representation of it, such as a grid. This way, there would be fluidity of one structure of a rule object holding many different parts of the Rule that were necessary. It was more than just the grid, it was the grid, counter, _updatedGrid_ 2D array and method of checking for the correct _Rule_. Though we recognize it is a long class, the direct use of rule and its attributes allowed for integration between the JavaFX and the UI buttons. 
 
-![Here is my sketch](images/UserInterfaceDrawing.jpg)
+* Justification of _UIObjectPlacer: _UIObjectPlacer_ was added as a way of accessing methods used by both _StartScreen_ and _Playground_, basically the two classes that deal with user interface. It was a good idea because it cuts back on having to have the same methods that do the exact same things in multiple classes thereby cutting back on duplicated code and making the classes shorter. One downside to doing this is now to add a button, slider, etc., you need to have a _UIObjectPlacer_ object with which to do so, but this is not too complicated to add and you really only need one for the class if you just make it a private instance variable.’
 
-### Design Details
+* Justification of _NeighborManager_/_ShapeManager_: At the beginning, there's no _NeighborManager_ and _ShapeManager_. All the shape initializations and neighbor initializations are in the _Rule_ class. This is easy to think and call, but it makes the class extremely long and messy for a parent class functioning as interface. This triggered our thought of refactoring these methods into different classes and use the manager instance to do operations and call methods inside the manager classes.
 
-* When the _SocietyMain.java start()_ method calls _Playground.play()_, a 2D array of Cells will be created. The width and height of the screen will be a fixed number but that will help determine the size of each displayed rectangle of a cell. That is to say, when the user chooses the size of the square board, 8x8 or 100x100, the actual height and width of each individual cell will be proportional with respect to that size and the size of the screen.  
+* Justification of having a cell and 2D array grid decision: The reason I used a 2-D array to represent cells is that this was the first idea that came up. It is convenient because the find time for each cell is O(1). However, it is inefficient for representing triangle grids and hexagon grids, but after some (messy?) calculations, I can fit different cell shapes into this 2-D array representation. If there is a better way of representing cells in multiple shapes, I would love to learn it.
 
-* Then, an array containing all the possible _Rule_ objects will be created, and the program will select a rule based on user’s choice. The simulation is enacted based on the rules of neighboring cells using the _applyRule()_ method. The _applyRule()_ method should be able to check the states of the neighboring cells (up, down, left, right, every diagonal direction) based on the indices of the 2D array and through the _getState(row, column)_ method. Depending on the current states of the neighboring cells the cell will use the _changeState()_ method to change its state as well as keep track of any necessary information needed for the simulation state. The getState(row, column) method itself can return the cell’s current state, which would probably be used during the _applyRule()_ method because some of the simulations’ rules also depend on the current cell’s current state.  
+* Justification of splitting the Rules up into superclass and subclasses: For the sake of hierarchy. They all have similar components of grid and cell as well as _cellLength_ and that it requires values for row and column. But the simulations themselves are very different and required different parameters. With the abstract class that can be extended, you get the best of both worlds of each rule simulation being similar and different. 
 
-* If the current cell happens to be an “edge” cell, meaning there are no neighboring cells on at least one side of the current cell, the nature of the 2D array will allow the program to ignore the non-existing neighbors and not consider them in the algorithm to calculate and apply the rule.  
+### Assumptions or Decisions Made to Simplify or Resolve Ambiguities in Project’s Functionality
 
-* The _Playground_ class is in charge of updating all the states as well as redrawing it. Using a possible _Rule.endState()_ boolean method, a while loop will be sustained throughout the entire simulation until that end state has been reached, in which case the _endState()_ method that was initially false will become true. The above mentioned _applyRule()_ and _changeState()_ methods will be used in this while loop. The _redraw()_ method will redraw each Rectangle object that represents a _Cell_ within the 2D array.   
-
-* The _Cell_ Class should be simple, and it will have some basic methods. To set a cell’s state using _Rule_’s changeState(), we have a corresponding method in _Cell_, _setState(), which changes the state according to the rule. The _setState()_ might call the _setColor()_ method which will changes the color of the square embodied in this _Cell_ object. The _getState()_ method returns the state that this cell is currently in. This is for the _Rule_ object to check the states a cell’s neighbors to decide whether to change this cell’s state. The _getRec()_ method returns the rectangle object for _Playground_  to redraw. Also, each _Cell_ object will hold an x-coordinate and a y-coordinate, which are calculated based on the size of the map and its indices.  
-
-* Each _Rule_ object will also have a list of parameters. Since it's _Rule_ an interface, it can't know exactly how many parameters each object has, so each rule will contain and control its own parameters. When the user wants to change a parameter, find the rule object and apply several setParameter() methods to change the required rule parameter. When the user wants to change the rule, completely, after receiving the request, the _Playground_ object will replace the current _Rule_ object with a new Rule object, and then use Rule.init() to reset the board.
-
-### Design Considerations
-
-1. How to compute the locations of the cell. Suppose the user inputs a size of 500x500 and a size for the grids 20x30. Then the height for each cell should be 500/20=25, and the length of each cell should be 500/30=16. For instance, the location of the third cell (the rectangle) on the top row is then (32, 0), and the location of the fifth cell (the rectangle) on the fourth row is then (64, 75).
-2. Leads to the computing of the locations of the neighbors into the ArrayList (may want to discuss more on the structure used for containing neighbors). Take the first example above (the (64, 75) cell) whose indices are (4,5). Its neighbors are (3,4), (3,5), (3,6), (4,4), (4,6), (5,4), (5,5), (5,6). Generally, for a cell (m,n), its neighbors are (m-1,n-1), (m-1,n), (m-1,n+1), (m,n-1), (m,n+1), (m+1,n-1), (m+1,n), (m+1,n+1). If the cell itself is on the border, we can check if the indices are out of bound as we go along.
-3. The algorithms of the rules of the different simulations. Determine the flexibility in the number of total states each simulation can have (whether they can be different or if they all happen to have the same amount). 
-4. The format we want the XML file to be.
-5. Buttons - parameters, location, organization, which structure they will be contained in.
-6. One button in particular: the changing of the simulations in the middle of a simulation, without having to exit or restart the program. 
-7. The addition/flexibility of allowing users to manipulate the simulation through parameters. For example, the use of sliders in the WaTor simulation in determining the starting number of fish and sharks, the breeding and survival time period for the fish and sharks, the speed of the animation. 
-
-### Team Responsibilities
-
-The project can be roughly divided into the following sections:  
-UI (buttons), XML reading, Main Class, Playground (Game) class -- workflow, Cell, Rule interface, Rule 1 (Schelling), Rule 2 (Wator), Rule 3 (fire). The rough division of labor is as follows: 
-  
-* Charlie: Rule 3, Cell, Rule interface
-
-* Joy: Rule 2, Main Class, Playground
-
-* Noah: Rule 1, UI, XML reading
-
-
+* Assume the use of XML format and _RuleXMLFactory_ java class format.
+* Following that, assume XML compiles correctly, there are no mistakes in terms of syntax. 
